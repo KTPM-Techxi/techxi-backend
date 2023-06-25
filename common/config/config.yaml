@@ -1,4 +1,4 @@
 app: techxi
 http_port: 8080
 base_url: http://localhost:8080/
-db_connection_string: mongodb://username:password@127.0.0.1:27017/techxi
+db_connection_string: mongodb+srv://techxi:PkxToEvPlokENJ2C@techxi.va8r7de.mongodb.net/?retryWrites=true&w=majority
