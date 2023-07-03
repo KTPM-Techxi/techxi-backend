@@ -1,5 +1,3 @@
-**Issue:** {pullRequestTitleWithJiraKey}
-
 ## Code
 
 - [ ] Thêm API nào?
