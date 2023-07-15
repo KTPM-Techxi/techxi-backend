@@ -1,3 +1,4 @@
+const bcryptService = require('../../services/bcrypt.service');
 const User = require('../../models/User');
 
 const registerController = async (req, res) => {
@@ -6,9 +7,10 @@ const registerController = async (req, res) => {
     // Check if the user is already registered
     const existingUser = await User.findOne({ email: email });
     if (existingUser) {
-      return res.status(401).json({ message: 'User already registered' });
+      return res.status(400).json({ message: 'User already registered' });
     } else {
-      const newUser = await User.create({ email, phoneNumber, name, password });
+      const hashedPassword = await bcryptService.hashPassword(password);
+      const newUser = await User.create({ email, phoneNumber, name, password: hashedPassword });
       return res.status(200).json({ message: 'Register successfully' });
     }
   } catch (error) {
