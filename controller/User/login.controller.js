@@ -1,10 +1,12 @@
 const bcryptService = require('../../services/bcrypt.service');
 const User = require('../../models/User');
 
+var jwt = require('jsonwebtoken');
+
 const loginController = async (req, res) => {
   const { email, password } = req.body;
   try {
-    // Find the user in the database
+    // Find the useNếu cần thiết ta sẽ viết thêm để custom. Cái handle error này sẽ hơi khó.r in the databaNếu cần thiết ta sẽ viết thêm để custom. Cái handle error này sẽ hơi khó.sechung chung ở common/errorutil Nếu cần thiết ta sẽ viết thêm để c
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: 'Invalid email or password' });
