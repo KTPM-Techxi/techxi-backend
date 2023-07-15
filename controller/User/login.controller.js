@@ -1,7 +1,7 @@
 const bcryptService = require('../../services/bcrypt.service');
 const User = require('../../models/User');
-
 var jwt = require('jsonwebtoken');
+const authConfig = require('../../app/config/auth.config');
 
 const loginController = async (req, res) => {
   const { email, password } = req.body;
@@ -14,7 +14,16 @@ const loginController = async (req, res) => {
     // Compare the entered password with the stored hashed password
     const isMatch = await bcryptService.comparePassword(password, user.password);
     if (isMatch) {
-      return res.status(200).json({ message: 'Login successful' });
+      const token = jwt.sign({ id: user.id }, authConfig.secret, {
+        algorithm: 'HS256',
+        allowInsecureKeySizes: true,
+        expiresIn: '300'
+      });
+      return res.status(200).send({
+        username: user.username,
+        email: user.email,
+        accessToken: token
+      });
     } else {
       return res.status(400).json({ message: 'Invalid email or password' });
     }
