@@ -1,4 +1,6 @@
 const User = require('../../models/User');
+var jwt = require('jsonwebtoken');
+
 const loginController = async (req, res) => {
   const { email, password } = req.body;
   try {
