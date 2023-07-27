@@ -1,11 +1,20 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
+const appConst= require("../../../common/constants/constants");
+const { Schema } = mongoose;
 
-const UserCredentialsSchema = new mongoose.Schema({
-    user_id: {type: Number, required: true, unique: true},
-    email: {type: String, required: true},
-    password: {type: String, required: true},
-    type: {type: String, required: true, enum: Object.values(UserType)},
-    status: { type: Number, enum: Object.values(STATUS) },
-}, {timestamps: true});
+const UserCredentialsSchema = new Schema({
+  user_id: {type: Number, required: true, unique: true},
+  email: {type: String, required: true},
+  password: {type: String, required: true},
+  roles: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Role'
+    }
+  ],
+  status: { type: Number, enum: Object.values(appConst.STATUS), default: 0 },
+});
 
-const UserCredentials = mongoose.model("UserCredentials", UserCredentialsSchema);
+const UserCredential = mongoose.model('UserCredential', UserCredentialsSchema);
+
+module.exports = UserCredential;
