@@ -16,8 +16,20 @@ async function FindUserByEmail(email) {
         throw error;
     }
 }
-
+async function GetRegisterData(req) {
+    try {
+        const { email, phoneNumber, name, password } = req.body;
+        return {
+            email,
+            phoneNumber,
+            name,
+            password
+        };
+    } catch (error) {
+        console.error("error ne`: ", error);
+    }
+}
 module.exports = {
     FindUserCredential,
     FindUserByEmail
-}
+};
