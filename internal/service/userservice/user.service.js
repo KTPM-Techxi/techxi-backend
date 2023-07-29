@@ -75,6 +75,7 @@ async function UserRegister(userRegisterDto) {
             throw error;
         }
         let id = savedUser._id.toString();
+
         if (!Object.values(appConst.USER_TYPES).includes(userRegisterDto.roles)) {
             const error = new Error("Invalid user type");
             error.statusCode = StatusCodes.BAD_REQUEST;
