@@ -1,20 +1,24 @@
-const UserLoginDto = {
-    email: String,
-    password: String,
-}
+const UserLoginDto = (req) => ({
+    email: req.email,
+    password: req.password,
+})
 
-const UserRegisterDto = {
-    email: String,
-    phoneNumber: String,
-    name: String,
-    password: String,
-    confirmPassword: String,
-    address: String,
-}
+const UserRegisterDto = (req) => ({
+    email: req.email,
+    phoneNumber: req.phoneNumber,
+    name: req.name,
+    password: req.password,
+    address: req.address,
+    dob: req.dob,
+    roles: req.roles,
+})
 
-const UserInfo = {
-    id: Number,
-    name: String,
-}
+const UserInfoDto = (req) => ({
+    name: req.name,
+    email: req.email,
+    phoneNumber: req.phoneNumber,
+    address : req.address,
+    dob: req.dob,
+})
 
-module.exports = {UserLoginDto, UserRegisterDto, UserInfo}
+module.exports = {UserLoginDto, UserRegisterDto, UserInfoDto}
