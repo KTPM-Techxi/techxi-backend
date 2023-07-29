@@ -24,7 +24,7 @@ async function UserLogin(userLoginDto) {
             throw error;
         }
         const isMatch = bcryptUtil.comparePassword(userLoginDto.password, credential.password);
-        const token = "";
+        let token = "";
         if (isMatch) {
             token = jwt.sign({ id: user.id }, cfg.tokenSecret, {
                 algorithm: "HS256",

@@ -1,5 +1,7 @@
+const { isValidEmail } = require("../../common/util/emailValidate.util");
 const UserCredentials = require("../models/auth/user_credential.dm");
 const User = require("../models/user/user.dm");
+
 async function FindUserCredential(id) {
     try {
         const userCredential = await UserCredentials.findOne({ id: id });
@@ -10,8 +12,7 @@ async function FindUserCredential(id) {
 }
 async function FindUserByEmail(email) {
     try {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
+        if (!isValidEmail(email)) {
             throw new Error("Invalid email format");
         }
         const user = await User.findOne({ email: email });
