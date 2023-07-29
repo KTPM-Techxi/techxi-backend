@@ -54,7 +54,7 @@ async function CreateNewUserCredential(userCredentials) {
 }
  async function GetRolesByName(name) {
     try {
-        const roles = await Role.find({ name: name });
+        const roles = await Role.findOne({ name: name });
         return roles;
     } catch (error) {
         logger.error(error);
