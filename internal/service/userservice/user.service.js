@@ -81,7 +81,7 @@ async function UserRegister(userRegisterDto) {
             error.statusCode = StatusCodes.BAD_REQUEST;
             throw error;
         }
-        const role = await repo.GetRolesByName(userRegisterDto.roles)
+        const role = await repo.GetRolesByName(userRegisterDto.roles.toString())
         const newCredential = {
             user_id: id,
             email: userRegisterDto.email,
