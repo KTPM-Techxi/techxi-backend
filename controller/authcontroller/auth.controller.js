@@ -6,16 +6,16 @@ const { StatusCodes } = require("http-status-codes");
 const registerController = async (req, res) => {
     const user = req.body;
     try {
-        const { newUser } = await service.UserRegister(user);
-        return res.cookie("token", token, { httpOnly: true }).json(newUser);
+        await service.UserRegister(user);
+        res.status(StatusCodes.CREATED).json({ message: "Registration successful" });
     } catch (error) {
-        console.error(error.statusCode + ": " + error.message);
+        logger.error("Error in registerController:", error);
         res.status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
     }
 };
 const loginController = async (req, res) => {
     const { email, password } = req.body;
-    if (email === "" && password === "") {
+    if (!email && !password) {
         return res.status(StatusCodes.BAD_REQUEST).json({ message: "Invalid email or password" });
     }
 

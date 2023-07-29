@@ -44,19 +44,22 @@ async function UserLogin(userLoginDto) {
         throw error;
     }
 }
-const UserRegister = async (userRegisterDto) => {
-    const user = await repo.FindUserByEmail(userRegisterDto.email);
-    if (user) return res.status(StatusCodes.BAD_REQUEST).json({ message: "User already registered" });
-
+async function UserRegister(userRegisterDto) {
     const { email, phoneNumber, name, password } = userRegisterDto;
 
-    try {
-        const hashedPassword = await util.hashPassword(password);
-        const newUser = await User.create({ email, phoneNumber, name, password: hashedPassword });
-        return res.status(StatusCodes.OK).json({ message: "Register successfully" });
-    } catch (error) {
-        res.status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
-        throw error(error.statusCode + ": " + error.message);
+    const user = await repo.FindUserByEmail(email);
+    if (user) {
+        const error = new Error("User already registered");
+        error.statusCode = StatusCodes.BAD_REQUEST;
+        throw error;
     }
-};
+
+    try {
+        const hashedPassword = await bcryptUtil.hashPassword(password);
+        const newUser = await User.create({ email, phoneNumber, name, password: hashedPassword });
+        return newUser; // Return the created user
+    } catch (error) {
+        throw error; // Rethrow the error for the calling code to handle
+    }
+}
 module.exports = { UserLogin, UserRegister };
