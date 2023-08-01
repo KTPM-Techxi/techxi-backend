@@ -37,7 +37,7 @@ function isValidEmail(email) {
     if (email.length > MAX_EMAIL_LENGTH) {
         return false;
     }
-    const emailRegex = /^[^\s@]+@(?:[^\s@]+\.)+[^\s@]+$/;
+    const emailRegex = new RegExp('^[^\\s@]+@(?:[^\\s@]+\\.)+[^\\s@]+$');
     return emailRegex.test(email);
 }
 const loginController = async (req, res) => {
