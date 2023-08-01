@@ -9,5 +9,5 @@ var router = express.Router();
 
 router.post('/login', auth.loginController);
 router.post('/register', auth.registerController);
-router.post('/logout', auth.logOutController);
+router.get('/logout', auth.logOutController);
 module.exports = router;

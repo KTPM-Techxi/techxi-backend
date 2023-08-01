@@ -19,6 +19,7 @@ async function UserLogin(userLoginDto) {
     const userId = user._id.toString();
     try {
         const credential = await repo.FindUserCredential(userId);
+        logger.info("credential: ", credential);
         if (!credential) {
             const error = new Error("User credential not found");
             logger.error(error);
@@ -38,8 +39,10 @@ async function UserLogin(userLoginDto) {
             const error = new Error("Token not created");
             throw error;
         }
-        let id = user._id;
-        return { id, token };
+
+        const role = await repo.FindRolesById(credential.roles[0].toString());
+        user.roles = role.name;
+        return { user, token };
     } catch (error) {
         throw error;
     }
@@ -79,14 +82,16 @@ async function UserRegister(userRegisterDto) {
         if (!Object.values(appConst.USER_TYPES).includes(userRegisterDto.roles)) {
             const error = new Error("Invalid user type");
             error.statusCode = StatusCodes.BAD_REQUEST;
+            await repo.DeleteUserById(id);
             throw error;
         }
         const role = await repo.GetRolesByName(userRegisterDto.roles.toString())
+        console.log("role: ", role);
         const newCredential = {
             user_id: id,
             email: userRegisterDto.email,
             password: hashedPassword,
-            roles: role.map(role => role._id),
+            roles: Array.isArray(role) ? role : [role],
             status: STATUS.ACTIVE,
         }
 
@@ -98,6 +103,7 @@ async function UserRegister(userRegisterDto) {
         }
         return id; // Return the created user
     } catch (error) {
+        await repo.DeleteUserByEmail(userRegisterDto.email);
         throw error; // Rethrow the error for the calling code to handle
     }
 }
