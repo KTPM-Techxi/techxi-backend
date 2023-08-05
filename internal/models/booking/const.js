@@ -1,10 +1,10 @@
 // TODO: Handle status codes
 // Booking Status
 const BOOKING_STATUS = Object.freeze({
-    PENDING: 'PENDING',
-    CONFIRMED: 'CONFIRMED',
-    COMPLETED: 'COMPLETED',
-    CANCELLED: 'CANCELLED'
+    PENDING: "PENDING",
+    CONFIRMED: "CONFIRMED",
+    COMPLETED: "COMPLETED",
+    CANCELLED: "CANCELLED"
 });
 
 // Other Constants

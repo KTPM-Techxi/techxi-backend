@@ -1,7 +1,7 @@
 const UserLoginDto = (req) => ({
     email: req.email,
-    password: req.password,
-})
+    password: req.password
+});
 
 const UserRegisterDto = (req) => ({
     email: req.email,
@@ -10,15 +10,16 @@ const UserRegisterDto = (req) => ({
     password: req.password,
     address: req.address,
     dob: req.dob,
-    roles: req.roles,
-})
+    role: req.role
+});
 
 const UserInfoDto = (req) => ({
+    id: req.id,
     name: req.name,
     email: req.email,
     phoneNumber: req.phoneNumber,
-    address : req.address,
-    dob: req.dob,
-})
+    address: req.address,
+    dob: req.dob
+});
 
-module.exports = {UserLoginDto, UserRegisterDto, UserInfoDto}
+module.exports = { UserLoginDto, UserRegisterDto, UserInfoDto };

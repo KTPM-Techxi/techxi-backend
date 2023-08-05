@@ -1,20 +1,21 @@
-const log4js = require('log4js');
-const path = require('path');
+const log4js = require("log4js");
+const path = require("path");
 log4js.configure({
     appenders: {
-        console: {type: 'console'},
+        console: { type: "console" },
         file: {
-            type: 'file', filename: 'logs/app.log',
-            layout: {type: 'basic'},
-        },
+            type: "file",
+            filename: "logs/app.log",
+            layout: { type: "basic" }
+        }
     },
     categories: {
-        default: {appenders: ['console', 'file'], level: 'info'}
+        default: { appenders: ["console", "file"], level: "info" }
     },
     layout: {
-        type: 'pattern',
-        pattern: '[%d] [%p] [%c] [%f{1}:%l] %m%n',
-    },
+        type: "pattern",
+        pattern: "[%d] [%p] [%c] [%f{1}:%l] %m%n"
+    }
 });
 
 function getLogger(string) {

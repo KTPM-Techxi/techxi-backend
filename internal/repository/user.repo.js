@@ -1,7 +1,5 @@
-const UserCredentials = require("../models/auth/user_credential.dm");
-const User = require("../models/user/user.dm");
-const {STATUS} = require("../../common/constants/constants");
-const Role = require("../models/auth/role");
+const credentialdm = require("../models/auth/user_credential.dm");
+const userdm = require("../models/user/user.dm");
 const logger = require("../../common/logutil/logutil").GetLogger("USER_REPO");
 async function FindUserCredential(userId) {
     try {
@@ -15,7 +13,7 @@ async function FindUserCredential(userId) {
 }
 async function FindUserByEmail(email) {
     try {
-        const user = await User.findOne({ email: email });
+        const user = await userdm.User.findOne({ email: email });
         return user;
     } catch (error) {
         logger.error(error);
@@ -24,8 +22,7 @@ async function FindUserByEmail(email) {
 }
 async function CreateNewUser(user) {
     try {
-        const newUser = await User(user);
-        const savedUser = await User.create(newUser);
+        const savedUser = await userdm.User.create(user);
         return savedUser._id;
     } catch (error) {
         logger.error(error);
@@ -33,13 +30,12 @@ async function CreateNewUser(user) {
     }
 }
 
-async function CreateNewUserCredential(userCredentials) {
+async function CreateNewUserCredential(userCredential) {
     try {
-        const newUserCredentials = await UserCredentials(userCredentials);
-        const savedUserCredentials = await UserCredentials.create(newUserCredentials);
+        const savedUserCredentials = await credentialdm.UserCredential.create(userCredential);
         return savedUserCredentials;
     } catch (error) {
-        await DeleteUserById(userCredentials.user_id);
+        await DeleteUserById(userCredential.user_id);
         logger.error(error);
         throw error;
     }
@@ -47,54 +43,35 @@ async function CreateNewUserCredential(userCredentials) {
 
 async function DeleteUserById(id) {
     try {
-        const check = await User.deleteOne({ _id: id });
+        const check = await userdm.User.deleteOne({ _id: id });
         if (check) {
-            logger.info('User deleted.');
+            logger.info("User deleted.");
         } else {
-            logger.info('User not deleted.');
+            logger.info("User not deleted.");
         }
     } catch (deleteError) {
-        console.error('Error deleting user:', deleteError);
+        console.error("Error deleting user:", deleteError);
     }
 }
 
 async function DeleteUserByEmail(email) {
     try {
-        const check = await User.deleteOne({ email: email });
+        const check = await userdm.User.deleteOne({ email: email });
         if (check) {
-            logger.info('User deleted.');
+            logger.info("User deleted.");
         } else {
-            logger.info('User not deleted.');
+            logger.info("User not deleted.");
         }
     } catch (deleteError) {
-        console.error('Error deleting user:', deleteError);
-    }
-}
- async function GetRolesByName(name) {
-    try {
-        const roles = await Role.findOne({ name: name });
-        return roles;
-    } catch (error) {
-        logger.error(error);
-        throw error;
+        console.error("Error deleting user:", deleteError);
     }
 }
 
-async function FindRolesById(id) {
-    try {
-        const roles = await Role.findOne({ _id: id });
-        logger.info("FindRolesById: ", roles);
-        return roles;
-    } catch (error) {
-        logger.error(error);
-        throw error;
-    }
-}
 module.exports = {
     FindUserCredential,
     FindUserByEmail,
-    FindRolesById,
-    CreateNewUser, CreateNewUserCredential,
-    GetRolesByName,
-    DeleteUserById, DeleteUserByEmail
+    CreateNewUser,
+    CreateNewUserCredential,
+    DeleteUserById,
+    DeleteUserByEmail
 };

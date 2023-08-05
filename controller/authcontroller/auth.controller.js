@@ -1,53 +1,40 @@
-const util = require("../../common/util/bcrypt.util");
-const service = require("../../internal/service/userservice/user.service");
-const dto = require("../../internal/service/userservice/user_service.dto");
+const service = require("../../internal/service/authservice/auth.service");
+const dto = require("../../internal/service/authservice/auth_service.dto");
 const logger = require("../../common/logutil/logutil").GetLogger("AUTH_CONTROLLER");
-const User = require("../../internal/models/auth/user_credential.dm");
 const { StatusCodes } = require("http-status-codes");
-const moment = require('moment');
-const { UserLoginDto } = require("../../internal/service/userservice/user_service.dto");
+const moment = require("moment");
 const { WriteJsonResponseWithCode, WriteJsonResponse } = require("../../common/httputil/httputil");
+const { validationResult } = require("express-validator");
 const registerController = async (req, res) => {
-    const { name, phoneNumber, email, address, dob, password, confirmPassword, roles } = req.body;
-    if (!name || !phoneNumber || !isValidEmail(email) || !address || !dob || !password || !confirmPassword || !roles) {
-        return WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, 'Please fill all required fields');
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        logger.error(errors.array());
+        WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, errors.array());
+        return;
     }
-    if (password.length < 6) {
-        return WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, 'Password must be at least 6 characters');
-    }
-    if (password !== confirmPassword) {
-        return WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, 'Password and confirm password does not match');
+    const { name, phoneNumber, email, address, dob, password, role } = req.body;
 
-    }
     const dobDate = moment(dob).toDate();
 
-    const newUserRequest = dto.UserRegisterDto({ email, phoneNumber, name, address, dobDate, password, dob, roles });
+    const newUserRequest = dto.UserRegisterDto({ email, phoneNumber, name, address, dobDate, password, dob, role });
     try {
         const id = await service.UserRegister(newUserRequest);
         WriteJsonResponse(res, { user_id: id });
         return;
     } catch (error) {
-        logger.error("Error in registerController:", error);
         WriteJsonResponseWithCode(res, error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR, -1, error.message);
         return;
     }
 };
-function isValidEmail(email) {
-    const MAX_EMAIL_LENGTH = 256;
-    if (email.length > MAX_EMAIL_LENGTH) {
-        return false;
-    }
-    const emailRegex = new RegExp('^[^\\s@]+@(?:[^\\s@]+\\.)+[^\\s@]+$');
-    return emailRegex.test(email);
-}
-const loginController = async (req, res) => {
-    const { email, password } = req.body;
-    logger.info("Login request:", req.body);
 
-    if (!isValidEmail(email) && !password) {
-        WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, "Invalid email or password");
+const loginController = async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        logger.error(errors.array());
+        WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, errors.array());
         return;
     }
+    const { email, password } = req.body;
 
     try {
         const { user, token } = await service.UserLogin(dto.UserLoginDto({ email, password }));
@@ -55,8 +42,7 @@ const loginController = async (req, res) => {
         WriteJsonResponse(res, { user_id: user._id, name: user.name, email: user.email, roles: user.roles });
         return;
     } catch (error) {
-        logger.error(error);
-        res.status(error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR).json({ error: error.message });
+        WriteJsonResponseWithCode(res, error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR, -1, error.message);
     }
 };
 const logOutController = async (req, res) => {

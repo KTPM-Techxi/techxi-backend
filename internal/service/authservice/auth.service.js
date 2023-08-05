@@ -1,13 +1,13 @@
 const bcryptUtil = require("../../../common/util/bcrypt.util");
 const jwt = require("jsonwebtoken");
 const cfg = require("../../../common/config/config").loadConfig();
-const { UserLoginDto, UserRegisterDto, UserInfoDto } = require("../userservice/user_service.dto");
 const repo = require("../../repository/user.repo");
 const logger = require("../../../common/logutil/logutil").GetLogger("USER_SERVICE");
 const { StatusCodes } = require("http-status-codes");
-const {STATUS} = require("../../../common/constants/constants");
+const { STATUS } = require("../../../common/constants/constants");
 const appConst = require("../../../common/constants/constants");
-const User = require("../../models/user/user.dm");
+const userdm = require("../../models/user/user.dm");
+const userCredentialdm = require("../../models/auth/user_credential.dm");
 
 async function UserLogin(userLoginDto) {
     logger.info("userLoginDto: ", userLoginDto);
@@ -36,13 +36,10 @@ async function UserLogin(userLoginDto) {
             });
         }
         if (token === "") {
-            const error = new Error("Token not created");
+            const error = new Error("Passwords do not match");
             throw error;
         }
-
-        const role = await repo.FindRolesById(credential.roles[0].toString());
-        user.roles = role.name;
-        return { user, token };
+        return { userId, token };
     } catch (error) {
         throw error;
     }
@@ -64,14 +61,15 @@ async function UserRegister(userRegisterDto) {
             throw error;
         }
 
-        const newUser = {
+        const newUser = new userdm.User({
             name: userRegisterDto.name,
             email: userRegisterDto.email,
             phoneNumber: userRegisterDto.phoneNumber,
             address: userRegisterDto.address,
             dob: userRegisterDto.dob,
-        }
-        const savedUser = await repo.CreateNewUser(newUser)
+            role: userRegisterDto.role
+        });
+        const savedUser = await repo.CreateNewUser(newUser);
         if (!savedUser) {
             const error = new Error("User not saved");
             error.statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
@@ -79,22 +77,19 @@ async function UserRegister(userRegisterDto) {
         }
         let id = savedUser._id.toString();
 
-        if (!Object.values(appConst.USER_TYPES).includes(userRegisterDto.roles)) {
+        if (!Object.values(appConst.USER_TYPES).includes(userRegisterDto.role)) {
             const error = new Error("Invalid user type");
             error.statusCode = StatusCodes.BAD_REQUEST;
             await repo.DeleteUserById(id);
             throw error;
         }
-        const role = await repo.GetRolesByName(userRegisterDto.roles.toString())
-        console.log("role: ", role);
-        const newCredential = {
+
+        const newCredential = new userCredentialdm.UserCredential({
             user_id: id,
             email: userRegisterDto.email,
             password: hashedPassword,
-            roles: Array.isArray(role) ? role : [role],
-            status: STATUS.ACTIVE,
-        }
-
+            status: STATUS.ACTIVE
+        });
         const savedCredential = await repo.CreateNewUserCredential(newCredential);
         if (!savedCredential) {
             const error = new Error("Credential not saved");
