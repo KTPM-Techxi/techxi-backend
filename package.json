@@ -25,6 +25,7 @@
         "nodemon": "^3.0.1",
         "reflect-metadata": "^0.1.13",
         "swagger-jsdoc": "^6.2.8",
-        "swagger-ui-express": "^5.0.0"
+        "swagger-ui-express": "^5.0.0",
+        "treeify": "^1.1.0"
     }
 }

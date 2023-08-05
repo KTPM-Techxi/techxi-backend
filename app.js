@@ -6,6 +6,7 @@ const logger = require("morgan");
 const cfg = require("./common/config/config").loadConfig();
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
+const booingRouter = require("./routes/callcenter/booking");
 const logutil = require("./common/logutil/logutil");
 const mongoose = require("mongoose");
 const swaggerJsdoc = require("swagger-jsdoc"),
@@ -43,7 +44,7 @@ const options = {
             }
         ]
     },
-    apis: ["./routes/*.js"]
+    apis: ["./routes/*.js", "./routes/callcenter/*.js", "./routes/driver/*.js", "./routes/custome/*.js"]
 };
 const specs = swaggerJsdoc(options);
 app.use(
@@ -55,6 +56,7 @@ app.use(
 );
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/api/v1/callcenter", booingRouter);
 
 async function initializeDB() {
     await mongoose
