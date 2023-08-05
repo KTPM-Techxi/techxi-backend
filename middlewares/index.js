@@ -1,5 +1,5 @@
-const authJwt = require("./authJwt");
+const { isAuthenticated } = require("./authJwt");
 
 module.exports = {
-    authJwt
+    isAuthenticated
 };
