@@ -3,8 +3,103 @@ const auth = require("../controller/authcontroller/auth.controller");
 const { body } = require("express-validator");
 const userdm = require("../internal/models/user/user.dm");
 var router = express.Router();
+/**
+ * @swagger
+ * tags:
+ *   name: Authentication
+ *   description: Authentication endpoints
+ */
 
+/**
+ * @swagger
+ * /users/login:
+ *   post:
+ *     summary: Authenticate user
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *             required:
+ *               - email
+ *               - password
+ *             example:
+ *               email: user@example.com
+ *               password: password123
+ *     responses:
+ *       200:
+ *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               properties:
+ *                 user_id:
+ *                   type: string
+ */
 router.post("/login", [body("email").isEmail().withMessage("Email not valid"), body("password").isLength({ min: 6 }).withMessage("Password not valid")], auth.loginController);
+/**
+ * @swagger
+ * /users/register:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               phoneNumber:
+ *                 type: string
+ *               address:
+ *                 type: string
+ *               dob:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               password:
+ *                 type: string
+ *               confirmPassword:
+ *                 type: string
+ *               role:
+ *                 type: string
+ *               required:
+ *               - name
+ *               - phoneNumber
+ *               - email
+ *               - address
+ *               - dob
+ *               - password
+ *               - role
+ *             example:
+ *               name: John Doe
+ *               phoneNumber: 1234567890
+ *               address: 123 Main St
+ *               dob: 1990-01-01
+ *               email: user@example.com
+ *               password: password123
+ *               confirmPassword: password123
+ *               role: user
+ *     responses:
+ *       200:
+ *         description: User registered successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               properties:
+ *                 user_id:
+ *                   type: string
+ */
 router.post(
     "/register",
     [
@@ -23,6 +118,18 @@ router.post(
     ],
     auth.registerController
 );
+/**
+ * @swagger
+ * /users/logout:
+ *   get:
+ *     summary: Logout user
+ *     tags: [Authentication]
+ *     responses:
+ *       200:
+ *         description: Logout success
+ *       401:
+ *         description: Unauthorized
+ */
 router.get("/logout", auth.logOutController);
 
 module.exports = router;

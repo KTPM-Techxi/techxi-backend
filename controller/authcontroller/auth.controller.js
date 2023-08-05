@@ -37,9 +37,9 @@ const loginController = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const { user, token } = await service.UserLogin(dto.UserLoginDto({ email, password }));
+        const { userId, token } = await service.UserLogin(dto.UserLoginDto({ email, password }));
         res.cookie("token", token, { httpOnly: true });
-        WriteJsonResponse(res, { user_id: user._id, name: user.name, email: user.email, roles: user.roles });
+        WriteJsonResponse(res, { user_id: userId });
         return;
     } catch (error) {
         WriteJsonResponseWithCode(res, error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR, -1, error.message);

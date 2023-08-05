@@ -1,0 +1,1 @@
+const BookingInfoto = (req) => {};
