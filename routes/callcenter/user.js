@@ -32,7 +32,7 @@ var router = express.Router();
  *         content:
  *           application/json:
  *              schema:
- *                 $ref: '#/components/schemas/UserInfoDto'
+ *                 $ref: '#/components/schemas/UserInfoResponse'
  */
 router.get("/list", controller.ListCustomers);
 
