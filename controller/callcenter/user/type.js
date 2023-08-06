@@ -6,7 +6,7 @@ const filterReq = (req) => ({
  * @swagger
  * components:
  *   schemas:
- *     UserInfoDto:
+ *     UserInfoResponse:
  *       type: object
  *       properties:
  *         id:
