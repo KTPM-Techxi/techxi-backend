@@ -1,5 +1,7 @@
 const credentialdm = require("../models/auth/user_credential.dm");
 const userdm = require("../models/user/user.dm");
+const driverdm = require("../models/user/driver/driver.dm");
+const customerdm = require("../models/user/customer/customer.dm");
 const logger = require("../../common/logutil/logutil").GetLogger("USER_REPO");
 async function FindUserCredential(userId) {
     try {
@@ -67,11 +69,49 @@ async function DeleteUserByEmail(email) {
     }
 }
 
+async function FindCustomers(paginate) {
+    try {
+        let query = userdm.User.find({ role: userdm.ROLE.CUSTOMER });
+
+        const total = await userdm.User.count({})
+            .then((count) => {
+                logger.info("Total documents:", count);
+            })
+            .catch((err) => {
+                logger.error("Error counting documents:", err);
+            });
+
+        query = query.skip(paginate.currentPage * paginate.pageSize - paginate.pageSize).limit(paginate.pageSize);
+
+        const users = await query.exec();
+        logger.info("List customers:\n", users);
+        return { users, isFound: true, total };
+    } catch (error) {
+        logger.error("Error while to get bookings, err=", error);
+        throw error;
+    }
+}
+
+async function FindCustomerLocation(customerId) {
+    try {
+        const customerLocations = await customerdm.CustomerLocations.find({
+            customer_id: customerId,
+            active: customerdm.STATUS.ACTIVE
+        }).exec();
+        logger.info("customer location: ", customerLocations);
+        return customerLocations;
+    } catch (error) {
+        logger.error("Error while to get bookings, err=", error);
+        throw error;
+    }
+}
+
 module.exports = {
     FindUserCredential,
     FindUserByEmail,
     CreateNewUser,
     CreateNewUserCredential,
     DeleteUserById,
-    DeleteUserByEmail
+    DeleteUserByEmail,
+    FindCustomers, FindCustomerLocation
 };

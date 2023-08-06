@@ -4,9 +4,8 @@ const FilterReqDto = (req) => ({
 });
 
 const BookingDto = (req) => ({
-    bookingId: req.bookings_id,
+    bookingId: req._id,
     callCenterAgentsId: req.call_center_agents_id,
-    customer_id: req.customer_id,
     customerId: req.customer_id,
     driverId: req.driver_id,
     pickupLocation: req.pickup_location,

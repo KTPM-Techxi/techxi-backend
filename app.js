@@ -5,12 +5,14 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cfg = require("./common/config/config").loadConfig();
 const indexRouter = require("./routes/index");
-const usersRouter = require("./routes/users");
-const booingRouter = require("./routes/callcenter/booking");
+const authRouter = require("./routes/auth");
+const callcenter = require("./routes/callcenter");
+
 const logutil = require("./common/logutil/logutil");
 const mongoose = require("mongoose");
 const swaggerJsdoc = require("swagger-jsdoc"),
     swaggerUi = require("swagger-ui-express");
+const userDm = require("./internal/models/user/user.dm");
 var app = express();
 app.use(cors());
 initializeDB()
@@ -44,7 +46,7 @@ const options = {
             }
         ]
     },
-    apis: ["./routes/*.js", "./routes/callcenter/*.js", "./routes/driver/*.js", "./routes/custome/*.js"]
+    apis: ["./routes/*.js", "./routes/callcenter/*.js", "./routes/driver/*.js", "./routes/customer/*.js", "./controller/callcenter/user/type.js"]
 };
 const specs = swaggerJsdoc(options);
 app.use(
@@ -55,8 +57,9 @@ app.use(
     })
 );
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
-app.use("/api/v1/callcenter", booingRouter);
+app.use("/users", authRouter);
+app.use("/api/v1/callcenter/bookings", callcenter.bookingRouter);
+app.use("/api/v1/callcenter/users", callcenter.userRouter);
 
 async function initializeDB() {
     await mongoose

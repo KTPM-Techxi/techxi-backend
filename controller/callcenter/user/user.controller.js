@@ -1,12 +1,12 @@
-const service = require("../../../internal/service/bookingservice/booking.service");
+const service = require("../../../internal/service/userservice/user.service");
 const httputil = require("../../../common/httputil/httputil");
 const { StatusCodes } = require("http-status-codes");
 const logger = require("../../../common/logutil/logutil").GetLogger("BOOKING_CONTROLLER");
 const util = require("../../../common/util/util");
 const treeify = require("treeify");
-const dto = require("../../../internal/service/bookingservice/booking_service.dto");
+const dto = require("../../../internal/service/userservice/user_service.dto");
 const type = require("./type");
-const ListBookings = async (req, res) => {
+const ListCustomers = async (req, res) => {
     try {
         const filterReq = type.filterReq(req.query);
         logger.info("Filter request:\n" + treeify.asTree(req.query, true));
@@ -21,10 +21,9 @@ const ListBookings = async (req, res) => {
         if (filterReqDto.pageSize === undefined) {
             filterReqDto.pageSize = 10;
         }
-        logger.info("Filter convert Dto:\n", util.LogObject(filterReqDto));
 
-        const bookings = await service.GetListBookings(filterReqDto);
-        httputil.WriteJsonResponse(res, bookings);
+        const customers = await service.GetCustomers(filterReqDto);
+        httputil.WriteJsonResponse(res, customers);
         return;
     } catch (error) {
         logger.error(error);
@@ -33,4 +32,4 @@ const ListBookings = async (req, res) => {
     }
 };
 
-module.exports = { ListBookings };
+module.exports = { ListCustomers };

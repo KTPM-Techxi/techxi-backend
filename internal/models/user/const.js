@@ -1,5 +1,5 @@
 const USER_TYPES = Object.freeze({
-    CUSTOMER: "user",
+    CUSTOMER: "customer",
     DRIVER: "driver",
     CALL_CENTER_AGENT: "admin"
 });

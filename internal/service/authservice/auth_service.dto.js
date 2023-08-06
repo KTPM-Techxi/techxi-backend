@@ -19,6 +19,7 @@ const UserInfoDto = (req) => ({
     email: req.email,
     phoneNumber: req.phoneNumber,
     address: req.address,
+    avartarUrl: req.avartarUrl,
     dob: req.dob
 });
 
