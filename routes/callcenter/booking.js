@@ -11,7 +11,7 @@ var router = express.Router();
 
 /**
  * @swagger
- * /api/v1/callcenter/filter:
+ * /api/v1/callcenter/bookings/filter:
  *   get:
  *     summary: Get a list of bookings by filter
  *     tags: [CallCenter/Booking]
@@ -31,43 +31,25 @@ var router = express.Router();
  *         description: Successful response with a list of bookings
  *         content:
  *           application/json:
- *             example:
- *               data:
- *                 - bookingId: 1
- *                   callCenterAgentsId: 1
- *                   customerId: 1
- *                   driverId: 1
- *                   pickupLocation: null
- *                   pickupLime: null
- *                   destination: null
- *                   time: null
- *                   scheduledTime: null
- *                   totalPrice: null
- *                   totalDistance: null
- *                   status: null
- *                   createdAt: null
- *                   updatedAt: null
- *                 - bookingId: 2
- *                   callCenterAgentsId: 2
- *                   customerId: 2
- *                   driverId: 2
- *                   pickupLocation:
- *                      -longtitude: 0
- *                      -latitude: 0
- *                   pickupLime: 24/07/2023 11:00:00
- *                   destination:
- *                      -longtitude: 0
- *                      -latitude: 0
- *                   timeCompletion: 30
- *                   scheduledTime: 24/07/2023 11:00:00
- *                   totalPrice: 1000
- *                   totalDistance: 10
- *                   status: 1
- *                   createdAt: 24/07/2023 11:00:00
- *                   updatedAt: 24/07/2023 11:00:00
- *               currentPage: 1
- *               totalPages: 5
- *               totalItems: 50
+ *              schema:   
+ *                type: object
+ *                properties:
+ *                  bookings:
+ *                    type: array
+ *                    items:
+ *                      $ref: '#/components/schemas/BookingsResponse'
+ *                  currentPage:
+ *                    type: integer
+ *                    description: Current page number.
+ *                  pageSize:
+ *                    type: integer
+ *                    description: Number of items per page.
+ *                  totalItems:
+ *                    type: integer
+ *                    description: Total number of items.
+ *                  total:
+ *                    type: integer
+ *                    description: Total number of pages.
  */
 router.get("/filter", controller.ListBookings);
 

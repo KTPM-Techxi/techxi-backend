@@ -69,22 +69,29 @@ async function DeleteUserByEmail(email) {
     }
 }
 
-async function FindUsersWithRole(paginate, role) {
+async function FindUsersWithFilter(filter) {
     try {
-        let query = userdm.User.find({ role: role });
+        let filterRepoReq = {}
+        if (filter.roles.length > 0) {
+            filterRepoReq.role = { $in: filter.roles };
+        }
+        logger.info("Requesting filter for user:", filter);
 
-        const total = await userdm.User.count({})
+        let query = userdm.User.find(filterRepoReq)
+        const total = await userdm.User.count(filterRepoReq)
             .then((count) => {
                 logger.info("Total documents:", count);
             })
             .catch((err) => {
                 logger.error("Error counting documents:", err);
             });
+        if (total === 0) {
+            return { users: [], isFound: false, total };
+        }
+        query = query.skip(filter.currentPage * filter.pageSize - filter.pageSize).limit(filter.pageSize);
 
-        query = query.skip(paginate.currentPage * paginate.pageSize - paginate.pageSize).limit(paginate.pageSize);
-
-        const users = await query.exec();
-        logger.info("List customers:\n", users);
+        const users = await query.exec()
+        logger.info("List users:\n", users);
         return { users, isFound: true, total };
     } catch (error) {
         logger.error("Error while to get bookings, err=", error);
@@ -113,5 +120,5 @@ module.exports = {
     CreateNewUserCredential,
     DeleteUserById,
     DeleteUserByEmail,
-    FindUsersWithRole, FindCustomerLocation
+    FindUsersWithFilter, FindCustomerLocation
 };

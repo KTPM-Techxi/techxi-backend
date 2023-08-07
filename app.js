@@ -46,7 +46,11 @@ const options = {
             }
         ]
     },
-    apis: ["./routes/*.js", "./routes/callcenter/*.js", "./routes/driver/*.js", "./routes/customer/*.js", "./controller/callcenter/user/type.js"]
+    apis: ["./routes/*.js",
+        "./routes/callcenter/*.js",
+        "./routes/driver/*.js",
+        "./routes/customer/*.js",
+        "./controller/callcenter/user/type.js"]
 };
 const specs = swaggerJsdoc(options);
 app.use(
