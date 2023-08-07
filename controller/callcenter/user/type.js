@@ -1,5 +1,5 @@
 const filterReq = (req) => ({
-    roles: Array.isArray(req.roles) ? [] : [req.roles],
+    roles: Array.isArray(req.roles) ? req.roles : [req.roles],
     currentPageStr: req.current_page,
     pageSizeStr: req.page_size
 });

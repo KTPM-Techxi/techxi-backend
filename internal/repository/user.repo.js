@@ -91,7 +91,7 @@ async function FindUsersWithFilter(filter) {
         query = query.skip(filter.currentPage * filter.pageSize - filter.pageSize).limit(filter.pageSize);
 
         const users = await query.exec()
-        logger.info("List users:\n", users);
+        //logger.info("List users:\n", users);
         return { users, isFound: true, total };
     } catch (error) {
         logger.error("Error while to get bookings, err=", error);

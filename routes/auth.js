@@ -89,7 +89,7 @@ router.post("/login", [body("email").isEmail().withMessage("Email not valid"), b
  *               email: user@example.com
  *               password: password123
  *               confirmPassword: password123
- *               role: user
+ *               role: customer
  *     responses:
  *       200:
  *         description: User registered successfully

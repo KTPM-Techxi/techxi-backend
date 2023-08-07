@@ -8,10 +8,10 @@ const dto = require("../../../internal/service/userservice/user_service.dto");
 const type = require("./type");
 const ListUsersWithFilter = async (req, res) => {
     try {
-        logger.info("Filter query:\n" + treeify.asTree(req.query, true));
         const filterReq = type.filterReq(req.query);
         logger.info("Filter request:\n" + treeify.asTree(filterReq, true));
         filterReq.roles = filterReq.roles.filter(role => typeof role === 'string' && role.trim() !== '');
+        logger.info("Filter request:\n" + treeify.asTree(filterReq, true));
         const filterReqDto = dto.FilterReqDto({
             roles: filterReq.roles || [],
             currentPage: util.ConvertToType(filterReq.currentPageStr, "number"),
