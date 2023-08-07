@@ -2,6 +2,7 @@ var express = require("express");
 const { body } = require("express-validator");
 const controller = require("../../controller/callcenter/booking/booking.controller");
 var router = express.Router();
+const middleware = require('../../middlewares')
 /**
  * @swagger
  * tags:
@@ -51,6 +52,6 @@ var router = express.Router();
  *                    type: integer
  *                    description: Total number of pages.
  */
-router.get("/filter", controller.ListBookings);
+router.get("/filter", middleware.isAuthenticated, controller.ListBookings);
 
 module.exports = router;

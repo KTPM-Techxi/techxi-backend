@@ -1,16 +1,20 @@
 const jwt = require("jsonwebtoken");
-const config = require("../app/config/auth.config");
-
+const config = require("../common/config/config").loadConfig();
+const { StatusCodes } = require("http-status-codes");
+//TODO: Check ROLE
 isAuthenticated = (req, res, next) => {
     let token = req.headers["x-access-token"];
-
+    if (config.authJwt === 0) {
+        next();
+        return;
+    }
     if (!token) {
-        return res.status(403).send({ message: "No token provided!" });
+        return res.status(StatusCodes.FORBIDDEN).send({ message: "No token provided!" });
     }
 
-    jwt.verify(token, config.secret, (err, decoded) => {
+    jwt.verify(token, config.tokenSecret, (err, decoded) => {
         if (err) {
-            return res.status(401).send({
+            return res.status(StatusCodes.UNAUTHORIZED).send({
                 message: "Unauthorized!"
             });
         }
