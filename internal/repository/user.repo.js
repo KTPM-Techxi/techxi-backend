@@ -69,9 +69,9 @@ async function DeleteUserByEmail(email) {
     }
 }
 
-async function FindCustomers(paginate) {
+async function FindUsersWithRole(paginate, role) {
     try {
-        let query = userdm.User.find({ role: userdm.ROLE.CUSTOMER });
+        let query = userdm.User.find({ role: role });
 
         const total = await userdm.User.count({})
             .then((count) => {
@@ -113,5 +113,5 @@ module.exports = {
     CreateNewUserCredential,
     DeleteUserById,
     DeleteUserByEmail,
-    FindCustomers, FindCustomerLocation
+    FindUsersWithRole, FindCustomerLocation
 };

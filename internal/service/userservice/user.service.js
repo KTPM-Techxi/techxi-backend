@@ -1,10 +1,11 @@
 const dto = require("./user_service.dto");
 const repo = require("../../repository/user.repo");
 const logger = require("../../../common/logutil/logutil").GetLogger("USER_SERVICE");
+const userdm = require("../../models/user/user.dm");
 const { StatusCodes } = require("http-status-codes");
 async function GetCustomers(paginate) {
     try {
-        const { customers, _, total } = await repo.FindCustomers(paginate);
+        const { customers, _, total } = await repo.FindUsersWithRole(paginate, userdm.ROLE.CUSTOMER);
         const customersDto = [];
         for (const customer of customers) {
             const customerDto = dto.UserInfoDto(customer);
