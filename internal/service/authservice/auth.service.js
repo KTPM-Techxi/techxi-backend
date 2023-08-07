@@ -77,7 +77,7 @@ async function UserRegister(userRegisterDto) {
         }
         let id = savedUser._id.toString();
 
-        if (!Object.values(appConst.USER_TYPES).includes(userRegisterDto.role)) {
+        if (!Object.values(userdm.ROLE).includes(userRegisterDto.role)) {
             const error = new Error("Invalid user type");
             error.statusCode = StatusCodes.BAD_REQUEST;
             await repo.DeleteUserById(id);

@@ -1,4 +1,5 @@
 const filterReq = (req) => ({
+    roles: Array.isArray(req.roles) ? [] : [req.roles],
     currentPageStr: req.current_page,
     pageSizeStr: req.page_size
 });
@@ -6,34 +7,75 @@ const filterReq = (req) => ({
  * @swagger
  * components:
  *   schemas:
- *     UserInfoResponse:
+ *     BookingsResponse:
  *       type: object
  *       properties:
- *         id:
+ *         bookingId:
  *           type: string
- *           description: User ID.
- *         name:
+ *           description: Booking ID.
+ *         callCenterAgentsId:
  *           type: string
- *           description: User's name.
- *         email:
+ *           description: ID of the call center agent.
+ *         customerId:
  *           type: string
- *           description: User's email address.
- *         phoneNumber:
+ *           description: ID of the customer.
+ *         driverId:
  *           type: string
- *           description: User's phone number.
- *         address:
+ *           description: ID of the driver.
+ *         pickupLocation:
+ *           type: object
+ *           properties:
+ *             longtitude:
+ *               type: number
+ *             latitude:
+ *               type: number
+ *           description: Pickup location coordinates.
+ *         pickupLime:
  *           type: string
- *           description: User's address.
- *         avartarUrl:
+ *           description: Pickup time in TODO format.
+ *         destination:
+ *           type: object
+ *           properties:
+ *             longtitude:
+ *               type: number
+ *             latitude:
+ *               type: number
+ *           description: Destination coordinates.
+ *         time_completion:
+ *           type: number
+ *           description: Time taken for completion in minutes.
+ *         scheduledTime:
  *           type: string
- *           description: URL of the user's avatar.
- *         dob:
+ *           description: Scheduled time in format TODO format'.
+ *         totalPrice:
+ *           type: number
+ *           description: Total price of the booking.
+ *         totalDistance:
+ *           type: number
+ *           description: Total distance of the booking.
+ *         status:
+ *           type: number
+ *           description: Status of the booking.
+ *         createdAt:
  *           type: string
- *           description: Date of Birth in YYYY-MM-DD format.
- *         role:
+ *           description: Creation timestamp in TODO format'.
+ *         updatedAt:
  *           type: string
- *           description: User's role.
+ *           description: Update timestamp in TODO format'.
  */
+
+const UserInfoResponse = (user) => ({
+    id: driverDto.id,
+    name: driverDto.name,
+    email: driverDto.email,
+    phoneNumber: driverDto.phoneNumber,
+    adddriverDtos: driverDto.adddriverDtos,
+    avartarUrl: driverDto.avatarUrl,
+    dob: driverDto.dob,
+    role: driverDto.role
+})
+
 module.exports = {
-    filterReq
+    filterReq,
+    UserInfoResponse
 };

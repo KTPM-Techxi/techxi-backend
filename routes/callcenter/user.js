@@ -11,11 +11,19 @@ var router = express.Router();
 
 /**
  * @swagger
- * /api/v1/callcenter/users/list:
+ * /api/v1/callcenter/users/filter:
  *   get:
  *     summary: Get a list of users
  *     tags: [CallCenter/Users]
  *     parameters:
+ *       - in: query
+ *         name: roles
+ *         description: Array of user roles
+ *         style: form
+ *         schema:
+ *           type: array
+ *           items:
+ *             type: string
  *       - in: query
  *         name: current_page
  *         schema:
@@ -32,8 +40,24 @@ var router = express.Router();
  *         content:
  *           application/json:
  *              schema:
- *                 $ref: '#/components/schemas/UserInfoResponse'
+ *                type: object
+ *                properties:
+ *                  users:
+ *                    type: array
+ *                    items:
+ *                      $ref: '#/components/schemas/UserInfoResponse'
+ *                  currentPage:
+ *                    type: integer
+ *                    description: Current page number.
+ *                  pageSize:
+ *                    type: integer
+ *                    description: Number of items per page.
+ *                  totalItems:
+ *                    type: integer
+ *                    description: Total number of items.
+ *                  total:
+ *                    type: integer
+ *                    description: Total number of pages.
  */
-router.get("/list", controller.ListCustomers);
-
+router.get("/filter", controller.ListUsersWithFilter);
 module.exports = router;

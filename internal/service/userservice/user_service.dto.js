@@ -1,4 +1,5 @@
 const FilterReqDto = (req) => ({
+    roles: req.roles || [],
     currentPage: req.currentPage,
     pageSize: req.pageSize
 });
