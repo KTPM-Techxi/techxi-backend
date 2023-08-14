@@ -4,6 +4,7 @@ base_url: http://localhost:8080/
 db_connection_string: mongodb+srv://techxi:PkxToEvPlokENJ2C@techxi.va8r7de.mongodb.net/techxi?retryWrites=true&w=majority
 token_secret: nhatminhdepzaivaicaloz
 auth_jwt: 0
+rabbitmq_url: amqps://qgkfypdz:bpDTputLB1EzSTiB0N5Of_OvINBuX8Yq@armadillo.rmq.cloudamqp.com/qgkfypdz
   # callcenter: 0
   # driver: 0
   # admin: 0

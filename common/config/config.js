@@ -11,7 +11,8 @@ exports.loadConfig = function () {
             baseUrl: readConfig.base_url,
             dbConnectString: readConfig.db_connection_string || "mongodb://localhost:27017/techxi",
             tokenSecret: readConfig.token_secret,
-            authJwt: readConfig.auth_jwt
+            authJwt: readConfig.auth_jwt,
+            rabbitmq_url: readConfig.rabbitmq_url
         };
         return cfg;
     } catch (e) {
