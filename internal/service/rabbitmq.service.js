@@ -1,5 +1,5 @@
 const amqp = require("amqplib");
-const cfg = require(".../common/config/config").loadConfig();
+const cfg = require("../../common/config/config").loadConfig()
 
 //step 1 : Connect to the rabbitmq server
 //step 2 : Create a new channel on that connection

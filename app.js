@@ -64,6 +64,7 @@ app.use("/", indexRouter);
 app.use("/users", authRouter);
 app.use("/api/v1/callcenter/bookings", callcenter.bookingRouter);
 app.use("/api/v1/callcenter/users", callcenter.userRouter);
+app.use("/api/v1/callcenter/location", callcenter.locationRouter)
 
 async function initializeDB() {
     await mongoose
