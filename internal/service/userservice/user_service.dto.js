@@ -15,5 +15,6 @@ const UserInfoDto = (req) => ({
     role: req.role
 });
 
+const CustomerBakingDto = (req) => {};
 
 module.exports = { UserInfoDto, FilterReqDto };

@@ -6,11 +6,12 @@ const util = require("../../../common/util/util");
 const treeify = require("treeify");
 const dto = require("../../../internal/service/userservice/user_service.dto");
 const type = require("./type");
+const ROLE = require("../../../internal/models/user/const").USER_TYPES;
 const ListUsersWithFilter = async (req, res) => {
     try {
         const filterReq = type.filterReq(req.query);
         logger.info("Filter request:\n" + treeify.asTree(filterReq, true));
-        filterReq.roles = filterReq.roles.filter(role => typeof role === 'string' && role.trim() !== '');
+        filterReq.roles = filterReq.roles.filter((role) => typeof role === "string" && role.trim() !== "");
         logger.info("Filter request:\n" + treeify.asTree(filterReq, true));
         const filterReqDto = dto.FilterReqDto({
             roles: filterReq.roles || [],
@@ -36,4 +37,32 @@ const ListUsersWithFilter = async (req, res) => {
     }
 };
 
-module.exports = { ListUsersWithFilter };
+const GetUserDetails = async (req, res) => {
+    try {
+        const { userId, role } = req.body;
+        const resp = await service.GetUserInfo(userId, role);
+        const userInfoResp = type.UserInfoResponse(resp.userInfoDto);
+        if (role === ROLE.DRIVER) {
+            httputil.WriteJsonResponse(res, {
+                userInfo: userInfoResp,
+                banking: resp.banking,
+                vehicles: resp.vehicles
+            });
+            return;
+        }
+        if (role === ROLE.CUSTOMER) {
+            httputil.WriteJsonResponse(res, {
+                userInfo: userInfoResp,
+                banking: resp.banking
+            });
+            return;
+        }
+        httputil.WriteJsonResponse(res, { userInfo: userInfoResp });
+        return;
+    } catch (error) {
+        logger.error(error);
+        httputil.WriteJsonResponseWithCode(res, error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR, -1, error.message);
+        return;
+    }
+};
+module.exports = { ListUsersWithFilter, GetUserDetails };

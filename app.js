@@ -46,11 +46,7 @@ const options = {
             }
         ]
     },
-    apis: ["./routes/*.js",
-        "./routes/callcenter/*.js",
-        "./routes/driver/*.js",
-        "./routes/customer/*.js",
-        "./controller/callcenter/user/type.js"]
+    apis: ["./routes/*.js", "./routes/callcenter/*.js", "./routes/driver/*.js", "./routes/customer/*.js", "./controller/callcenter/user/type.js"]
 };
 const specs = swaggerJsdoc(options);
 app.use(
@@ -64,7 +60,7 @@ app.use("/", indexRouter);
 app.use("/users", authRouter);
 app.use("/api/v1/callcenter/bookings", callcenter.bookingRouter);
 app.use("/api/v1/callcenter/users", callcenter.userRouter);
-app.use("/api/v1/callcenter/location", callcenter.locationRouter)
+app.use("/api/v1/callcenter/location", callcenter.locationRouter);
 
 async function initializeDB() {
     await mongoose

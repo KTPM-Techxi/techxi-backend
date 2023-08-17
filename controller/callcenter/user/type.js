@@ -65,15 +65,14 @@ const filterReq = (req) => ({
  */
 
 const UserInfoResponse = (user) => ({
-    id: driverDto.id,
-    name: driverDto.name,
-    email: driverDto.email,
-    phoneNumber: driverDto.phoneNumber,
-    adddriverDtos: driverDto.adddriverDtos,
-    avartarUrl: driverDto.avatarUrl,
-    dob: driverDto.dob,
-    role: driverDto.role
-})
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    phoneNumber: user.phoneNumber,
+    avartarUrl: user.avatarUrl,
+    dob: user.dob,
+    role: user.role
+});
 
 module.exports = {
     filterReq,

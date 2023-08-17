@@ -71,13 +71,13 @@ async function DeleteUserByEmail(email) {
 
 async function FindUsersWithFilter(filter) {
     try {
-        let filterRepoReq = {}
+        let filterRepoReq = {};
         if (filter.roles.length > 0) {
             filterRepoReq.role = { $in: filter.roles };
         }
         logger.info("Requesting filter for user:", filter);
 
-        let query = userdm.User.find(filterRepoReq)
+        let query = userdm.User.find(filterRepoReq);
         const total = await userdm.User.count(filterRepoReq)
             .then((count) => {
                 logger.info("Total documents:", count);
@@ -90,7 +90,7 @@ async function FindUsersWithFilter(filter) {
         }
         query = query.skip(filter.currentPage * filter.pageSize - filter.pageSize).limit(filter.pageSize);
 
-        const users = await query.exec()
+        const users = await query.exec();
         //logger.info("List users:\n", users);
         return { users, isFound: true, total };
     } catch (error) {
@@ -112,13 +112,66 @@ async function FindCustomerLocation(customerId) {
         throw error;
     }
 }
+async function FindUserById(id) {
+    try {
+        const user = await userdm.User.findById(id);
+        if (!user) {
+            return { user: null, isFound: false };
+        }
+        return { user: user, isFound: true };
+    } catch (error) {
+        logger.error(error);
+        throw error;
+    }
+}
 
+async function FindCustomerBankingByUserId(userId) {
+    try {
+        const customer = await customerdm.CustomerBanking.findOne({ user_id: userId });
+        if (!customer) {
+            return { customer: null, isFound: false };
+        }
+        return { customer: customer, isFound: true };
+    } catch (error) {
+        logger.error(error);
+        throw error;
+    }
+}
+async function FindDriverVehiclesByUserId(userId) {
+    try {
+        const driver = await driverdm.DriverVehicles.findOne({ user_id: userId });
+        if (!driver) {
+            return { driver: null, isFound: false };
+        }
+        return { driver: driver, isFound: true };
+    } catch (error) {
+        logger.error(error);
+        throw error;
+    }
+}
+async function FindDriverBankingByUserId(userId) {
+    try {
+        const driver = await driverdm.DriverBanking.findOne({ user_id: userId });
+        if (!driver) {
+            return { driver: null, isFound: false };
+        }
+        return { driver: driver, isFound: true };
+    } catch (error) {
+        logger.error(error);
+        throw error;
+    }
+}
 module.exports = {
     FindUserCredential,
     FindUserByEmail,
+    FindUserById,
+    FindCustomerBankingByUserId,
+    FindDriverVehiclesByUserId,
+    FindDriverBankingByUserId,
     CreateNewUser,
     CreateNewUserCredential,
     DeleteUserById,
     DeleteUserByEmail,
-    FindUsersWithFilter, FindCustomerLocation
+    FindUsersWithFilter,
+    FindCustomerLocation
 };
