@@ -33,4 +33,18 @@ const ListBookings = async (req, res) => {
     }
 };
 
-module.exports = { ListBookings };
+const CreateBooking = (req, res) => {
+    try {
+        const bookingReq = req.body;
+        const bookingReqDto = dto.BookingDto(bookingReq);
+        const bookingResp = service.CreateNewBooking(bookingReqDto);
+        httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, { bookingId: bookingResp.bookingId });
+        return;
+    } catch (error) {}
+};
+
+const FindDriver = (req, res) => {
+    try {
+    } catch (error) {}
+};
+module.exports = { ListBookings, CreateBooking };

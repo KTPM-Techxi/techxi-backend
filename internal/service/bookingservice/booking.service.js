@@ -24,4 +24,13 @@ async function GetListBookings(filter) {
     }
 }
 
-module.exports = { GetListBookings };
+async function CreateNewBooking(req) {
+    try {
+        const booking = await repo.CreateBooking(req);
+        // TODO: handle location
+        return booking;
+    } catch (error) {
+        throw error;
+    }
+}
+module.exports = { GetListBookings, CreateNewBooking };

@@ -2,7 +2,7 @@ var express = require("express");
 const { body } = require("express-validator");
 const controller = require("../../controller/callcenter/booking/booking.controller");
 var router = express.Router();
-const middleware = require('../../middlewares')
+const middleware = require("../../middlewares");
 /**
  * @swagger
  * tags:
@@ -32,7 +32,7 @@ const middleware = require('../../middlewares')
  *         description: Successful response with a list of bookings
  *         content:
  *           application/json:
- *              schema:   
+ *              schema:
  *                type: object
  *                properties:
  *                  bookings:
@@ -53,5 +53,5 @@ const middleware = require('../../middlewares')
  *                    description: Total number of pages.
  */
 router.get("/filter", middleware.isAuthenticated, controller.ListBookings);
-
+router.post("/create", middleware.isAuthenticated, controller.CreateBooking);
 module.exports = router;
