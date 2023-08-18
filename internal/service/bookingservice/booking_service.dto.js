@@ -20,7 +20,4 @@ const BookingDto = (req) => ({
     updatedAt: req.updated_at
 });
 
-const BookingsDto = (bookings, paginate) => {
-    return bookings.map((booking) => BookingDto(booking));
-};
-module.exports = { BookingDto, FilterReqDto };
+module.exports = { BookingDto, FilterReqDto, BookingReqDto };

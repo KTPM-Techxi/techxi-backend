@@ -36,7 +36,8 @@ const ListBookings = async (req, res) => {
 const CreateBooking = (req, res) => {
     try {
         const bookingReq = req.body;
-        const bookingReqDto = dto.BookingDto(bookingReq);
+        //TODO: handle loction
+        const bookingReqDto = dto.BookingReqDto(bookingReq);
         const bookingResp = service.CreateNewBooking(bookingReqDto);
         httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, { bookingId: bookingResp.bookingId });
         return;
