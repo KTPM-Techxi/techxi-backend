@@ -12,7 +12,7 @@ const logutil = require("./common/logutil/logutil");
 const mongoose = require("mongoose");
 const swaggerJsdoc = require("swagger-jsdoc"),
     swaggerUi = require("swagger-ui-express");
-const plugins = require("./plugins/location");
+const plugins = require("./plugins/map");
 var app = express();
 app.use(cors());
 initializeDB()
