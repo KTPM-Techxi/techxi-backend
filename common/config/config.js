@@ -12,7 +12,11 @@ exports.loadConfig = function () {
             dbConnectString: readConfig.db_connection_string || "mongodb://localhost:27017/techxi",
             tokenSecret: readConfig.token_secret,
             authJwt: readConfig.auth_jwt,
-            rabbitmq_url: readConfig.rabbitmq_url
+            rabbitmq_url: readConfig.rabbitmq_url,
+            mapServices: {
+                googleMapApiKey: readConfig.map_services.google_map_api_key,
+                streetMapApiKey: readConfig.map_services.street_map_api_key
+            }
         };
         return cfg;
     } catch (e) {

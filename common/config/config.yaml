@@ -8,3 +8,6 @@ rabbitmq_url: amqps://qgkfypdz:bpDTputLB1EzSTiB0N5Of_OvINBuX8Yq@armadillo.rmq.cl
   # callcenter: 0
   # driver: 0
   # admin: 0
+map_services: 
+  google_map_api_key: AIzaSyDixFIR5fpaHew_NYDjJgxaCZZ0de2hEHs
+  street_map_api_key: street_map

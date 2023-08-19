@@ -12,7 +12,7 @@ const logutil = require("./common/logutil/logutil");
 const mongoose = require("mongoose");
 const swaggerJsdoc = require("swagger-jsdoc"),
     swaggerUi = require("swagger-ui-express");
-const userDm = require("./internal/models/user/user.dm");
+const plugins = require("./plugins/location");
 var app = express();
 app.use(cors());
 initializeDB()
@@ -56,6 +56,19 @@ app.use(
         explorer: true
     })
 );
+let currentPlugin = plugins;
+console.log(currentPlugin);
+plugins[plugins.Plugin.PLUGIN_NAME.PLUGIN_GG_MAP].initialize(plugins.Plugin.API_KEYS.googleMap);
+// Thực hiện chuyển đổi plugin
+app.get("/switch-plugin", async (req, res) => {
+    const pluginName = req.query.plugin;
+    const isSwitch = await switchPlugin(pluginName);
+    if (!isSwitch) {
+        res.status(400).json("Plugin not found");
+    }
+    res.status(200).json("Switching plugin successfully: " + pluginName);
+});
+
 app.use("/", indexRouter);
 app.use("/users", authRouter);
 app.use("/api/v1/callcenter/bookings", callcenter.bookingRouter);
@@ -76,4 +89,16 @@ async function initializeDB() {
             process.exit();
         });
 }
+
+async function switchPlugin(pluginName) {
+    if (plugins[pluginName]) {
+        currentPlugin = plugins[pluginName];
+        currentPlugin.initialize(plugins.Plugin.API_KEYS[pluginName]);
+        return true;
+    } else {
+        logutil.error("Plugin not found:", pluginName);
+        return false;
+    }
+}
+
 module.exports = app;

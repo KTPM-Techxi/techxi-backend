@@ -20,4 +20,4 @@ const BookingDto = (req) => ({
     updatedAt: req.updated_at
 });
 
-module.exports = { BookingDto, FilterReqDto, BookingReqDto };
+module.exports = { BookingDto, FilterReqDto };
