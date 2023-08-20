@@ -33,4 +33,17 @@ async function FindBookingsWithFilter(filter) {
 // for (let i = 0; i < bookings.length; i++) {
 //     drivers.push(await driverdm.Driver.findById(bookings[i].driver_id))
 // }
-module.exports = { FindBookingsWithFilter };
+async function CreateBooking(req) {
+    try {
+        const booking = await bookingdm.Booking.create(req);
+        if (!booking) {
+            logger.error("Error while to create bookings, err=", error);
+            throw new Error("Error creating bookings failed");
+        }
+        return booking;
+    } catch (error) {
+        logger.error("Error while to create bookings, err=", error);
+        throw error;
+    }
+}
+module.exports = { FindBookingsWithFilter, CreateBooking };
