@@ -56,9 +56,9 @@ app.use(
         explorer: true
     })
 );
-let currentPlugin = plugins;
-console.log(currentPlugin);
-plugins[plugins.Plugin.PLUGIN_NAME.PLUGIN_GG_MAP].initialize(plugins.Plugin.API_KEYS.googleMap);
+plugins.currentPlugin = plugins.googleMap;
+console.log(plugins.currentPlugin);
+plugins.currentPlugin.initialize(plugins.Plugin.API_KEYS.googleMap);
 // Thực hiện chuyển đổi plugin
 app.get("/switch-plugin", async (req, res) => {
     const pluginName = req.query.plugin;
@@ -92,8 +92,8 @@ async function initializeDB() {
 
 async function switchPlugin(pluginName) {
     if (plugins[pluginName]) {
-        currentPlugin = plugins[pluginName];
-        currentPlugin.initialize(plugins.Plugin.API_KEYS[pluginName]);
+        plugins.currentPlugin = plugins[pluginName];
+        await plugins.currentPlugin.initialize(plugins.Plugin.API_KEYS[pluginName]);
         return true;
     } else {
         logutil.error("Plugin not found:", pluginName);

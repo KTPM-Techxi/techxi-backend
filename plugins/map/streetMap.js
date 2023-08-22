@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const STREETMAP_API_URL = "https://api.streetmap.vn";
+const STREETMAP_API_URL = "https://api.openstreetmap.org/";
 
 function initializeStreetMap(apiKey) {
     axios.defaults.headers.common["Authorization"] = `Bearer ${apiKey}`;
@@ -8,14 +8,14 @@ function initializeStreetMap(apiKey) {
 
 async function searchLocation(address) {
     try {
-        const response = await axios.get(`${STREETMAP_API_URL}/geocoding`, {
+        const response = await axios.get(`${STREETMAP_API_URL}/geocode`, {
             params: {
                 address: address
             }
         });
         return response.data;
     } catch (error) {
-        throw new Error("Lỗi khi tìm kiếm địa chỉ.");
+        throw new Error("Error while getting location err=" + error);
     }
 }
 

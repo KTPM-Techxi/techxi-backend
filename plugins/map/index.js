@@ -1,8 +1,9 @@
-const googleMapsPlugin = require("./googleMap");
+const googleMapPlugin = require("./googleMap");
 const streetMapPlugin = require("./streetMap");
 const constantsPlugin = require("./constant");
 module.exports = {
-    googleMap: googleMapsPlugin,
+    currentPlugin: null,
+    googleMap: googleMapPlugin,
     streetMap: streetMapPlugin,
     Plugin: constantsPlugin
 };

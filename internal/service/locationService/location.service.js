@@ -1,10 +1,9 @@
 const repo = require("../../repository/location.repo");
 
-const logger = require("../../../common/logutil/logutil").GetLogger("USER_SERVICE");
+const logger = require("../../../common/logutil/logutil").GetLogger("LOCATION_SERVICE");
 const { StatusCodes } = require("http-status-codes");
-
 const locationdm = require("../../models/location/location.dm");
-
+const plugins = require("../../../plugins/map");
 async function CreateLocation(locationReq) {
     logger.info("LocationDto: ", locationReq);
 
@@ -14,7 +13,6 @@ async function CreateLocation(locationReq) {
             address: locationReq.address,
             coordinate: locationReq.coordinate
         });
-
         const savedLocation = await repo.CreateNewLocation(newLocation);
         if (!savedLocation) {
             const error = new Error("Location not saved");
@@ -24,7 +22,7 @@ async function CreateLocation(locationReq) {
 
         let id = savedLocation._id.toString();
 
-        return id; // Return the created location
+        return locationData; // Return the created location
     } catch (error) {
         // await repo.DeleteUserByEmail(userRegisterDto.email);
         throw error; // Rethrow the error for the calling code to handle

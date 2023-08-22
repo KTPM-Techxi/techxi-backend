@@ -2,7 +2,7 @@ const { Client } = require("@googlemaps/google-maps-services-js");
 const logutil = require("../../common/logutil/logutil").GetLogger("GOOGLE_MAP_PLUGIN");
 let client = null;
 
-function initializeGoogleMaps(apiKey) {
+async function initializeGoogleMaps(apiKey) {
     client = new Client({});
     client
         .elevation({
@@ -21,7 +21,12 @@ function initializeGoogleMaps(apiKey) {
 }
 
 function geocode(address) {
-    return client.geocode({ params: { address } });
+    try {
+        return client.geocode({ params: { address } });
+    } catch (error) {
+        logutil.error(error);
+        throw error;
+    }
 }
 
 module.exports = {
