@@ -32,7 +32,7 @@ async function UserLogin(userLoginDto) {
             token = jwt.sign({ id: userId }, cfg.tokenSecret, {
                 algorithm: "HS256",
                 allowInsecureKeySizes: true,
-                expiresIn: "300"
+                expiresIn: "2days"
             });
         }
         if (token === "") {
