@@ -16,6 +16,10 @@ async function initializeGoogleMaps(apiKey) {
             logutil.info(r.data.results[0].elevation);
         })
         .catch((e) => {
+            if (!e.response) {
+                logutil.error("Error getting elevation data: " + e.response);
+                return;
+            }
             logutil.error(e.response.data.error_message);
         });
 }

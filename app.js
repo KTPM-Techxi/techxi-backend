@@ -14,6 +14,7 @@ const swaggerJsdoc = require("swagger-jsdoc"),
     swaggerUi = require("swagger-ui-express");
 const plugins = require("./plugins/map");
 var app = express();
+const session = require("express-session");
 app.use(cors());
 initializeDB()
     .then(() => {
@@ -27,6 +28,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+const oneDay = 1000 * 60 * 60 * 24;
+app.set("trust proxy", 1); // trust first proxy
+app.use(
+    session({
+        secret: cfg.tokenSecret,
+        resave: false,
+        saveUninitialized: true,
+        cookie: { maxAge: oneDay }
+    })
+);
 
 const options = {
     definition: {
