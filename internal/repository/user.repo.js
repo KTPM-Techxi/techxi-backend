@@ -6,7 +6,7 @@ const logger = require("../../common/logutil/logutil").GetLogger("USER_REPO");
 async function FindUserCredential(userId) {
     try {
         logger.info("FindUserCredential: ", userId);
-        const userCredential = await UserCredentials.findOne({ user_id: userId });
+        const userCredential = await credentialdm.UserCredential.findOne({ user_id: userId });
         return userCredential;
     } catch (error) {
         logger.error(error);

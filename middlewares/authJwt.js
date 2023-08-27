@@ -1,9 +1,15 @@
 const jwt = require("jsonwebtoken");
 const config = require("../common/config/config").loadConfig();
 const { StatusCodes } = require("http-status-codes");
+const userdm = require("../internal/models/user/user.dm");
+const logger = require("../common/logutil/logutil").GetLogger("MIDDLEWARE");
+const cookie = require("cookie");
+const session = require("express-session");
 //TODO: Check ROLE
-isAuthenticated = (req, res, next) => {
-    let token = req.headers["x-access-token"];
+isAuthenticated = async (req, res, next) => {
+    let cookieParser = cookie.parse(req.headers.cookie);
+    logger.info("req.headers.cookie: " + req.headers.cookie);
+    token = cookieParser.token;
     if (config.authJwt === 0) {
         next();
         return;
@@ -12,15 +18,24 @@ isAuthenticated = (req, res, next) => {
         return res.status(StatusCodes.FORBIDDEN).send({ message: "No token provided!" });
     }
 
-    jwt.verify(token, config.tokenSecret, (err, decoded) => {
-        if (err) {
-            return res.status(StatusCodes.UNAUTHORIZED).send({
-                message: "Unauthorized!"
-            });
-        }
-        req.userId = decoded.id;
-        next();
-    });
+    try {
+        logger.info("Token: " + token);
+        jwt.verify(token, config.tokenSecret, async (err, decoded) => {
+            if (err) {
+                logger.error("Error verifying token: " + err);
+                throw err;
+            }
+            req.session.userId = decoded.id;
+            req.session.role = await userdm.User.findById(req.session.userId);
+            logger.info("User authenticated", req.userId, req.session.role);
+            next();
+        });
+        // Lưu thông tin người dùng vào session
+    } catch (err) {
+        return res.status(StatusCodes.UNAUTHORIZED).send({
+            message: "Unauthorized!"
+        });
+    }
 };
 
 module.exports = { isAuthenticated };

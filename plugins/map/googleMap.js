@@ -2,7 +2,7 @@ const { Client } = require("@googlemaps/google-maps-services-js");
 const logutil = require("../../common/logutil/logutil").GetLogger("GOOGLE_MAP_PLUGIN");
 let client = null;
 
-function initializeGoogleMaps(apiKey) {
+async function initializeGoogleMaps(apiKey) {
     client = new Client({});
     client
         .elevation({
@@ -16,12 +16,21 @@ function initializeGoogleMaps(apiKey) {
             logutil.info(r.data.results[0].elevation);
         })
         .catch((e) => {
+            if (!e.response) {
+                logutil.error("Error getting elevation data: " + e.response);
+                return;
+            }
             logutil.error(e.response.data.error_message);
         });
 }
 
 function geocode(address) {
-    return client.geocode({ params: { address } });
+    try {
+        return client.geocode({ params: { address } });
+    } catch (error) {
+        logutil.error(error);
+        throw error;
+    }
 }
 
 module.exports = {

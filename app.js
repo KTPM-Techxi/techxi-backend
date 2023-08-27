@@ -14,6 +14,7 @@ const swaggerJsdoc = require("swagger-jsdoc"),
     swaggerUi = require("swagger-ui-express");
 const plugins = require("./plugins/map");
 var app = express();
+const session = require("express-session");
 app.use(cors());
 initializeDB()
     .then(() => {
@@ -27,6 +28,16 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+const oneDay = 1000 * 60 * 60 * 24;
+app.set("trust proxy", 1); // trust first proxy
+app.use(
+    session({
+        secret: cfg.tokenSecret,
+        resave: false,
+        saveUninitialized: true,
+        cookie: { maxAge: oneDay }
+    })
+);
 
 const options = {
     definition: {
@@ -56,9 +67,9 @@ app.use(
         explorer: true
     })
 );
-let currentPlugin = plugins;
-console.log(currentPlugin);
-plugins[plugins.Plugin.PLUGIN_NAME.PLUGIN_GG_MAP].initialize(plugins.Plugin.API_KEYS.googleMap);
+plugins.currentPlugin = plugins.googleMap;
+console.log(plugins.currentPlugin);
+plugins.currentPlugin.initialize(plugins.Plugin.API_KEYS.googleMap);
 // Thực hiện chuyển đổi plugin
 app.get("/switch-plugin", async (req, res) => {
     const pluginName = req.query.plugin;
@@ -92,8 +103,8 @@ async function initializeDB() {
 
 async function switchPlugin(pluginName) {
     if (plugins[pluginName]) {
-        currentPlugin = plugins[pluginName];
-        currentPlugin.initialize(plugins.Plugin.API_KEYS[pluginName]);
+        plugins.currentPlugin = plugins[pluginName];
+        await plugins.currentPlugin.initialize(plugins.Plugin.API_KEYS[pluginName]);
         return true;
     } else {
         logutil.error("Plugin not found:", pluginName);
