@@ -71,6 +71,25 @@ plugins.currentPlugin = plugins.googleMap;
 console.log(plugins.currentPlugin);
 plugins.currentPlugin.initialize(plugins.Plugin.API_KEYS.googleMap);
 // Thực hiện chuyển đổi plugin
+/**
+ * @swagger
+ * /switch-plugin:
+ *   get:
+ *     summary: Switch plugin
+ *     description: Thực hiện việc chuyển đổi plugin
+ *     parameters:
+ *       - name: plugin
+ *         in: query
+ *         description: Tên plugin muốn chuyển đổi
+ *         required: true
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Thành công, plugin đã được chuyển đổi
+ *       400:
+ *         description: Lỗi, plugin không tồn tại hoặc có lỗi xảy ra
+ */
 app.get("/switch-plugin", async (req, res) => {
     const pluginName = req.query.plugin;
     const isSwitch = await switchPlugin(pluginName);
@@ -79,7 +98,17 @@ app.get("/switch-plugin", async (req, res) => {
     }
     res.status(200).json("Switching plugin successfully: " + pluginName);
 });
-
+async function switchPlugin(pluginName) {
+    if (plugins[pluginName]) {
+        plugins.currentPlugin = plugins[pluginName];
+        console.log(plugins.currentPlugin);
+        await plugins.currentPlugin.initialize(plugins.Plugin.API_KEYS[pluginName]);
+        return true;
+    } else {
+        logutil.error("Plugin not found:", pluginName);
+        return false;
+    }
+}
 app.use("/", indexRouter);
 app.use("/users", authRouter);
 app.use("/api/v1/callcenter/bookings", callcenter.bookingRouter);
@@ -99,17 +128,6 @@ async function initializeDB() {
             logutil.error("Error connecting to MongoDB:", error);
             process.exit();
         });
-}
-
-async function switchPlugin(pluginName) {
-    if (plugins[pluginName]) {
-        plugins.currentPlugin = plugins[pluginName];
-        await plugins.currentPlugin.initialize(plugins.Plugin.API_KEYS[pluginName]);
-        return true;
-    } else {
-        logutil.error("Plugin not found:", pluginName);
-        return false;
-    }
 }
 
 module.exports = app;

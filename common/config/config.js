@@ -10,7 +10,8 @@ const ReadConfig = (readConfig) => ({
     rabbitmq_url: readConfig.rabbitmq_url,
     mapServices: {
         googleMapApiKey: readConfig.map_services.google_map_api_key,
-        streetMapApiKey: readConfig.map_services.street_map_api_key
+        streetMapApiKey: readConfig.map_services.street_map_api_key,
+        mapBoxApiKey: readConfig.map_services.mapbox_api_key
     }
 });
 // Đọc file YAML cấu hình
