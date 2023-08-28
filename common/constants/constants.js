@@ -4,5 +4,5 @@ const STATUS = Object.freeze({
 });
 
 module.exports = {
-    STATUS,
+    STATUS
 };

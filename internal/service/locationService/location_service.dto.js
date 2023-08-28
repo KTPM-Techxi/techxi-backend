@@ -4,6 +4,4 @@ const LocationDto = (req) => ({
     coordinate: req.coordinate
 });
 
-
-
 module.exports = { LocationDto };
