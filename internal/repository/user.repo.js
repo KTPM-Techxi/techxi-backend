@@ -161,6 +161,19 @@ async function FindDriverBankingByUserId(userId) {
         throw error;
     }
 }
+async function updateFCMbyId(userId, token) {
+    try {
+        const user = await userdm.User.findByIdAndUpdate(userId, { fcmToken: token });
+        if (!user) {
+            return { user: null, isFound: false };
+        }
+        return { user: user, isFound: true };
+    } catch (error) {
+        logger.error(error);
+        throw error;
+    }
+}
+
 module.exports = {
     FindUserCredential,
     FindUserByEmail,
@@ -173,5 +186,6 @@ module.exports = {
     DeleteUserById,
     DeleteUserByEmail,
     FindUsersWithFilter,
-    FindCustomerLocation
+    FindCustomerLocation,
+    updateFCMbyId
 };

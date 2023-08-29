@@ -8,7 +8,8 @@ const UserSchema = new Schema({
     address: String,
     dob: Date,
     avatar_url: String,
-    role: { type: String, enum: Object.values(constant.USER_TYPES) }
+    role: { type: String, enum: Object.values(constant.USER_TYPES) },
+    fcmToken: String
 });
 
 const User = mongoose.model("User", UserSchema);

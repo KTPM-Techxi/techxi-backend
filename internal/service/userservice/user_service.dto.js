@@ -12,7 +12,8 @@ const UserInfoDto = (req) => ({
     address: req.address,
     avartarUrl: req.avatar_url,
     dob: req.dob,
-    role: req.role
+    role: req.role,
+    fcmToken: req.fcmToken ? req.fcmToken : null
 });
 
 const CustomerBakingDto = (req) => {};
