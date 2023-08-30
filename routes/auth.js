@@ -107,14 +107,6 @@ router.post(
         body("name", "phoneNumber", "address", "dob", "confirmPassword").notEmpty().withMessage("Invalid input"),
         body("email").isEmail().withMessage("Invalid Email"),
         body("password").isLength({ min: 6 }).withMessage("Invalid Password"),
-        body("confirmPassword")
-            .custom((value, { req }) => {
-                if (value !== req.body.password) {
-                    throw new Error("Passwords do not match");
-                }
-                return true;
-            })
-            .withMessage("Passwords do not match"),
         body("role").isIn([userdm.ROLE.CUSTOMER, userdm.ROLE.DRIVER, userdm.ROLE.CALL_CENTER_AGENT]).withMessage("Invalid Role")
     ],
     auth.registerController
@@ -131,7 +123,7 @@ router.post(
  *       401:
  *         description: Unauthorized
  */
-router.get("/logout", auth.logOutController);
+router.post("/logout", auth.logOutController);
 
 router.post(
     "/fcm",
