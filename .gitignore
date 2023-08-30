@@ -58,7 +58,7 @@ typings/
 .env
 
 # Google Cloud service secret
-#techxi-firebase-admin.json
+techxi-firebase-admin.json
 
 # next.js build output
 .next
