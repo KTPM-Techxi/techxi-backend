@@ -1,7 +1,7 @@
 // TODO
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const constant = require("../../../../common/constants/constants");
+const constant = require("../../../../common/constants");
 
 const CustomerBankingSchema = new Schema({
     user_id: String,

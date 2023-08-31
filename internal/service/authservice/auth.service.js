@@ -4,8 +4,7 @@ const cfg = require("../../../common/config/config").loadConfig();
 const repo = require("../../repository/user.repo");
 const logger = require("../../../common/logutil/logutil").GetLogger("USER_SERVICE");
 const { StatusCodes } = require("http-status-codes");
-const { STATUS } = require("../../../common/constants/constants");
-const appConst = require("../../../common/constants/constants");
+const { STATUS } = require("../../../common/constants");
 const userdm = require("../../models/user/user.dm");
 const userCredentialdm = require("../../models/auth/user_credential.dm");
 

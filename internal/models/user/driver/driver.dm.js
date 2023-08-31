@@ -1,7 +1,7 @@
 // TODO
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const active_const = require("../../../../common/constants/constants");
+const active_const = require("../../../../common/constants");
 const constant = require("./const");
 
 const DriverBankingSchema = new Schema({
