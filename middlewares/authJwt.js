@@ -7,13 +7,13 @@ const cookie = require("cookie");
 const session = require("express-session");
 //TODO: Check ROLE
 isAuthenticated = async (req, res, next) => {
-    let cookieParser = cookie.parse(req.headers.cookie);
-    logger.info("req.headers.cookie: " + req.headers.cookie);
-    token = cookieParser.token;
     if (config.authJwt === 0) {
         next();
         return;
     }
+    let cookieParser = cookie.parse(req.headers.cookie);
+    logger.info("req.headers.cookie: " + req.headers.cookie);
+    token = cookieParser.token;
     if (!token) {
         return res.status(StatusCodes.FORBIDDEN).send({ message: "No token provided!" });
     }
