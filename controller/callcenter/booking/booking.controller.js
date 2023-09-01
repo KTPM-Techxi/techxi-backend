@@ -21,7 +21,7 @@ const ListBookings = async (req, res) => {
             filterReqDto.currentPage = 1;
         }
         if (filterReqDto.pageSize === undefined) {
-            filterReqDto.pageSize = 10;
+            filterReqDto.pageSize = 1000;
         }
         logger.info("Filter convert Dto:\n", util.LogObject(filterReqDto));
 
@@ -68,6 +68,21 @@ const CreateBooking = (req, res) => {
     }
 };
 
+const GetBookingDetails = (req, res) => {
+    try {
+        const bookingId = req.params.bookingId;
+        if (!bookingId) {
+            httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, "bookingId is required");
+            return;
+        }
+        const booking = service.GetBookingDetails(bookingId);
+        httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, booking);
+    } catch (error) {
+        logger.error(error);
+        httputil.WriteJsonResponseWithCode(res, error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR, -1, error.message);
+        return;
+    }
+};
 const FindDriver = (req, res) => {
     try {
     } catch (error) {}
@@ -114,4 +129,4 @@ const completeBooking = (req, res) => {
     } catch (error) {}
 };
 
-module.exports = { ListBookings, CreateBooking, acceptBooking, declineBooking, completeBooking };
+module.exports = { ListBookings, CreateBooking, GetBookingDetails, acceptBooking, declineBooking, completeBooking };

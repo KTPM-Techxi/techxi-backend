@@ -24,15 +24,15 @@ async function FindBookingsWithFilter(filter) {
         throw error;
     }
 }
-// const users = [];
-// for (let i = 0; i < bookings.length; i++) {
-//     users.push(await userdm.User.findById(bookings[i].user_id))
-// }
-
-// const drivers = [];
-// for (let i = 0; i < bookings.length; i++) {
-//     drivers.push(await driverdm.Driver.findById(bookings[i].driver_id))
-// }
+export async function FindBookingById(id) {
+    try {
+        const booking = await bookingdm.Booking.findById(id);
+        return booking;
+    } catch (error) {
+        logger.error("Error while to get bookings, err=", error);
+        throw error;
+    }
+}
 async function CreateBooking(req) {
     try {
         const booking = await bookingdm.Booking.create(req);
@@ -46,4 +46,4 @@ async function CreateBooking(req) {
         throw error;
     }
 }
-module.exports = { FindBookingsWithFilter, CreateBooking };
+module.exports = { FindBookingsWithFilter, CreateBooking, FindBookingById };

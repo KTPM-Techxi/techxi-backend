@@ -91,6 +91,7 @@ router.post("/create", middleware.isAuthenticated,
     ],
     controller.CreateBooking);
 router.post("/create", middleware.isAuthenticated, controller.CreateBooking);
+router.get("/details", middleware.isAuthenticated, controller.GetBookingDetails);
 router.post("/accept", controller.acceptBooking);
 router.post("/decline", controller.declineBooking);
 router.post("/complete", controller.completeBooking);

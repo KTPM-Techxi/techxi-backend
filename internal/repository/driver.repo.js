@@ -2,7 +2,7 @@ const driverdm = require('../models/user/driver/driver.dm')
 const userdm = require("../models/user/user.dm");
 const logger = require("../../common/logutil");
 
-async function GetDriverById(id) {
+async function GetDriverWithVerhicleById(id) {
     try {
         const info = await userdm.User.findById(id);
         const vehicle = await driverdm.DriverVehicles.findOne({ user_id: id });
@@ -17,5 +17,5 @@ async function GetDriverById(id) {
 }
 
 module.exports = {
-    GetDriverById
+    GetDriverWithVerhicleById
 }

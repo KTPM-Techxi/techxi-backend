@@ -1,6 +1,8 @@
 const bookingdm = require("../../models/booking/booking.dm");
 const dto = require("./booking_service.dto");
 const repo = require("../../repository/booking.repo");
+const driverRepo = require("../../repository/driver.repo");
+const userRepo = require("../../repository/user.repo");
 const logger = require("../../../common/logutil").GetLogger("BOOKING_SERVICE");
 const { StatusCodes } = require("http-status-codes");
 const appConst = require("../../../common/constants");
@@ -26,6 +28,26 @@ async function GetListBookings(filter) {
     }
 }
 
+async function GetBookingDetails(bookingId) {
+    try {
+        const booking = await repo.FindBookingById(bookingId);
+        if (!booking) {
+            throw {
+                code: StatusCodes.NOT_FOUND,
+                message: "Booking not found"
+            };
+        }
+        const driverInfo = await driverRepo.GetDriverWithVerhicleById(booking.driver_id);
+        const customer = await userRepo.FindUserById(booking.customer_id);
+        if (!customer) {
+            // TODO: Handle non-customer
+        }
+        const agent = await userRepo.FindUserById(booking.call_center_agents_id);
+        return dto.BookingDetailsDto(booking, driverInfo, customer.user, agent.user);
+    } catch (error) {
+        throw error;
+    }
+}
 async function CreateNewBooking(bookingReq) {
     try {
         const booking = await repo.CreateBooking(new bookingdm.Booking({
@@ -51,4 +73,4 @@ async function CreateNewBooking(bookingReq) {
         throw error;
     }
 }
-module.exports = { GetListBookings, CreateNewBooking };
+module.exports = { GetListBookings, CreateNewBooking, GetBookingDetails };

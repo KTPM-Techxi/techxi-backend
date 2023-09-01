@@ -13,7 +13,7 @@ isAuthenticated = async (req, res, next) => {
     }
     let cookieParser = cookie.parse(req.headers.cookie);
     logger.info("req.headers.cookie: " + req.headers.cookie);
-    token = cookieParser.token;
+    let token = cookieParser.token;
     if (!token) {
         return res.status(StatusCodes.FORBIDDEN).send({ message: "No token provided!" });
     }
@@ -27,10 +27,15 @@ isAuthenticated = async (req, res, next) => {
             }
             req.session.userId = decoded.id;
             req.session.role = await userdm.User.findById(req.session.userId);
+            if (!req.session.role) {
+                logger.error("User not found");
+                return res.status(StatusCodes.UNAUTHORIZED).send({
+                    message: "Unauthorized!"
+                });
+            }
             logger.info("User authenticated", req.userId, req.session.role);
             next();
         });
-        // Lưu thông tin người dùng vào session
     } catch (err) {
         return res.status(StatusCodes.UNAUTHORIZED).send({
             message: "Unauthorized!"
