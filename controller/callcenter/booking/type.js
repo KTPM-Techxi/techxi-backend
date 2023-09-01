@@ -6,34 +6,70 @@ const filterReq = (req) => ({
  * @swagger
  * components:
  *   schemas:
- *     BookingReponse:
+ *     BookingsRequest:
  *       type: object
  *       properties:
- *         id:
+ *         agent_id:
  *           type: string
- *           description: User ID.
- *         name:
+ *           description: ID of the call center agent.
+ *         customer_id:
  *           type: string
- *           description: User's name.
- *         email:
+ *           description: ID of the customer.
+ *         driver_id:
  *           type: string
- *           description: User's email address.
- *         phoneNumber:
+ *           description: ID of the driver.
+ *         pickup_location:
+ *           type: object
+ *           properties:
+ *             longtitude:
+ *               type: number
+ *             latitude:
+ *               type: number
+ *           description: Pickup location coordinates.
+ *         pickupLime:
  *           type: string
- *           description: User's phone number.
- *         address:
+ *           description: Pickup time in TODO format.
+ *         destination:
+ *           type: object
+ *           properties:
+ *             longtitude:
+ *               type: number
+ *             latitude:
+ *               type: number
+ *           description: Destination coordinates.
+ *         time_completion:
+ *           type: number
+ *           description: Time taken for completion in minutes.
+ *         scheduled_time:
  *           type: string
- *           description: User's address.
- *         avartarUrl:
- *           type: string
- *           description: URL of the user's avatar.
- *         dob:
- *           type: string
- *           description: Date of Birth in TODO format.
- *         role:
- *           type: string
- *           description: User's role.
+ *           description: Scheduled time in format TODO format'.
+ *         total_price:
+ *           type: number
+ *           description: Total price of the booking.
+ *         total_distance:
+ *           type: number
+ *           description: Total distance of the booking.
  */
+const BookingReq = (req) => ({
+    callCenterAgentId: req.agent_id,
+    driverId: req.driver_id,
+    customerId: req.customer_id,
+    pickupTime: req.pickup_time,
+    pickupLocation: {
+        latitude: req.pickup_location.latitude,
+        longtitude: req.pickup_location.longtitude,
+    },
+    destination: {
+        latitude: req.destination.latitude,
+        longtitude: req.destination.longtitude,
+    },
+    timeCompletion: req.time_completion,
+    scheduledTime: req.scheduled_time,
+    totalDistance: req.total_distance,
+    totalPrice: req.total_price
+});
+
 module.exports = {
-    filterReq
+    filterReq,
+    BookingReq
 };

@@ -1,5 +1,5 @@
 const axios = require("axios");
-const logutil = require("../../common/logutil/logutil").GetLogger("MAPBOX_PLUGIN");
+const logutil = require("../../common/logutil").GetLogger("MAPBOX_PLUGIN");
 const MAPBOX_API_BASE_URL = "https://api.mapbox.com/geocoding/v5/mapbox.places/";
 let ACCESS_TOKEN = undefined;
 

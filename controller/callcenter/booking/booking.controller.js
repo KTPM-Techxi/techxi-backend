@@ -1,11 +1,12 @@
 const service = require("../../../internal/service/bookingservice/booking.service");
-const httputil = require("../../../common/httputil/httputil");
+const httputil = require("../../../common/httputil");
 const { StatusCodes } = require("http-status-codes");
-const logger = require("../../../common/logutil/logutil").GetLogger("BOOKING_CONTROLLER");
-const util = require("../../../common/util/util");
+const logger = require("../../../common/logutil").GetLogger("BOOKING_CONTROLLER");
+const util = require("../../../common/util");
 const treeify = require("treeify");
 const dto = require("../../../internal/service/bookingservice/booking_service.dto");
 const type = require("./type");
+const { validationResult } = require("express-validator");
 const messager = require("../../../internal/service/fcm.service");
 const ListBookings = async (req, res) => {
     try {
@@ -36,14 +37,20 @@ const ListBookings = async (req, res) => {
 
 const CreateBooking = (req, res) => {
     try {
-        const bookingReq = req.body;
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            logger.error(errors.array());
+            httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, errors.array());
+            return;
+        }
+        const bookingReq = type.BookingReq(req.body);
+        const bookingReqDto = dto.BookingReqDto(bookingReq);
         //TODO: handle loction
         if (!bookingReq.pickup_location || !bookingReq.destination) {
             httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, 1, { status: "rejected" });
             return;
         }
 
-        const bookingReqDto = dto.BookingDto(bookingReq);
         const bookingResp = service.CreateNewBooking(bookingReqDto);
 
         httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, { bookingId: bookingResp.bookingId });
@@ -54,7 +61,11 @@ const CreateBooking = (req, res) => {
         //Send message to driver
         // messager.fcmSendData(driver.fcmToken, bookingReq);
         return;
-    } catch (error) {}
+    } catch (error) {
+        logger.error(error);
+        httputil.WriteJsonResponseWithCode(res, error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR, -1, error.message);
+        return;
+    }
 };
 
 const FindDriver = (req, res) => {
@@ -69,7 +80,7 @@ const acceptBooking = (req, res) => {
 
         //update booking with accept.booking_id, accept.driver_id
 
-        
+
         //send confirmation and driver data to user
         accept.message = "accept"
         messager.fcmSendData(accept.fcmToken, accept);

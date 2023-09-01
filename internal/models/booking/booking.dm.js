@@ -15,11 +15,11 @@ const bookingSchema = new moongoose.Schema(
             latitude: { type: Number, required: true },
             longitude: { type: Number, required: true }
         },
-        time_completion: { type: Number, required: true },
+        time_completion: {type: String, required: true},
         scheduled_time: { type: Date, required: false },
         total_price: { type: Number, required: true },
         total_distance: { type: Number, required: true },
-        status: { type: String, enum: Object.values(constants.BOOKING_STATUS), default: "pending" },
+        status: {type: String, enum: Object.values(constants.BOOKING_STATUS), default: "PENDING"},
         created_at: { type: String, required: false },
         updated_at: { type: String, required: false }
     },

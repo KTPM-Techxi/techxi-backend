@@ -3,6 +3,24 @@ const FilterReqDto = (req) => ({
     pageSize: req.pageSize
 });
 
+const BookingReqDto = (req) => ({
+    callCenterAgentsId: req.callCenterAgentId,
+    driverId: req.driverId,
+    pickupTime: req.pickupTime,
+    pickupLocation: {
+        latitude: req.pickupLocation.latitude,
+        longitude: req.pickupLocation.longitude
+    },
+    destination: {
+        latitude: req.destination.latitude,
+        longitude: req.destination.longitude
+    },
+    timeCompletion: req.timeCompletion,
+    scheduledTime: req.scheduledTime,
+    totalPrice: req.totalPrice,
+    totalDistance: req.totalDistance,
+});
+
 const BookingDto = (req) => ({
     bookingId: req._id,
     callCenterAgentsId: req.call_center_agents_id,
@@ -11,7 +29,7 @@ const BookingDto = (req) => ({
     pickupLocation: req.pickup_location,
     pickupLime: req.pickup_lime,
     destination: req.destination,
-    time_completion: req.time,
+    timeCompletion: req.time,
     scheduledTime: req.scheduled_time,
     totalPrice: req.total_price,
     totalDistance: req.total,
@@ -20,4 +38,4 @@ const BookingDto = (req) => ({
     updatedAt: req.updated_at
 });
 
-module.exports = { BookingDto, FilterReqDto };
+module.exports = { BookingDto, FilterReqDto, BookingReqDto };

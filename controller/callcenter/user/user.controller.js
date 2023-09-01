@@ -1,8 +1,8 @@
 const service = require("../../../internal/service/userservice/user.service");
-const httputil = require("../../../common/httputil/httputil");
+const httputil = require("../../../common/httputil");
 const { StatusCodes } = require("http-status-codes");
-const logger = require("../../../common/logutil/logutil").GetLogger("BOOKING_CONTROLLER");
-const util = require("../../../common/util/util");
+const logger = require("../../../common/logutil").GetLogger("BOOKING_CONTROLLER");
+const util = require("../../../common/util");
 const treeify = require("treeify");
 const dto = require("../../../internal/service/userservice/user_service.dto");
 const type = require("./type");

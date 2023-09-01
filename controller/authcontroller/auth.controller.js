@@ -1,9 +1,9 @@
 const service = require("../../internal/service/authservice/auth.service");
 const dto = require("../../internal/service/authservice/auth_service.dto");
-const logger = require("../../common/logutil/logutil").GetLogger("AUTH_CONTROLLER");
+const logger = require("../../common/logutil").GetLogger("AUTH_CONTROLLER");
 const { StatusCodes } = require("http-status-codes");
 const moment = require("moment");
-const { WriteJsonResponseWithCode, WriteJsonResponse } = require("../../common/httputil/httputil");
+const {WriteJsonResponseWithCode, WriteJsonResponse} = require("../../common/httputil");
 const { validationResult } = require("express-validator");
 const registerController = async (req, res) => {
     const errors = validationResult(req);

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const appConst = require("../../../common/constants/constants");
+const appConst = require("../../../common/constants");
 const { Schema } = mongoose;
 
 const UserCredentialsSchema = new Schema({

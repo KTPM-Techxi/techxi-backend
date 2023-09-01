@@ -7,63 +7,34 @@ const filterReq = (req) => ({
  * @swagger
  * components:
  *   schemas:
- *     BookingsResponse:
+ *     UserInfoResponse:
  *       type: object
  *       properties:
- *         bookingId:
+ *         id:
  *           type: string
- *           description: Booking ID.
- *         callCenterAgentsId:
+ *           description: User ID.
+ *         name:
  *           type: string
- *           description: ID of the call center agent.
- *         customerId:
+ *           description: User's name.
+ *         email:
  *           type: string
- *           description: ID of the customer.
- *         driverId:
+ *           description: User's email address.
+ *         phoneNumber:
  *           type: string
- *           description: ID of the driver.
- *         pickupLocation:
- *           type: object
- *           properties:
- *             longtitude:
- *               type: number
- *             latitude:
- *               type: number
- *           description: Pickup location coordinates.
- *         pickupLime:
+ *           description: User's phone number.
+ *         address:
  *           type: string
- *           description: Pickup time in TODO format.
- *         destination:
- *           type: object
- *           properties:
- *             longtitude:
- *               type: number
- *             latitude:
- *               type: number
- *           description: Destination coordinates.
- *         time_completion:
- *           type: number
- *           description: Time taken for completion in minutes.
- *         scheduledTime:
+ *           description: User's address.
+ *         avartarUrl:
  *           type: string
- *           description: Scheduled time in format TODO format'.
- *         totalPrice:
- *           type: number
- *           description: Total price of the booking.
- *         totalDistance:
- *           type: number
- *           description: Total distance of the booking.
- *         status:
- *           type: number
- *           description: Status of the booking.
- *         createdAt:
+ *           description: URL of the user's avatar.
+ *         dob:
  *           type: string
- *           description: Creation timestamp in TODO format'.
- *         updatedAt:
+ *           description: Date of Birth in TODO format.
+ *         role:
  *           type: string
- *           description: Update timestamp in TODO format'.
+ *           description: User's role.
  */
-
 const UserInfoResponse = (user) => ({
     id: user.id,
     name: user.name,

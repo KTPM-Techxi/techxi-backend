@@ -2,9 +2,9 @@ const service = require("../../../internal/service/locationService/location.serv
 
 const dto = require("../../../internal/service/locationService/location_service.dto");
 
-const logger = require("../../../common/logutil/logutil").GetLogger("AUTH_CONTROLLER");
+const logger = require("../../../common/logutil").GetLogger("AUTH_CONTROLLER");
 const { StatusCodes } = require("http-status-codes");
-const { WriteJsonResponseWithCode, WriteJsonResponse } = require("../../../common/httputil/httputil");
+const {WriteJsonResponseWithCode, WriteJsonResponse} = require("../../../common/httputil");
 const { validationResult } = require("express-validator");
 
 const createLocationController = async (req, res) => {

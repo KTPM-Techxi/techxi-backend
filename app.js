@@ -3,12 +3,12 @@ const path = require("path");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const cfg = require("./common/config/config").loadConfig();
+const cfg = require("./common/config").loadConfig();
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
 const callcenter = require("./routes/callcenter");
 
-const logutil = require("./common/logutil/logutil");
+const logutil = require("./common/logutil");
 const mongoose = require("mongoose");
 const swaggerJsdoc = require("swagger-jsdoc"),
     swaggerUi = require("swagger-ui-express");

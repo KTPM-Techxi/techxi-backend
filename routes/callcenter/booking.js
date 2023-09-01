@@ -53,6 +53,43 @@ const middleware = require("../../middlewares");
  *                    description: Total number of pages.
  */
 router.get("/filter", middleware.isAuthenticated, controller.ListBookings);
+
+/**
+ * @swagger
+ * /create:
+ *   post:
+ *     summary: Create a new booking
+ *     tags: [Bookings]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/BookingsRequest'
+ *     responses:
+ *       200:
+ *         description: Successfully created a booking
+ *         content:
+ *           application/json:
+ *             example:
+ *               statusCode: 0
+ *               message: Booking created successfully
+ *               data:
+ *                 bookingId: 12345
+ */
+router.post("/create", middleware.isAuthenticated,
+    [
+        body("agent_id").trim().notEmpty().withMessage("agent_id is required"),
+        body("driver_id").trim().notEmpty().withMessage("driver_id is required"),
+        body("pickup_location").notEmpty().withMessage("pickup_location is required"),
+        body("destination").trim().notEmpty().withMessage("destination is required"),
+        body("time_completion").trim().notEmpty().withMessage("time_completion is required"),
+        body("total_distance").trim().notEmpty().withMessage("total_distance is required"),
+
+    ],
+    controller.CreateBooking);
 router.post("/create", middleware.isAuthenticated, controller.CreateBooking);
 router.post("/accept", controller.acceptBooking);
 router.post("/decline", controller.declineBooking);
