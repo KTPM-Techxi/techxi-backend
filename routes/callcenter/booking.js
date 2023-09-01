@@ -54,4 +54,8 @@ const middleware = require("../../middlewares");
  */
 router.get("/filter", middleware.isAuthenticated, controller.ListBookings);
 router.post("/create", middleware.isAuthenticated, controller.CreateBooking);
+router.post("/accept", controller.acceptBooking);
+router.post("/decline", controller.declineBooking);
+router.post("/complete", controller.completeBooking);
+
 module.exports = router;

@@ -65,4 +65,20 @@ const GetUserDetails = async (req, res) => {
         return;
     }
 };
-module.exports = { ListUsersWithFilter, GetUserDetails };
+
+const updateUserFCM = async (req, res) => {
+    try {
+        const { user_id, fcmToken } = req.body;
+        const resp = await service.updateFCM(user_id, fcmToken);
+
+        
+        httputil.WriteJsonResponse(res);
+        return;
+    } catch (error) {
+        logger.error(error);
+        httputil.WriteJsonResponseWithCode(res, error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR, -1, error.message);
+        return;
+    }
+};
+
+module.exports = { ListUsersWithFilter, GetUserDetails, updateUserFCM };

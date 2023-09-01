@@ -98,4 +98,24 @@ async function GetUserInfo(id, role) {
     }
 }
 
-module.exports = { GetUsersInfo, GetUserInfo };
+async function updateFCM(id, token) {
+    try {
+        const { user, isFound } = await repo.updateFCMbyId(id, token);
+        if (!isFound) {
+            const error = new Error("Not Found User");
+            logger.error(error);
+            error.statusCode = StatusCodes.NOT_FOUND_ERROR;
+            throw error;
+        }
+        const userInfoDto = dto.UserInfoDto(user);
+
+        
+
+        return { userInfoDto: userInfoDto };
+    } catch (error) {
+        logger.error("Error while to get customers: ", error);
+        throw error;
+    }
+}
+
+module.exports = { GetUsersInfo, GetUserInfo, updateFCM };

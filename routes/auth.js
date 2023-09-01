@@ -2,6 +2,7 @@ var express = require("express");
 const auth = require("../controller/authcontroller/auth.controller");
 const { body } = require("express-validator");
 const userdm = require("../internal/models/user/user.dm");
+const user = require("../controller/callcenter/user/user.controller")
 var router = express.Router();
 /**
  * @swagger
@@ -123,5 +124,13 @@ router.post(
  *         description: Unauthorized
  */
 router.post("/logout", auth.logOutController);
+
+router.post(
+    "/fcm",
+    [
+        body("user_id","fcmToken").notEmpty().withMessage("Invalid input"),
+    ],
+    user.updateUserFCM
+);
 
 module.exports = router;
