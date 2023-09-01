@@ -50,23 +50,25 @@ async function GetBookingDetails(bookingId) {
 }
 async function CreateNewBooking(bookingReq) {
     try {
-        const booking = await repo.CreateBooking(new bookingdm.Booking({
-            call_center_agents_id: bookingReq.callCenterAgentsId,
-            driver_id: bookingReq.driverId,
-            customer_id: bookingReq.customerId,
-            pickup_location: {
-                latitude: bookingReq.pickupLocation.latitude,
-                longitude: bookingReq.pickupLocation.longitude,
-            },
-            pickup_time: bookingReq.pickupTime,
-            destination: {
-                latitude: bookingReq.destination.latitude,
-                longitude: bookingReq.destination.longitude,
-            },
-            time_completion: bookingReq.timeCompletion,
-            total_price: bookingReq.totalPrice,
-            total_distance: bookingReq.totalDistance,
-        }));
+        const booking = await repo.CreateBooking(
+            new bookingdm.Booking({
+                call_center_agents_id: bookingReq.callCenterAgentsId,
+                driver_id: bookingReq.driverId,
+                customer_id: bookingReq.customerId,
+                pickup_location: {
+                    latitude: bookingReq.pickupLocation.latitude,
+                    longitude: bookingReq.pickupLocation.longitude
+                },
+                pickup_time: bookingReq.pickupTime,
+                destination: {
+                    latitude: bookingReq.destination.latitude,
+                    longitude: bookingReq.destination.longitude
+                },
+                time_completion: bookingReq.timeCompletion,
+                total_price: bookingReq.totalPrice,
+                total_distance: bookingReq.totalDistance
+            })
+        );
 
         return booking;
     } catch (error) {

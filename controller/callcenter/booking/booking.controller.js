@@ -88,16 +88,14 @@ const FindDriver = (req, res) => {
     } catch (error) {}
 };
 
-
 const acceptBooking = (req, res) => {
     try {
         const accept = req.body;
 
         //update booking with accept.booking_id, accept.driver_id
 
-
         //send confirmation and driver data to user
-        accept.message = "accept"
+        accept.message = "accept";
         messager.fcmSendData(accept.fcmToken, accept);
 
         httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, { status: "success" });
@@ -110,7 +108,7 @@ const declineBooking = (req, res) => {
         const decline = req.body;
 
         //send decline to user or find new driver
-        messager.fcmSendData(decline.fcmToken, {message: "decline"});
+        messager.fcmSendData(decline.fcmToken, { message: "decline" });
 
         httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, { status: "success" });
         return;
@@ -122,7 +120,7 @@ const completeBooking = (req, res) => {
         const complete = req.body;
 
         //send decline to user or find new driver
-        messager.fcmSendData(complete.fcmToken, {message: "complete"});
+        messager.fcmSendData(complete.fcmToken, { message: "complete" });
 
         httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, { status: "success" });
         return;

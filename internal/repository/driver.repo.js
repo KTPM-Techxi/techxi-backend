@@ -1,4 +1,4 @@
-const driverdm = require('../models/user/driver/driver.dm')
+const driverdm = require("../models/user/driver/driver.dm");
 const userdm = require("../models/user/user.dm");
 const logger = require("../../common/logutil");
 
@@ -9,7 +9,7 @@ async function GetDriverWithVerhicleById(id) {
         return {
             info: info,
             vehicle: vehicle
-        }
+        };
     } catch (error) {
         logger.error(error);
         throw error;
@@ -18,4 +18,4 @@ async function GetDriverWithVerhicleById(id) {
 
 module.exports = {
     GetDriverWithVerhicleById
-}
+};

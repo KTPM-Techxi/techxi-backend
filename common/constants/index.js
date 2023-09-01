@@ -3,7 +3,8 @@ const STATUS = Object.freeze({
     INACTIVE: 0
 });
 
-const PRICE_DEFAULT = 15000
+const PRICE_DEFAULT = 15000;
 module.exports = {
-    STATUS, PRICE_DEFAULT
+    STATUS,
+    PRICE_DEFAULT
 };

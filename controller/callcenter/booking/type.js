@@ -57,11 +57,11 @@ const BookingReq = (req) => ({
     pickupTime: req.pickup_time,
     pickupLocation: {
         latitude: req.pickup_location.latitude,
-        longtitude: req.pickup_location.longtitude,
+        longtitude: req.pickup_location.longtitude
     },
     destination: {
         latitude: req.destination.latitude,
-        longtitude: req.destination.longtitude,
+        longtitude: req.destination.longtitude
     },
     timeCompletion: req.time_completion,
     scheduledTime: req.scheduled_time,

@@ -18,7 +18,7 @@ const BookingReqDto = (req) => ({
     timeCompletion: req.timeCompletion,
     scheduledTime: req.scheduledTime,
     totalPrice: req.totalPrice,
-    totalDistance: req.totalDistance,
+    totalDistance: req.totalDistance
 });
 
 const BookingDto = (req) => ({
@@ -52,5 +52,5 @@ const BookingDetailsDto = (booking, driver, customer, agent) => ({
     status: booking.status,
     createdAt: booking.created_at,
     updatedAt: booking.updated_at
-})
+});
 module.exports = { BookingDto, FilterReqDto, BookingReqDto, BookingDetailsDto };
