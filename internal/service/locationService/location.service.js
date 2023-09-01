@@ -1,6 +1,6 @@
 const repo = require("../../repository/location.repo");
 
-const logger = require("../../../common/logutil/logutil").GetLogger("LOCATION_SERVICE");
+const logger = require("../../../common/logutil").GetLogger("LOCATION_SERVICE");
 const { StatusCodes } = require("http-status-codes");
 const locationdm = require("../../models/location/location.dm");
 const plugins = require("../../../plugins/map");

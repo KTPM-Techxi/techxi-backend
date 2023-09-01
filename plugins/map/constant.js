@@ -1,4 +1,4 @@
-const cfg = require("../../common/config/config").loadConfig();
+const cfg = require("../../common/config").loadConfig();
 
 const PLUGIN_NAME = {
     PLUGIN_GG_MAP: "googleMap",

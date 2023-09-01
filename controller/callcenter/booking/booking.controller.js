@@ -1,8 +1,8 @@
 const service = require("../../../internal/service/bookingservice/booking.service");
-const httputil = require("../../../common/httputil/httputil");
+const httputil = require("../../../common/httputil");
 const { StatusCodes } = require("http-status-codes");
-const logger = require("../../../common/logutil/logutil").GetLogger("BOOKING_CONTROLLER");
-const util = require("../../../common/util/util");
+const logger = require("../../../common/logutil").GetLogger("BOOKING_CONTROLLER");
+const util = require("../../../common/util");
 const treeify = require("treeify");
 const dto = require("../../../internal/service/bookingservice/booking_service.dto");
 const type = require("./type");
@@ -40,7 +40,7 @@ const CreateBooking = (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             logger.error(errors.array());
-            WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, errors.array());
+            httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, errors.array());
             return;
         }
         const bookingReq = type.BookingReq(req.body);

@@ -1,7 +1,7 @@
 const bookingdm = require("../models/booking/booking.dm");
 const userdm = require("../models/user/user.dm");
 const driverdm = require("../models/user/driver/driver.dm");
-const logger = require("../../common/logutil/logutil").GetLogger("BOOKING_REPO");
+const logger = require("../../common/logutil").GetLogger("BOOKING_REPO");
 async function FindBookingsWithFilter(filter) {
     try {
         let query = bookingdm.Booking.find();

@@ -56,45 +56,28 @@ router.get("/filter", middleware.isAuthenticated, controller.ListBookings);
 
 /**
  * @swagger
- * /api/v1/callcenter/bookings/filter:
- *   get:
- *     summary: Get a list of bookings by filter
- *     tags: [CallCenter/Booking]
- *     parameters:
- *       - in: query
- *         name: current_page
- *         schema:
- *           type: integer
- *           default: 1
- *       - in: query
- *         name: page_size
- *         schema:
- *           type: integer
- *           default: 10
+ * /create:
+ *   post:
+ *     summary: Create a new booking
+ *     tags: [Bookings]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/BookingsRequest'
  *     responses:
  *       200:
- *         description: Successful response with a list of bookings
+ *         description: Successfully created a booking
  *         content:
  *           application/json:
- *              schema:
- *                type: object
- *                properties:
- *                  bookings:
- *                    type: array
- *                    items:
- *                      $ref: '#/components/schemas/BookingRequest'
- *                  currentPage:
- *                    type: integer
- *                    description: Current page number.
- *                  pageSize:
- *                    type: integer
- *                    description: Number of items per page.
- *                  totalItems:
- *                    type: integer
- *                    description: Total number of items.
- *                  total:
- *                    type: integer
- *                    description: Total number of pages.
+ *             example:
+ *               statusCode: 0
+ *               message: Booking created successfully
+ *               data:
+ *                 bookingId: 12345
  */
 router.post("/create", middleware.isAuthenticated,
     [

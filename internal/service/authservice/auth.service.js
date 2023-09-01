@@ -1,8 +1,8 @@
 const bcryptUtil = require("../../../common/util/bcrypt.util");
 const jwt = require("jsonwebtoken");
-const cfg = require("../../../common/config/config").loadConfig();
+const cfg = require("../../../common/config").loadConfig();
 const repo = require("../../repository/user.repo");
-const logger = require("../../../common/logutil/logutil").GetLogger("USER_SERVICE");
+const logger = require("../../../common/logutil").GetLogger("USER_SERVICE");
 const { StatusCodes } = require("http-status-codes");
 const { STATUS } = require("../../../common/constants");
 const userdm = require("../../models/user/user.dm");

@@ -1,6 +1,6 @@
 const dto = require("./user_service.dto");
 const repo = require("../../repository/user.repo");
-const logger = require("../../../common/logutil/logutil").GetLogger("USER_SERVICE");
+const logger = require("../../../common/logutil").GetLogger("USER_SERVICE");
 const userdm = require("../../models/user/user.dm");
 const { StatusCodes } = require("http-status-codes");
 async function GetUsersInfo(filter) {

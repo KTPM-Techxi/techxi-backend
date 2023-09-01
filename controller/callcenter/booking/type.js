@@ -54,9 +54,15 @@ const BookingReq = (req) => ({
     callCenterAgentId: req.agent_id,
     driverId: req.driver_id,
     customerId: req.customer_id,
-    pickupLime: req.pickup_time,
-    pickupLocation: req.pickup_location,
-    destination: req.destination,
+    pickupTime: req.pickup_time,
+    pickupLocation: {
+        latitude: req.pickup_location.latitude,
+        longtitude: req.pickup_location.longtitude,
+    },
+    destination: {
+        latitude: req.destination.latitude,
+        longtitude: req.destination.longtitude,
+    },
     timeCompletion: req.time_completion,
     scheduledTime: req.scheduled_time,
     totalDistance: req.total_distance,

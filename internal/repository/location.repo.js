@@ -1,6 +1,6 @@
 const locationdm = require("../models/location/location.dm");
 
-const logger = require("../../common/logutil/logutil").GetLogger("LOCATION_REPO");
+const logger = require("../../common/logutil").GetLogger("LOCATION_REPO");
 
 async function CreateNewLocation(location) {
     try {

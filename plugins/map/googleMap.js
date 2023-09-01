@@ -1,5 +1,5 @@
 const { Client } = require("@googlemaps/google-maps-services-js");
-const logutil = require("../../common/logutil/logutil").GetLogger("GOOGLE_MAP_PLUGIN");
+const logutil = require("../../common/logutil").GetLogger("GOOGLE_MAP_PLUGIN");
 let client = null;
 
 async function initializeGoogleMaps(apiKey) {

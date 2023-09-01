@@ -1,4 +1,4 @@
-const logger = require("../logutil/logutil").GetLogger("CONVERT_VARIABLE");
+const logger = require("../logutil").GetLogger("CONVERT_VARIABLE");
 
 function ConvertToType(value, targetType) {
     switch (targetType) {

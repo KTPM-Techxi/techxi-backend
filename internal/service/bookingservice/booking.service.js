@@ -1,7 +1,7 @@
 const bookingdm = require("../../models/booking/booking.dm");
 const dto = require("./booking_service.dto");
 const repo = require("../../repository/booking.repo");
-const logger = require("../../../common/logutil/logutil").GetLogger("BOOKING_SERVICE");
+const logger = require("../../../common/logutil").GetLogger("BOOKING_SERVICE");
 const { StatusCodes } = require("http-status-codes");
 const appConst = require("../../../common/constants");
 
@@ -28,10 +28,6 @@ async function GetListBookings(filter) {
 
 async function CreateNewBooking(bookingReq) {
     try {
-        if (!bookingReq.totalPrice) { 
-            bookingReq.totalPrice = bookingReq.totalDistance * appConst.PRICE_DEFAULT;
-        }
-        
         const booking = await repo.CreateBooking(new bookingdm.Booking({
             call_center_agents_id: bookingReq.callCenterAgentsId,
             driver_id: bookingReq.driverId,
