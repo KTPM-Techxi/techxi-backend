@@ -2,10 +2,9 @@ const moongoose = require("mongoose");
 const constants = require("./const");
 const bookingSchema = new moongoose.Schema(
     {
-        bookings_id: { type: Number, required: true, unique: true },
-        call_center_agents_id: { type: Number, required: false },
-        customer_id: { type: Number, required: true },
-        driver_id: { type: Number, required: true },
+        call_center_agents_id: { type: String, required: false },
+        customer_id: { type: String, required: true },
+        driver_id: { type: String, required: true },
         pickup_location: {
             latitude: { type: Number, required: true },
             longitude: { type: Number, required: true }
