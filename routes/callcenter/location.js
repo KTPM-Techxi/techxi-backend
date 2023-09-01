@@ -3,12 +3,6 @@ const location = require("../../controller/callcenter/location/location.controll
 const { body } = require("express-validator");
 var router = express.Router();
 
-router.post(
-    "/create",
-    [
-        body("phoneNumber", "address", "coordinate").notEmpty().withMessage("Invalid input"),        
-       ],
-    location.createLocationController
-);
+router.post("/create", [body("phoneNumber", "address", "coordinate").notEmpty().withMessage("Invalid input")], location.createLocationController);
 
 module.exports = router;
