@@ -12,8 +12,10 @@ const DriverBankingSchema = new Schema({
 
 const DriverLocationsSchema = new Schema({
     user_id: String,
-    longtitude: Number,
-    latitude: Number,
+    location: {
+        type: { type: String, enum: ["Point"], default: "Point" },
+        coordinates: { type: [Number], default: [0, 0] }
+    },
     active: { type: String, enum: Object.values(active_const.STATUS), default: 0 }
 });
 
