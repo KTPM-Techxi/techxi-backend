@@ -79,8 +79,8 @@ const GetBookingDetails = async (req, res) => {
             return;
         }
         const bookingDtoResp = await service.GetBookingDetails(bookingId);
-        logger.info("Booking",bookingDtoResp);
-        const bookingResp = type.BookingResponse(bookingDtoResp)
+        logger.info("Booking", bookingDtoResp);
+        const bookingResp = type.BookingResponse(bookingDtoResp);
         httputil.WriteJsonResponse(res, bookingResp);
     } catch (error) {
         logger.error(error);
@@ -90,8 +90,8 @@ const GetBookingDetails = async (req, res) => {
 };
 const FindDriver = (req, res) => {
     try {
-        const longitude = req.params.longtitude;
-        const latitude = req.params.latitude;
+        const longitude = req.query.longtitude;
+        const latitude = req.query.latitude;
         if (!longitude || !latitude) {
             httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, "location not specified");
             return;

@@ -122,19 +122,19 @@ const BookingReq = (req) => ({
 const BookingResponse = (dto) => ({
     id: dto.bookingId,
     agent: dto.callCenterAgent,
-    customer: dto.customer,       
-    driver: dto.driver,         
-    pickup_location: dto.pickupLocation, 
+    customer: dto.customer,
+    driver: dto.driver,
+    pickup_location: dto.pickupLocation,
     pickup_time: dto.pickupTime,
-    destination: dto.destination,    
+    destination: dto.destination,
     time: dto.timeCompletion,
-    scheduled_time: dto.scheduledTime,  
+    scheduled_time: dto.scheduledTime,
     total_price: dto.totalPrice,
     total: dto.totalDistance,
-    status: dto.status,   
-    created_at: dto.createdAt,      
-    updated_at: dto.updatedAt,     
-})
+    status: dto.status,
+    created_at: dto.createdAt,
+    updated_at: dto.updatedAt
+});
 module.exports = {
     filterReq,
     BookingReq,

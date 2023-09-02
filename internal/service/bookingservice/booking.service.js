@@ -43,7 +43,7 @@ async function GetBookingDetails(bookingId) {
             // TODO: Handle non-customer
         }
         const agent = await userRepo.FindUserById(booking.call_center_agents_id);
-        const bookingResp = dto.BookingDetailsDto(booking, driverInfo, customer.user, agent.user)
+        const bookingResp = dto.BookingDetailsDto(booking, driverInfo, customer.user, agent.user);
         logger.info("Booking", bookingResp);
         return bookingResp;
     } catch (error) {
