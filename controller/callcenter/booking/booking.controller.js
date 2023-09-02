@@ -1,4 +1,5 @@
 const service = require("../../../internal/service/bookingservice/booking.service");
+const driverService = require("../../../internal/service/driverservice/driver.service");
 const httputil = require("../../../common/httputil");
 const { StatusCodes } = require("http-status-codes");
 const logger = require("../../../common/logutil").GetLogger("BOOKING_CONTROLLER");
@@ -8,6 +9,7 @@ const dto = require("../../../internal/service/bookingservice/booking_service.dt
 const type = require("./type");
 const { validationResult } = require("express-validator");
 const messager = require("../../../internal/service/fcm.service");
+const appConst = require("../../../common/constants");
 const ListBookings = async (req, res) => {
     try {
         const filterReq = type.filterReq(req.query);
@@ -85,7 +87,19 @@ const GetBookingDetails = (req, res) => {
 };
 const FindDriver = (req, res) => {
     try {
-    } catch (error) {}
+        const longitude = req.params.longtitude;
+        const latitude = req.params.latitude;
+        if (!longitude || !latitude) {
+            httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, "location not specified");
+            return;
+        }
+        const driverIds = driverService.GetNearestDriversFromLocation(longitude, latitude, appConst.MAX_DISTANCE);
+        httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, driverIds);
+    } catch (error) {
+        logger.error(error);
+        httputil.WriteJsonResponseWithCode(res, error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR, -1, error.message);
+        return;
+    }
 };
 
 const acceptBooking = (req, res) => {
@@ -127,4 +141,4 @@ const completeBooking = (req, res) => {
     } catch (error) {}
 };
 
-module.exports = { ListBookings, CreateBooking, GetBookingDetails, acceptBooking, declineBooking, completeBooking };
+module.exports = { ListBookings, CreateBooking, GetBookingDetails, acceptBooking, declineBooking, completeBooking, FindDriver };

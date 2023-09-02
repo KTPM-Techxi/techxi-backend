@@ -14,7 +14,7 @@ const DriverLocationsSchema = new Schema({
     user_id: String,
     location: {
         type: { type: String, enum: ["Point"], default: "Point" },
-        coordinates: { type: [Number], default: [0, 0] }
+        coordinates: { type: [Number] }
     },
     active: { type: String, enum: Object.values(active_const.STATUS), default: 0 }
 });
