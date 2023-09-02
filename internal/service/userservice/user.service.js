@@ -109,8 +109,6 @@ async function updateFCM(id, token) {
         }
         const userInfoDto = dto.UserInfoDto(user);
 
-        
-
         return { userInfoDto: userInfoDto };
     } catch (error) {
         logger.error("Error while to get customers: ", error);

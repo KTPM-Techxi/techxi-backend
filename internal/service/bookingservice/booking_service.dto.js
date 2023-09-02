@@ -18,7 +18,7 @@ const BookingReqDto = (req) => ({
     timeCompletion: req.timeCompletion,
     scheduledTime: req.scheduledTime,
     totalPrice: req.totalPrice,
-    totalDistance: req.totalDistance,
+    totalDistance: req.totalDistance
 });
 
 const BookingDto = (req) => ({
@@ -27,7 +27,7 @@ const BookingDto = (req) => ({
     customerId: req.customer_id,
     driverId: req.driver_id,
     pickupLocation: req.pickup_location,
-    pickupLime: req.pickup_lime,
+    pickupTime: req.pickup_time,
     destination: req.destination,
     timeCompletion: req.time,
     scheduledTime: req.scheduled_time,
@@ -37,5 +37,20 @@ const BookingDto = (req) => ({
     createdAt: req.created_at,
     updatedAt: req.updated_at
 });
-
-module.exports = { BookingDto, FilterReqDto, BookingReqDto };
+const BookingDetailsDto = (booking, driver, customer, agent) => ({
+    bookingId: booking._id,
+    callCenterAgent: agent,
+    customer: customer,
+    driver: driver,
+    pickupLocation: booking.pickup_location,
+    pickupTime: booking.pickup_time,
+    destination: booking.destination,
+    timeCompletion: booking.time,
+    scheduledTime: booking.scheduled_time,
+    totalPrice: booking.total_price,
+    totalDistance: booking.total,
+    status: booking.status,
+    createdAt: booking.created_at,
+    updatedAt: booking.updated_at
+});
+module.exports = { BookingDto, FilterReqDto, BookingReqDto, BookingDetailsDto };

@@ -71,7 +71,6 @@ const updateUserFCM = async (req, res) => {
         const { user_id, fcmToken } = req.body;
         const resp = await service.updateFCM(user_id, fcmToken);
 
-        
         httputil.WriteJsonResponse(res);
         return;
     } catch (error) {

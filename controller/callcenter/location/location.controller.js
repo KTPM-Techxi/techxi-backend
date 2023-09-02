@@ -4,7 +4,7 @@ const dto = require("../../../internal/service/locationService/location_service.
 
 const logger = require("../../../common/logutil").GetLogger("AUTH_CONTROLLER");
 const { StatusCodes } = require("http-status-codes");
-const {WriteJsonResponseWithCode, WriteJsonResponse} = require("../../../common/httputil");
+const { WriteJsonResponseWithCode, WriteJsonResponse } = require("../../../common/httputil");
 const { validationResult } = require("express-validator");
 
 const createLocationController = async (req, res) => {

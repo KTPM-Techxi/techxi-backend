@@ -1,4 +1,5 @@
 const service = require("../../../internal/service/bookingservice/booking.service");
+const driverService = require("../../../internal/service/driverservice/driver.service");
 const httputil = require("../../../common/httputil");
 const { StatusCodes } = require("http-status-codes");
 const logger = require("../../../common/logutil").GetLogger("BOOKING_CONTROLLER");
@@ -8,6 +9,7 @@ const dto = require("../../../internal/service/bookingservice/booking_service.dt
 const type = require("./type");
 const { validationResult } = require("express-validator");
 const messager = require("../../../internal/service/fcm.service");
+const appConst = require("../../../common/constants");
 const ListBookings = async (req, res) => {
     try {
         const filterReq = type.filterReq(req.query);
@@ -21,7 +23,7 @@ const ListBookings = async (req, res) => {
             filterReqDto.currentPage = 1;
         }
         if (filterReqDto.pageSize === undefined) {
-            filterReqDto.pageSize = 10;
+            filterReqDto.pageSize = 1000;
         }
         logger.info("Filter convert Dto:\n", util.LogObject(filterReqDto));
 
@@ -68,11 +70,40 @@ const CreateBooking = (req, res) => {
     }
 };
 
+const GetBookingDetails = async (req, res) => {
+    try {
+        const bookingId = req.query.bookingId;
+        logger.info(bookingId);
+        if (!bookingId) {
+            httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, "bookingId is required");
+            return;
+        }
+        const bookingDtoResp = await service.GetBookingDetails(bookingId);
+        logger.info("Booking", bookingDtoResp);
+        const bookingResp = type.BookingResponse(bookingDtoResp);
+        httputil.WriteJsonResponse(res, bookingResp);
+    } catch (error) {
+        logger.error(error);
+        httputil.WriteJsonResponseWithCode(res, error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR, -1, error.message);
+        return;
+    }
+};
 const FindDriver = (req, res) => {
     try {
-    } catch (error) {}
+        const longitude = req.query.longtitude;
+        const latitude = req.query.latitude;
+        if (!longitude || !latitude) {
+            httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, "location not specified");
+            return;
+        }
+        const driverIds = driverService.GetNearestDriversFromLocation(longitude, latitude, appConst.MAX_DISTANCE);
+        httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, driverIds);
+    } catch (error) {
+        logger.error(error);
+        httputil.WriteJsonResponseWithCode(res, error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR, -1, error.message);
+        return;
+    }
 };
-
 
 const acceptBooking = (req, res) => {
     try {
@@ -80,9 +111,8 @@ const acceptBooking = (req, res) => {
 
         //update booking with accept.booking_id, accept.driver_id
 
-
         //send confirmation and driver data to user
-        accept.message = "accept"
+        accept.message = "accept";
         messager.fcmSendData(accept.fcmToken, accept);
 
         httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, { status: "success" });
@@ -95,7 +125,7 @@ const declineBooking = (req, res) => {
         const decline = req.body;
 
         //send decline to user or find new driver
-        messager.fcmSendData(decline.fcmToken, {message: "decline"});
+        messager.fcmSendData(decline.fcmToken, { message: "decline" });
 
         httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, { status: "success" });
         return;
@@ -107,11 +137,11 @@ const completeBooking = (req, res) => {
         const complete = req.body;
 
         //send decline to user or find new driver
-        messager.fcmSendData(complete.fcmToken, {message: "complete"});
+        messager.fcmSendData(complete.fcmToken, { message: "complete" });
 
         httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, { status: "success" });
         return;
     } catch (error) {}
 };
 
-module.exports = { ListBookings, CreateBooking, acceptBooking, declineBooking, completeBooking };
+module.exports = { ListBookings, CreateBooking, GetBookingDetails, acceptBooking, declineBooking, completeBooking, FindDriver };
