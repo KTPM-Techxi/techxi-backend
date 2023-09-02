@@ -70,15 +70,18 @@ const CreateBooking = (req, res) => {
     }
 };
 
-const GetBookingDetails = (req, res) => {
+const GetBookingDetails = async (req, res) => {
     try {
-        const bookingId = req.params.bookingId;
+        const bookingId = req.query.bookingId;
+        logger.info(bookingId);
         if (!bookingId) {
             httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, "bookingId is required");
             return;
         }
-        const booking = service.GetBookingDetails(bookingId);
-        httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, booking);
+        const bookingDtoResp = await service.GetBookingDetails(bookingId);
+        logger.info("Booking",bookingDtoResp);
+        const bookingResp = type.BookingResponse(bookingDtoResp)
+        httputil.WriteJsonResponse(res, bookingResp);
     } catch (error) {
         logger.error(error);
         httputil.WriteJsonResponseWithCode(res, error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR, -1, error.message);

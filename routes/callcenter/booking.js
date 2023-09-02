@@ -56,10 +56,10 @@ router.get("/filter", middleware.isAuthenticated, controller.ListBookings);
 
 /**
  * @swagger
- * /create:
+ * /api/v1/callcenter/bookings/create:
  *   post:
  *     summary: Create a new booking
- *     tags: [Bookings]
+ *     tags: [CallCenter/Booking]
  *     security:
  *       - bearerAuth: []
  *     requestBody:
@@ -81,6 +81,28 @@ router.get("/filter", middleware.isAuthenticated, controller.ListBookings);
  */
 router.post("/create", middleware.isAuthenticated, [body("agent_id").trim().notEmpty().withMessage("agent_id is required"), body("driver_id").trim().notEmpty().withMessage("driver_id is required"), body("pickup_location").notEmpty().withMessage("pickup_location is required"), body("destination").trim().notEmpty().withMessage("destination is required"), body("time_completion").trim().notEmpty().withMessage("time_completion is required"), body("total_distance").trim().notEmpty().withMessage("total_distance is required")], controller.CreateBooking);
 router.post("/create", middleware.isAuthenticated, controller.CreateBooking);
+/**
+ * @swagger
+ * /api/v1/callcenter/bookings/details:
+ *   get:
+ *     summary: Get booking details by ID
+ *     tags: [CallCenter/Booking]
+ *     description: Retrieve booking details for a specific booking by its ID.
+ *     parameters:
+ *       - in: query
+ *         name: bookingId
+ *         required: true
+ *         description: The ID of the booking to retrieve.
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Successful response with booking details.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/BookingResponse'
+ */
 router.get("/details", middleware.isAuthenticated, controller.GetBookingDetails);
 router.get("/find_drivers", middleware.isAuthenticated, controller.FindDriver);
 router.post("/accept", controller.acceptBooking);
