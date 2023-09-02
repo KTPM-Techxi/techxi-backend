@@ -24,7 +24,7 @@ async function FindBookingsWithFilter(filter) {
         throw error;
     }
 }
-export async function FindBookingById(id) {
+async function FindBookingById(id) {
     try {
         const booking = await bookingdm.Booking.findById(id);
         return booking;
