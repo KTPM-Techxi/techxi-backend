@@ -79,7 +79,7 @@ router.get("/filter", middleware.isAuthenticated, controller.ListBookings);
  *               data:
  *                 bookingId: 12345
  */
-router.post("/create", middleware.isAuthenticated, [body("agent_id").trim().notEmpty().withMessage("agent_id is required"), body("driver_id").trim().notEmpty().withMessage("driver_id is required"), body("pickup_location").notEmpty().withMessage("pickup_location is required"), body("destination").trim().notEmpty().withMessage("destination is required"), body("time_completion").trim().notEmpty().withMessage("time_completion is required"), body("total_distance").trim().notEmpty().withMessage("total_distance is required")], controller.CreateBooking);
+//router.post("/create", middleware.isAuthenticated, [body("agent_id").trim().notEmpty().withMessage("agent_id is required"), body("driver_id").trim().notEmpty().withMessage("driver_id is required"), body("pickup_location").notEmpty().withMessage("pickup_location is required"), body("destination").trim().notEmpty().withMessage("destination is required"), body("time_completion").trim().notEmpty().withMessage("time_completion is required"), body("total_distance").trim().notEmpty().withMessage("total_distance is required")], controller.CreateBooking);
 router.post("/create", middleware.isAuthenticated, controller.CreateBooking);
 /**
  * @swagger

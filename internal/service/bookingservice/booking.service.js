@@ -52,6 +52,25 @@ async function GetBookingDetails(bookingId) {
 }
 async function CreateNewBooking(bookingReq) {
     try {
+        if (bookingReq.callCenterAgentsId) {
+            const callCenterAgent = await userRepo.FindUserById(bookingReq.callCenterAgentsId);
+            if (!callCenterAgent.isFound) {
+                throw {
+                    code: StatusCodes.NOT_FOUND,
+                    message: "Agent not found"
+                };
+            }
+        }
+        const driver = await userRepo.FindUserById(bookingReq.driverId);
+        if (!driver.isFound) {
+            throw {
+                code: StatusCodes.NOT_FOUND,
+                message: "Agent not found"
+            };
+        }
+        
+        const customer = await userRepo.FindUserById(bookingReq.customerId);
+
         const booking = await repo.CreateBooking(
             new bookingdm.Booking({
                 call_center_agents_id: bookingReq.callCenterAgentsId,
