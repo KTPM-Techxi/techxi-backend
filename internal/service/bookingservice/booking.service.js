@@ -68,8 +68,15 @@ async function CreateNewBooking(bookingReq) {
                 message: "Agent not found"
             };
         }
-        
-        const customer = await userRepo.FindUserById(bookingReq.customerId);
+        if (bookingReq.customerId) {
+            const customer = await userRepo.FindUserById(bookingReq.customerId);
+            if (!customer.isFound) {
+                throw {
+                    code: StatusCodes.NOT_FOUND,
+                    message: "Agent not found"
+                };
+            }
+        }
 
         const booking = await repo.CreateBooking(
             new bookingdm.Booking({
