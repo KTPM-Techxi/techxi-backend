@@ -16,7 +16,7 @@ async function GetDriverWithVerhicleById(id) {
     }
 }
 
-async function FindNearestDriversFromLocation(latitude, longitude, distance, unit = "km") {
+async function FindNearestDriversFromLocation(latitude, longitude, vehicleType, distance, unit = "km") {
     const unitValue = unit == "km" ? 1000 : 1609.3;
     try {
         const query = {
@@ -25,7 +25,9 @@ async function FindNearestDriversFromLocation(latitude, longitude, distance, uni
                     $geometry: { type: "Point", coordinates: [latitude, longitude] },
                     $maxDistance: distance * unitValue
                 }
-            }
+            },
+            vehicle_type: vehicleType
+
         };
         const drivers = await driverdm.DriverLocations.find(query).limit(5);
         return drivers;

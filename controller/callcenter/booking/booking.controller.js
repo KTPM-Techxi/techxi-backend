@@ -92,11 +92,12 @@ const FindDriver = (req, res) => {
     try {
         const longitude = req.query.longtitude;
         const latitude = req.query.latitude;
+        const vehicleType = req.query.vehicle_type;
         if (!longitude || !latitude) {
             httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, "location not specified");
             return;
         }
-        const driverIds = driverService.GetNearestDriversFromLocation(longitude, latitude, appConst.MAX_DISTANCE);
+        const driverIds = driverService.GetNearestDriversFromLocation(longitude, latitude, vehicleType, appConst.MAX_DISTANCE);
         httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, driverIds);
     } catch (error) {
         logger.error(error);

@@ -16,11 +16,6 @@ const DriverLocationsSchema = new Schema({
         type: { type: String, enum: ["Point"], default: "Point" },
         coordinates: { type: [Number] }
     },
-    active: { type: String, enum: Object.values(active_const.STATUS), default: 0 }
-});
-
-const DriverVehiclesSchema = new Schema({
-    user_id: String,
     vehicle_number: String,
     vehicle_name: String,
     vehicle_type: { type: String, enum: Object.values(constant.VEHICLE_TYPE), default: 0 },
@@ -29,11 +24,9 @@ const DriverVehiclesSchema = new Schema({
 
 const DriverBanking = mongoose.model("DriverBanking", DriverBankingSchema);
 const DriverLocations = mongoose.model("DriverLocations", DriverLocationsSchema);
-const DriverVehicles = mongoose.model("DriverVehicles", DriverVehiclesSchema);
 module.exports = {
     DriverBanking,
     DriverLocations,
-    DriverVehicles,
     STATUS: active_const.STATUS,
     VEHICLE_TYPE: constant.VEHICLE_TYPE
 };
