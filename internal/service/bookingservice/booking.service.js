@@ -55,26 +55,26 @@ async function CreateNewBooking(bookingReq) {
         if (bookingReq.callCenterAgentsId) {
             const callCenterAgent = await userRepo.FindUserById(bookingReq.callCenterAgentsId);
             if (!callCenterAgent.isFound) {
-                throw {
-                    code: StatusCodes.NOT_FOUND,
-                    message: "Agent not found"
-                };
+                const error = new Error("Agent not found: " + bookingReq.callCenterAgentsId);
+                logger.error(error);
+                error.statusCode = StatusCodes.NOT_FOUND;
+                throw error;
             }
         }
         const driver = await userRepo.FindUserById(bookingReq.driverId);
         if (!driver.isFound) {
-            throw {
-                code: StatusCodes.NOT_FOUND,
-                message: "Agent not found"
-            };
+            const error = new Error("Driver not found: " + bookingReq.driverId);
+            logger.error(error);
+            error.statusCode = StatusCodes.NOT_FOUND;
+            throw error;
         }
         if (bookingReq.customerId) {
             const customer = await userRepo.FindUserById(bookingReq.customerId);
             if (!customer.isFound) {
-                throw {
-                    code: StatusCodes.NOT_FOUND,
-                    message: "Agent not found"
-                };
+                const error = new Error("Driver not found: " + bookingReq.customerId);
+                logger.error(error);
+                error.statusCode = StatusCodes.NOT_FOUND;
+                throw error;
             }
         }
 
@@ -98,7 +98,8 @@ async function CreateNewBooking(bookingReq) {
             })
         );
 
-        return booking;
+        const bookingDto = dto.BookingDto(booking);
+        return bookingDto;
     } catch (error) {
         throw error;
     }

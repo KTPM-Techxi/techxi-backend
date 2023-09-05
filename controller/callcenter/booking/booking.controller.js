@@ -8,8 +8,10 @@ const treeify = require("treeify");
 const dto = require("../../../internal/service/bookingservice/booking_service.dto");
 const type = require("./type");
 const { validationResult } = require("express-validator");
+const { USER_TYPES } = require("../../../internal/models/user/const");
 const messager = require("../../../internal/service/fcm.service");
 const appConst = require("../../../common/constants");
+const userService = require("../../../internal/service/userservice/user.service");
 const ListBookings = async (req, res) => {
     try {
         const filterReq = type.filterReq(req.query);
@@ -37,22 +39,23 @@ const ListBookings = async (req, res) => {
     }
 };
 
-const CreateBooking = (req, res) => {
+const CreateBooking = async (req, res) => {
     try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            logger.error(errors.array());
-            httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, errors.array());
-            return;
-        }
         const bookingReq = type.BookingReq(req.body);
-        const bookingReqDto = dto.BookingReqDto(bookingReq);
+        const agentId = req.session.userId;
+        if (!agentId || req.session.role !== USER_TYPES.CALL_CENTER_AGENT) {
+            httputil.WriteJsonResponseWithCode(res, StatusCodes.UNAUTHORIZED, -1, "must be authorized");
+        }
         //TODO: handle loction
-        if (!bookingReq.pickup_location || !bookingReq.destination) {
+        if (!bookingReq.pickupLocation || !bookingReq.destination) {
             httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, 1, { status: "rejected" });
             return;
         }
+        const driver = await driverService.GetNearestDriversFromLocation(longitude, latitude, vehicleType, appConst.MAX_DISTANCE);
+        const customer = await userService.GetUserInfoByPhoneNumber(bookingReq.customerPhoneNumber);
+        const bookingReqDto = dto.BookingReqDto(bookingReq, agentId, driver.userId, customer.id);
 
+        // TODO: Send notification to driver
         const bookingResp = service.CreateNewBooking(bookingReqDto);
 
         httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, { bookingId: bookingResp.bookingId });

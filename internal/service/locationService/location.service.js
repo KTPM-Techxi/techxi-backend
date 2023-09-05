@@ -42,8 +42,8 @@ async function UpsertDriverLocation(driverId, location) {
         }
         if (!Object.values(driverDm.STATUS).includes(location.active)) {
             const error = new Error("Invalid active status");
-                error.statusCode = StatusCodes.BAD_REQUEST;
-                throw error;
+            error.statusCode = StatusCodes.BAD_REQUEST;
+            throw error;
         }
 
         const driverLocation = await repo.UpsertDriverLocation(driverId, location);
@@ -52,9 +52,9 @@ async function UpsertDriverLocation(driverId, location) {
             error.statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
             throw error;
         }
-        return driverLocation
+        return driverLocation;
     } catch (error) {
-        throw error
+        throw error;
     }
 }
 module.exports = { CreateLocation, UpsertDriverLocation };

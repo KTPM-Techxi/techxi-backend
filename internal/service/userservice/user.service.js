@@ -116,4 +116,20 @@ async function updateFCM(id, token) {
     }
 }
 
-module.exports = { GetUsersInfo, GetUserInfo, updateFCM };
+async function GetUserInfoByPhoneNumber(phoneNumber) {
+    try {
+        const { user, isFound } = await repo.FindUserByPhone(phoneNumber);
+        if (!isFound) {
+            const error = new Error("Not Found User");
+            logger.error(error);
+            error.statusCode = StatusCodes.NOT_FOUND_ERROR;
+            throw error;
+        }
+        const userInfoDto = dto.UserInfoDto(user);
+        return userInfoDto;
+    } catch (error) {
+        logger.error("Error while to get customers by phone: ", error);
+        throw error;
+    }
+}
+module.exports = { GetUsersInfo, GetUserInfo, updateFCM, GetUserInfoByPhoneNumber };

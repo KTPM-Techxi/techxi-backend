@@ -9,6 +9,6 @@ rabbitmq_url: amqps://qgkfypdz:bpDTputLB1EzSTiB0N5Of_OvINBuX8Yq@armadillo.rmq.cl
   # driver: 0
   # admin: 0
 map_services:
-  google_map_api_key: AIzaSyCOCXMJVWCATqhrs41VKk7hWX9MQQowkVg
+  google_map_api_key: AIzaSyCU0GIYvX-BeUT7N6n19bD191filu1EQ30
   street_map_api_key: street_map
   mapbox_api_key: sk.eyJ1IjoibmRhbjIwIiwiYSI6ImNsbHV5NHRjZzFpanQzanB2OTNoNm9yZW8ifQ.N23CjaLqNAl0StkRP1A1rw

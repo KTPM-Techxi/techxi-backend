@@ -3,9 +3,10 @@ const FilterReqDto = (req) => ({
     pageSize: req.pageSize
 });
 
-const BookingReqDto = (req) => ({
-    callCenterAgentsId: req.callCenterAgentId,
-    driverId: req.driverId,
+const BookingReqDto = (req, agentId, driverId, customerId) => ({
+    callCenterAgentsId: agentId,
+    driverId: driverId,
+    customerId: customerId,
     pickupTime: req.pickupTime,
     pickupLocation: {
         latitude: req.pickupLocation.latitude,

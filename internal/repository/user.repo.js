@@ -174,6 +174,19 @@ async function updateFCMbyId(userId, token) {
     }
 }
 
+async function FindUserByPhone(phoneNumber) {
+    try {
+        const user = await userdm.User.findOne({ phone_number: phoneNumber });
+        if (!user) {
+            return { user: null, isFound: false };
+        }
+        return { user: user, isFound: true };
+    } catch (error) {
+        logger.error(error);
+        throw error;
+    }
+}
+
 module.exports = {
     FindUserCredential,
     FindUserByEmail,
@@ -181,6 +194,7 @@ module.exports = {
     FindCustomerBankingByUserId,
     FindDriverVehiclesByUserId,
     FindDriverBankingByUserId,
+    FindUserByPhone,
     CreateNewUser,
     CreateNewUserCredential,
     DeleteUserById,

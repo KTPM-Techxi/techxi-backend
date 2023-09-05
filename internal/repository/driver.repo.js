@@ -5,10 +5,14 @@ const appConst = require("../../common/constants");
 async function GetDriverWithVerhicleById(id) {
     try {
         const info = await userdm.User.findById(id);
-        const vehicle = await driverdm.DriverVehicles.findOne({ user_id: id });
+        const vehicle = await driverdm.DriverLocations.findOne({ user_id: id });
         return {
             info: info,
-            vehicle: vehicle
+            vehicle: {
+                vehicle_number,
+                vehicle_name,
+                vehicle_type
+            }
         };
     } catch (error) {
         logger.error(error);
@@ -27,7 +31,6 @@ async function FindNearestDriversFromLocation(latitude, longitude, vehicleType, 
                 }
             },
             vehicle_type: vehicleType
-
         };
         const drivers = await driverdm.DriverLocations.find(query).limit(5);
         return drivers;
