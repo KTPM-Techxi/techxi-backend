@@ -42,8 +42,7 @@ const ListBookings = async (req, res) => {
 const CreateBooking = async (req, res) => {
     try {
         const bookingReq = type.BookingReq(req.body);
-        const agentId = "64d0d39086ad5d4d6d1f5917";
-        req.session.role = "admin"
+        const agentId = req.session.userId;
         if (!agentId || req.session.role !== USER_TYPES.CALL_CENTER_AGENT) {
             httputil.WriteJsonResponseWithCode(res, StatusCodes.UNAUTHORIZED, -1, "must be authorized");
         }
