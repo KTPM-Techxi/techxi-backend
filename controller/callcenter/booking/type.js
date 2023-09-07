@@ -6,24 +6,28 @@ const filterReq = (req) => ({
  * @swagger
  * components:
  *   schemas:
- *     BookingsRequest:
+ *     BookingRequest:
  *       type: object
  *       properties:
- *         vehicleType:
+ *         driver_vehicle_type:
  *           type: string
- *         customerName:
+ *         customer_name:
  *           type: string
- *         customerPhoneNumber:
+ *         customer_phone_number:
  *           type: string
- *         pickupTime:
+ *         pickup_time:
  *           type: string
- *         pickupLocation:
+ *         pickup_address:
+ *           type: string
+ *         pickup_location:
  *           type: object
  *           properties:
  *             latitude:
  *               type: number
  *             longitude:
  *               type: number
+ *         destination_address:
+ *           type: string
  *         destination:
  *           type: object
  *           properties:
@@ -31,13 +35,13 @@ const filterReq = (req) => ({
  *               type: number
  *             longitude:
  *               type: number
- *         timeCompletion:
+ *         time_completion:
  *           type: string
- *         scheduledTime:
+ *         scheduled_time:
  *           type: string
- *         totalDistance:
+ *         total_distance:
  *           type: number
- *         totalPrice:
+ *         total_price:
  *           type: number
  */
 const BookingReq = (req) => ({
@@ -45,10 +49,12 @@ const BookingReq = (req) => ({
     customerName: req.customer_name,
     customerPhoneNumber: req.customer_phone_number,
     pickupTime: req.pickup_time,
+    pickupAddress: req.pickup_address,
     pickupLocation: {
         latitude: req.pickup_location.latitude,
         longitude: req.pickup_location.longtitude
     },
+    destinationAddress: req.destination_address,
     destination: {
         latitude: req.destination.latitude,
         longitude: req.destination.longtitude

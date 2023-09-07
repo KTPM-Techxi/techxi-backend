@@ -83,11 +83,13 @@ async function CreateNewBooking(bookingReq) {
                 call_center_agents_id: bookingReq.callCenterAgentsId,
                 driver_id: bookingReq.driverId,
                 customer_id: bookingReq.customerId,
+                pickup_address: bookingReq.pickupAddress,
                 pickup_location: {
                     latitude: bookingReq.pickupLocation.latitude,
                     longitude: bookingReq.pickupLocation.longitude
                 },
                 pickup_time: bookingReq.pickupTime,
+                destination_address: bookingReq.destinationAddress,
                 destination: {
                     latitude: bookingReq.destination.latitude,
                     longitude: bookingReq.destination.longitude
