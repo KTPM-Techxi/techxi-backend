@@ -1,10 +1,10 @@
 const repo = require("../../repository/driver.repo");
 const dto = require("./driver_service.dto");
 const logger = require("../../../common/logutil").GetLogger("driver.service.js");
-async function GetNearestDriversFromLocation(longitude, latitude, vehicleType, distance) {
+const { StatusCodes } = require("http-status-codes");
+async function GetNearestDriversFromLocation(location, vehicleType, distance) {
     try {
-        const driver = await repo.FindNearestDriversFromLocation(latitude, longitude, vehicleType, distance);
-        logger.info(driver);
+        const driver = await repo.FindNearestDriversFromLocation(location.latitude, location.longitude, vehicleType, distance);
         if (!driver) {
             const error = new Error("Driver not found");
             logger.error(error);

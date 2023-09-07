@@ -99,8 +99,9 @@ async function CreateNewBooking(bookingReq) {
                 total_distance: bookingReq.totalDistance
             })
         );
-
+        logger.info(JSON.stringify(booking, 0, 2));
         const bookingDto = dto.BookingDto(booking);
+        logger.info(JSON.stringify(bookingDto, 0, 2));
         return bookingDto;
     } catch (error) {
         throw error;

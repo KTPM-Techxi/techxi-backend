@@ -40,6 +40,7 @@ async function CreateBooking(req) {
             logger.error("Error while to create bookings, err=", error);
             throw new Error("Error creating bookings failed");
         }
+        logger.info(JSON.stringify(booking, 0, 2));
         return booking;
     } catch (error) {
         logger.error("Error while to create bookings, err=", error);

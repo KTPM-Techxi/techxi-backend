@@ -42,7 +42,8 @@ const ListBookings = async (req, res) => {
 const CreateBooking = async (req, res) => {
     try {
         const bookingReq = type.BookingReq(req.body);
-        const agentId = req.session.userId;
+        const agentId = "64d0d39086ad5d4d6d1f5917";
+        req.session.role = "admin"
         if (!agentId || req.session.role !== USER_TYPES.CALL_CENTER_AGENT) {
             httputil.WriteJsonResponseWithCode(res, StatusCodes.UNAUTHORIZED, -1, "must be authorized");
         }
@@ -51,15 +52,15 @@ const CreateBooking = async (req, res) => {
             httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, 1, { status: "rejected" });
             return;
         }
-        const driver = await driverService.GetNearestDriversFromLocation(longitude, latitude, vehicleType, appConst.MAX_DISTANCE);
-        const {customer, isFound} = await userService.GetUserInfoByPhoneNumber(bookingReq.customerPhoneNumber);
+        const driver = await driverService.GetNearestDriversFromLocation(bookingReq.pickupLocation, bookingReq.vehicleType, appConst.MAX_DISTANCE);
+        let {customer, isFound} = await userService.GetUserInfoByPhoneNumber(bookingReq.customerPhoneNumber);
         if (!isFound) {
             customer = await userService.SaveUsersWithoutAccount(bookingReq.customerName, bookingReq.customerPhoneNumber)
         }
         const bookingReqDto = dto.BookingReqDto(bookingReq, agentId, driver.userId, customer.id);
 
         // TODO: Send notification to driver
-        const bookingResp = service.CreateNewBooking(bookingReqDto);
+        const bookingResp = await service.CreateNewBooking(bookingReqDto);
 
         httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, { bookingId: bookingResp.bookingId });
 

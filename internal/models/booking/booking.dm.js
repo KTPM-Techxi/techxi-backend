@@ -1,7 +1,6 @@
 const moongoose = require("mongoose");
 const constants = require("./const");
-const bookingSchema = new moongoose.Schema(
-    {
+const bookingSchema = new moongoose.Schema({
         call_center_agents_id: { type: String },
         customer_id: { type: String },
         driver_id: { type: String },
@@ -23,9 +22,7 @@ const bookingSchema = new moongoose.Schema(
         status: { type: String, enum: Object.values(constants.BOOKING_STATUS), default: "PENDING" },
         created_at: { type: String },
         updated_at: { type: String }
-    },
-    { timestamps: true }
-);
+});
 
 const Booking = moongoose.model("Booking", bookingSchema);
 

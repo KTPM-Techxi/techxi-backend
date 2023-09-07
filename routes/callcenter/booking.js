@@ -60,24 +60,22 @@ router.get("/filter", middleware.isAuthenticated, controller.ListBookings);
  *   post:
  *     summary: Create a new booking
  *     tags: [CallCenter/Booking]
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/BookingsRequest'
+ *             $ref: '#/components/schemas/BookingRequest'
  *     responses:
  *       200:
  *         description: Successfully created a booking
  *         content:
  *           application/json:
- *             example:
- *               statusCode: 0
- *               message: Booking created successfully
- *               data:
- *                 bookingId: 12345
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 bookingId:
+ *                   type: string
  */
 router.post("/create", middleware.isAuthenticated, controller.CreateBooking);
 /**

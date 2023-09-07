@@ -119,6 +119,9 @@ async function updateFCM(id, token) {
 async function GetUserInfoByPhoneNumber(phoneNumber) {
     try {
         const { user, isFound } = await repo.FindUserByPhone(phoneNumber);
+        if (!isFound) {
+            return { user, isFound } ;
+        }
         const userInfoDto = dto.UserInfoDto(user);
         return { user: userInfoDto, isFound } ;
     } catch (error) {
