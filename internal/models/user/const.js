@@ -4,4 +4,9 @@ const USER_TYPES = Object.freeze({
     CALL_CENTER_AGENT: "admin"
 });
 
-module.exports = { USER_TYPES };
+const ALREADY_ACCOUNT = Object.freeze({
+    YES: 1,
+    NO: 0,
+});
+
+module.exports = { USER_TYPES,ALREADY_ACCOUNT };

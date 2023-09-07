@@ -30,9 +30,9 @@ const LogObject = (obj, indent = "") => {
             const valueType = typeof value;
             result += `${indent}${key}: ${value} (${valueType})\n`;
             if (valueType === "object") {
-                result += logObject(value, indent + "  ");
+                result += LogObject(value, indent + "  ");
             }
-        }
+        }   
     }
     return result;
 };

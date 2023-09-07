@@ -2,7 +2,7 @@ const credentialdm = require("../models/auth/user_credential.dm");
 const userdm = require("../models/user/user.dm");
 const driverdm = require("../models/user/driver/driver.dm");
 const customerdm = require("../models/user/customer/customer.dm");
-const logger = require("../../common/logutil").GetLogger("USER_REPO");
+const logger = require("../../common/logutil").GetLogger("user.repo.js");
 async function FindUserCredential(userId) {
     try {
         logger.info("FindUserCredential: ", userId);
@@ -174,6 +174,19 @@ async function updateFCMbyId(userId, token) {
     }
 }
 
+async function FindUserByPhone(phoneNumber) {
+    try {
+        const user = await userdm.User.findOne({ phone_number: phoneNumber });
+        if (!user) {
+            return { user: null, isFound: false };
+        }
+        return { user: user, isFound: true };
+    } catch (error) {
+        logger.error(error);
+        throw error;
+    }
+}
+
 module.exports = {
     FindUserCredential,
     FindUserByEmail,
@@ -181,6 +194,7 @@ module.exports = {
     FindCustomerBankingByUserId,
     FindDriverVehiclesByUserId,
     FindDriverBankingByUserId,
+    FindUserByPhone,
     CreateNewUser,
     CreateNewUserCredential,
     DeleteUserById,

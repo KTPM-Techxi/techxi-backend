@@ -60,26 +60,23 @@ router.get("/filter", middleware.isAuthenticated, controller.ListBookings);
  *   post:
  *     summary: Create a new booking
  *     tags: [CallCenter/Booking]
- *     security:
- *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/BookingsRequest'
+ *             $ref: '#/components/schemas/BookingRequest'
  *     responses:
  *       200:
  *         description: Successfully created a booking
  *         content:
  *           application/json:
- *             example:
- *               statusCode: 0
- *               message: Booking created successfully
- *               data:
- *                 bookingId: 12345
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 bookingId:
+ *                   type: string
  */
-//router.post("/create", middleware.isAuthenticated, [body("agent_id").trim().notEmpty().withMessage("agent_id is required"), body("driver_id").trim().notEmpty().withMessage("driver_id is required"), body("pickup_location").notEmpty().withMessage("pickup_location is required"), body("destination").trim().notEmpty().withMessage("destination is required"), body("time_completion").trim().notEmpty().withMessage("time_completion is required"), body("total_distance").trim().notEmpty().withMessage("total_distance is required")], controller.CreateBooking);
 router.post("/create", middleware.isAuthenticated, controller.CreateBooking);
 /**
  * @swagger
@@ -104,6 +101,41 @@ router.post("/create", middleware.isAuthenticated, controller.CreateBooking);
  *               $ref: '#/components/schemas/BookingResponse'
  */
 router.get("/details", middleware.isAuthenticated, controller.GetBookingDetails);
+
+/**
+ * @swagger
+ * /api/v1/callcenter/bookings/find_drivers:
+ *   get:
+ *     summary: Tìm kiếm tài xế gần nhất từ vị trí hiện tại.
+ *     tags: [CallCenter/Booking]
+ *     description: Tìm kiếm và trả về danh sách các tài xế gần nhất dựa trên vị trí và loại phương tiện.
+ *     parameters:
+ *       - in: query
+ *         name: longitude
+ *         required: true
+ *         description: Kinh độ của vị trí hiện tại.
+ *         type: number
+ *       - in: query
+ *         name: latitude
+ *         required: true
+ *         description: Vĩ độ của vị trí hiện tại.
+ *         type: number
+ *       - in: query
+ *         name: vehicle_type
+ *         required: false
+ *         description: Loại phương tiện CAR | MOTOBIKE.
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Danh sách các tài xế gần nhất.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: string
+ *                 description: ID của tài xế.
+ */
 router.get("/find_drivers", middleware.isAuthenticated, controller.FindDriver);
 router.post("/accept", controller.acceptBooking);
 router.post("/decline", controller.declineBooking);

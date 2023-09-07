@@ -7,18 +7,19 @@ const cfg = require("./common/config").loadConfig();
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
 const callcenter = require("./routes/callcenter");
-
-const logutil = require("./common/logutil");
+const logutil = require("./common/logutil").GetLogger("app.js");
 const mongoose = require("mongoose");
 const swaggerJsdoc = require("swagger-jsdoc"),
     swaggerUi = require("swagger-ui-express");
 const plugins = require("./plugins/map");
+const {seedMockDriverLocations} = require("./mock/driver.mock");
 var app = express();
 const session = require("express-session");
 app.use(cors());
 initializeDB()
     .then(() => {
         logutil.info("DB initialized");
+        seedMockDriverLocations(false);
     })
     .catch((err) => {
         logutil.error(err);

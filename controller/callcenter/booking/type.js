@@ -6,62 +6,58 @@ const filterReq = (req) => ({
  * @swagger
  * components:
  *   schemas:
- *     BookingsRequest:
+ *     BookingRequest:
  *       type: object
  *       properties:
- *         agent_id:
+ *         driver_vehicle_type:
  *           type: string
- *           description: ID of the call center agent.
- *         customer_id:
+ *         customer_name:
  *           type: string
- *           description: ID of the customer.
- *         driver_id:
+ *         customer_phone_number:
  *           type: string
- *           description: ID of the driver.
+ *         pickup_time:
+ *           type: string
+ *         pickup_address:
+ *           type: string
  *         pickup_location:
  *           type: object
  *           properties:
- *             longtitude:
- *               type: number
  *             latitude:
  *               type: number
- *           description: Pickup location coordinates.
- *         pickupLime:
+ *             longitude:
+ *               type: number
+ *         destination_address:
  *           type: string
- *           description: Pickup time in TODO format.
  *         destination:
  *           type: object
  *           properties:
- *             longtitude:
- *               type: number
  *             latitude:
  *               type: number
- *           description: Destination coordinates.
+ *             longitude:
+ *               type: number
  *         time_completion:
- *           type: number
- *           description: Time taken for completion in minutes.
+ *           type: string
  *         scheduled_time:
  *           type: string
- *           description: Scheduled time in format TODO format'.
- *         total_price:
- *           type: number
- *           description: Total price of the booking.
  *         total_distance:
  *           type: number
- *           description: Total distance of the booking.
+ *         total_price:
+ *           type: number
  */
 const BookingReq = (req) => ({
-    callCenterAgentId: req.agent_id,
-    driverId: req.driver_id,
-    customerId: req.customer_id,
+    vehicleType: req.driver_vehicle_type,
+    customerName: req.customer_name,
+    customerPhoneNumber: req.customer_phone_number,
     pickupTime: req.pickup_time,
+    pickupAddress: req.pickup_address,
     pickupLocation: {
         latitude: req.pickup_location.latitude,
-        longtitude: req.pickup_location.longtitude
+        longitude: req.pickup_location.longtitude
     },
+    destinationAddress: req.destination_address,
     destination: {
         latitude: req.destination.latitude,
-        longtitude: req.destination.longtitude
+        longitude: req.destination.longtitude
     },
     timeCompletion: req.time_completion,
     scheduledTime: req.scheduled_time,
@@ -77,46 +73,32 @@ const BookingReq = (req) => ({
  *       properties:
  *         id:
  *           type: string
- *           description: The unique ID of the booking.
  *         agent:
  *           type: object
- *           description: The name of the call center agent associated with the booking.
  *         customer:
  *           type: object
- *           description: The name of the customer who made the booking.
  *         driver:
  *           type: object
- *           description: The name of the driver assigned to the booking.
  *         pickup_location:
  *           type: string
- *           description: The pickup location for the booking.
  *         pickup_time:
  *           type: string
- *           description: The pickup time for the booking.
  *         destination:
  *           type: string
- *           description: The destination of the booking.
  *         time:
  *           type: string
- *           description: The time of completion for the booking.
  *         scheduled_time:
  *           type: string
- *           description: The scheduled time for the booking.
  *         total_price:
  *           type: number
- *           description: The total price of the booking.
  *         total:
  *           type: number
- *           description: The total distance of the booking.
  *         status:
  *           type: string
- *           description: The status of the booking.
  *         created_at:
  *           type: string
- *           description: The date and time when the booking was created.
  *         updated_at:
  *           type: string
- *           description: The date and time when the booking was last updated.
  */
 
 const BookingResponse = (dto) => ({

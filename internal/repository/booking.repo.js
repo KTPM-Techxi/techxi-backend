@@ -1,7 +1,7 @@
 const bookingdm = require("../models/booking/booking.dm");
 const userdm = require("../models/user/user.dm");
 const driverdm = require("../models/user/driver/driver.dm");
-const logger = require("../../common/logutil").GetLogger("BOOKING_REPO");
+const logger = require("../../common/logutil").GetLogger("booking.repo.js");
 async function FindBookingsWithFilter(filter) {
     try {
         let query = bookingdm.Booking.find();
@@ -40,6 +40,7 @@ async function CreateBooking(req) {
             logger.error("Error while to create bookings, err=", error);
             throw new Error("Error creating bookings failed");
         }
+        logger.info(JSON.stringify(booking, 0, 2));
         return booking;
     } catch (error) {
         logger.error("Error while to create bookings, err=", error);

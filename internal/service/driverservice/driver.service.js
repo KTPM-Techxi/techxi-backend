@@ -1,14 +1,23 @@
 const repo = require("../../repository/driver.repo");
 const dto = require("./driver_service.dto");
-async function GetNearestDriversFromLocation(longitude, latitude, vehicleType, distance) {
+const logger = require("../../../common/logutil").GetLogger("driver.service.js");
+const { StatusCodes } = require("http-status-codes");
+async function GetNearestDriversFromLocation(location, vehicleType, distance) {
     try {
-        const drivers = await repo.FindNearestDriversFromLocation(longitude, latitude, vehicleType, distance);
-        let driverIds = [];
-        for (const driver of drivers) {
-            driverIds.push(driver.user_id);
+        const driver = await repo.FindNearestDriversFromLocation(location.latitude, location.longitude, vehicleType, distance);
+        if (!driver) {
+            const error = new Error("Driver not found");
+            logger.error(error);
+            error.statusCode = StatusCodes.NOT_FOUND;
+            throw error;
         }
-        return driverIds;
-    } catch (error) {}
+        const driverDto = dto.DriverDto(driver);
+        logger.info(JSON.stringify(driverDto, 0, 2));
+        return driverDto;
+    } catch (error) {
+        logger.error(error);
+        throw error;
+    }
 }
 
 module.exports = { GetNearestDriversFromLocation };

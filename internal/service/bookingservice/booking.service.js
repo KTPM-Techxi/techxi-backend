@@ -3,7 +3,7 @@ const dto = require("./booking_service.dto");
 const repo = require("../../repository/booking.repo");
 const driverRepo = require("../../repository/driver.repo");
 const userRepo = require("../../repository/user.repo");
-const logger = require("../../../common/logutil").GetLogger("BOOKING_SERVICE");
+const logger = require("../../../common/logutil").GetLogger("booking.service.js");
 const { StatusCodes } = require("http-status-codes");
 const appConst = require("../../../common/constants");
 
@@ -55,26 +55,26 @@ async function CreateNewBooking(bookingReq) {
         if (bookingReq.callCenterAgentsId) {
             const callCenterAgent = await userRepo.FindUserById(bookingReq.callCenterAgentsId);
             if (!callCenterAgent.isFound) {
-                throw {
-                    code: StatusCodes.NOT_FOUND,
-                    message: "Agent not found"
-                };
+                const error = new Error("Agent not found: " + bookingReq.callCenterAgentsId);
+                logger.error(error);
+                error.statusCode = StatusCodes.NOT_FOUND;
+                throw error;
             }
         }
         const driver = await userRepo.FindUserById(bookingReq.driverId);
         if (!driver.isFound) {
-            throw {
-                code: StatusCodes.NOT_FOUND,
-                message: "Agent not found"
-            };
+            const error = new Error("Driver not found: " + bookingReq.driverId);
+            logger.error(error);
+            error.statusCode = StatusCodes.NOT_FOUND;
+            throw error;
         }
         if (bookingReq.customerId) {
             const customer = await userRepo.FindUserById(bookingReq.customerId);
             if (!customer.isFound) {
-                throw {
-                    code: StatusCodes.NOT_FOUND,
-                    message: "Agent not found"
-                };
+                const error = new Error("Driver not found: " + bookingReq.customerId);
+                logger.error(error);
+                error.statusCode = StatusCodes.NOT_FOUND;
+                throw error;
             }
         }
 
@@ -83,11 +83,13 @@ async function CreateNewBooking(bookingReq) {
                 call_center_agents_id: bookingReq.callCenterAgentsId,
                 driver_id: bookingReq.driverId,
                 customer_id: bookingReq.customerId,
+                pickup_address: bookingReq.pickupAddress,
                 pickup_location: {
                     latitude: bookingReq.pickupLocation.latitude,
                     longitude: bookingReq.pickupLocation.longitude
                 },
                 pickup_time: bookingReq.pickupTime,
+                destination_address: bookingReq.destinationAddress,
                 destination: {
                     latitude: bookingReq.destination.latitude,
                     longitude: bookingReq.destination.longitude
@@ -97,8 +99,10 @@ async function CreateNewBooking(bookingReq) {
                 total_distance: bookingReq.totalDistance
             })
         );
-
-        return booking;
+        logger.info(JSON.stringify(booking, 0, 2));
+        const bookingDto = dto.BookingDto(booking);
+        logger.info(JSON.stringify(bookingDto, 0, 2));
+        return bookingDto;
     } catch (error) {
         throw error;
     }
