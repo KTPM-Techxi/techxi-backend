@@ -1,6 +1,7 @@
 const driverdm = require("../models/user/driver/driver.dm");
 const userdm = require("../models/user/user.dm");
-const logger = require("../../common/logutil");
+const logger = require("../../common/logutil").GetLogger("driver.repo.js");
+const util = require("../../common/util");
 const appConst = require("../../common/constants");
 async function GetDriverWithVerhicleById(id) {
     try {
@@ -20,20 +21,22 @@ async function GetDriverWithVerhicleById(id) {
     }
 }
 
-async function FindNearestDriversFromLocation(latitude, longitude, vehicleType, distance, unit = "km") {
-    const unitValue = unit == "km" ? 1000 : 1609.3;
+async function FindNearestDriversFromLocation(latitude, longitude, vehicleType, distance) {
     try {
         const query = {
-            locations: {
+            location: {
                 $near: {
-                    $geometry: { type: "Point", coordinates: [latitude, longitude] },
-                    $maxDistance: distance * unitValue
+                    $maxDistance: distance,
+                    $geometry: { type: "Point", coordinates: [longitude, latitude] }
                 }
             },
-            vehicle_type: vehicleType
+            vehicle_type: vehicleType,
+            active: 1,
         };
-        const drivers = await driverdm.DriverLocations.find(query).limit(5);
-        return drivers;
+        logger.info("query " + util.LogObject(query));
+        const driver = await driverdm.DriverLocations.find(query).limit(1).exec();
+        logger.info("driver " + driver);
+        return driver[0];
     } catch (error) {
         logger.error(error);
         throw error;

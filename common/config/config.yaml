@@ -3,7 +3,7 @@ http_port: 8080
 base_url: http://localhost:8080/
 db_connection_string: mongodb+srv://techxi:PkxToEvPlokENJ2C@techxi.va8r7de.mongodb.net/techxi?retryWrites=true&w=majority
 token_secret: nhatminhdepzaivaicaloz
-auth_jwt: 1
+auth_jwt: 0
 rabbitmq_url: amqps://qgkfypdz:bpDTputLB1EzSTiB0N5Of_OvINBuX8Yq@armadillo.rmq.cloudamqp.com/qgkfypdz
   # callcenter: 0
   # driver: 0
@@ -12,3 +12,4 @@ map_services:
   google_map_api_key: AIzaSyCU0GIYvX-BeUT7N6n19bD191filu1EQ30
   street_map_api_key: street_map
   mapbox_api_key: sk.eyJ1IjoibmRhbjIwIiwiYSI6ImNsbHV5NHRjZzFpanQzanB2OTNoNm9yZW8ifQ.N23CjaLqNAl0StkRP1A1rw
+mock_data: true

@@ -1,6 +1,6 @@
 const service = require("../../internal/service/authservice/auth.service");
 const dto = require("../../internal/service/authservice/auth_service.dto");
-const logger = require("../../common/logutil").GetLogger("AUTH_CONTROLLER");
+const logger = require("../../common/logutil").GetLogger("auth.controller.js");
 const { StatusCodes } = require("http-status-codes");
 const moment = require("moment");
 const { WriteJsonResponseWithCode, WriteJsonResponse } = require("../../common/httputil");

@@ -12,7 +12,8 @@ const ReadConfig = (readConfig) => ({
         googleMapApiKey: readConfig.map_services.google_map_api_key,
         streetMapApiKey: readConfig.map_services.street_map_api_key,
         mapBoxApiKey: readConfig.map_services.mapbox_api_key
-    }
+    },
+    mockData: readConfig.mock_data
 });
 // Đọc file YAML cấu hình
 exports.loadConfig = function () {

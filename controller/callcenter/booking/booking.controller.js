@@ -2,7 +2,7 @@ const service = require("../../../internal/service/bookingservice/booking.servic
 const driverService = require("../../../internal/service/driverservice/driver.service");
 const httputil = require("../../../common/httputil");
 const { StatusCodes } = require("http-status-codes");
-const logger = require("../../../common/logutil").GetLogger("BOOKING_CONTROLLER");
+const logger = require("../../../common/logutil").GetLogger("booking.controller.js");
 const util = require("../../../common/util");
 const treeify = require("treeify");
 const dto = require("../../../internal/service/bookingservice/booking_service.dto");
@@ -52,7 +52,10 @@ const CreateBooking = async (req, res) => {
             return;
         }
         const driver = await driverService.GetNearestDriversFromLocation(longitude, latitude, vehicleType, appConst.MAX_DISTANCE);
-        const customer = await userService.GetUserInfoByPhoneNumber(bookingReq.customerPhoneNumber);
+        const {customer, isFound} = await userService.GetUserInfoByPhoneNumber(bookingReq.customerPhoneNumber);
+        if (!isFound) {
+            customer = await userService.SaveUsersWithoutAccount(bookingReq.customerName, bookingReq.customerPhoneNumber)
+        }
         const bookingReqDto = dto.BookingReqDto(bookingReq, agentId, driver.userId, customer.id);
 
         // TODO: Send notification to driver
@@ -91,17 +94,18 @@ const GetBookingDetails = async (req, res) => {
         return;
     }
 };
-const FindDriver = (req, res) => {
+const FindDriver = async (req, res) => {
     try {
-        const longitude = req.query.longtitude;
+        const longitude = req.query.longitude;
         const latitude = req.query.latitude;
         const vehicleType = req.query.vehicle_type;
         if (!longitude || !latitude) {
+            logger.error(`location not specified ${longitude} and ${latitude}`)
             httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, "location not specified");
             return;
         }
-        const driverIds = driverService.GetNearestDriversFromLocation(longitude, latitude, vehicleType, appConst.MAX_DISTANCE);
-        httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, driverIds);
+        const driver = await driverService.GetNearestDriversFromLocation(longitude, latitude, vehicleType, appConst.MAX_DISTANCE);
+        httputil.WriteJsonResponse(res, {driver_id: driver.userId});
     } catch (error) {
         logger.error(error);
         httputil.WriteJsonResponseWithCode(res, error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR, -1, error.message);

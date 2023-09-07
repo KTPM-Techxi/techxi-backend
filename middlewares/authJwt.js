@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const config = require("../common/config").loadConfig();
 const { StatusCodes } = require("http-status-codes");
 const userdm = require("../internal/models/user/user.dm");
-const logger = require("../common/logutil").GetLogger("MIDDLEWARE");
+const logger = require("../common/logutil").GetLogger("authJwt.js");
 const cookie = require("cookie");
 const session = require("express-session");
 //TODO: Check ROLE

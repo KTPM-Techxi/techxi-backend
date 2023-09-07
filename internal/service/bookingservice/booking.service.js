@@ -3,7 +3,7 @@ const dto = require("./booking_service.dto");
 const repo = require("../../repository/booking.repo");
 const driverRepo = require("../../repository/driver.repo");
 const userRepo = require("../../repository/user.repo");
-const logger = require("../../../common/logutil").GetLogger("BOOKING_SERVICE");
+const logger = require("../../../common/logutil").GetLogger("booking.service.js");
 const { StatusCodes } = require("http-status-codes");
 const appConst = require("../../../common/constants");
 

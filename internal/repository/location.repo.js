@@ -1,6 +1,6 @@
 const locationdm = require("../models/location/location.dm");
 const driverdm = require("../models/user/driver/driver.dm");
-const logger = require("../../common/logutil").GetLogger("LOCATION_REPO");
+const logger = require("../../common/logutil").GetLogger("location.repo.js");
 
 async function CreateNewLocation(location) {
     try {

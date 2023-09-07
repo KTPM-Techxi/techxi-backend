@@ -1,6 +1,6 @@
 const dto = require("./user_service.dto");
 const repo = require("../../repository/user.repo");
-const logger = require("../../../common/logutil").GetLogger("USER_SERVICE");
+const logger = require("../../../common/logutil").GetLogger("user.service.js");
 const userdm = require("../../models/user/user.dm");
 const { StatusCodes } = require("http-status-codes");
 async function GetUsersInfo(filter) {
@@ -119,17 +119,27 @@ async function updateFCM(id, token) {
 async function GetUserInfoByPhoneNumber(phoneNumber) {
     try {
         const { user, isFound } = await repo.FindUserByPhone(phoneNumber);
-        if (!isFound) {
-            const error = new Error("Not Found User");
-            logger.error(error);
-            error.statusCode = StatusCodes.NOT_FOUND_ERROR;
-            throw error;
-        }
         const userInfoDto = dto.UserInfoDto(user);
-        return userInfoDto;
+        return { user: userInfoDto, isFound } ;
     } catch (error) {
         logger.error("Error while to get customers by phone: ", error);
         throw error;
     }
 }
-module.exports = { GetUsersInfo, GetUserInfo, updateFCM, GetUserInfoByPhoneNumber };
+
+async function SaveUsersWithoutAccount(customerName, customerPhoneNumber) {
+    try {
+        const newUser = new userdm.User({
+            name: customerName,
+            phoneNumber: customerPhoneNumber,
+            role: userdm.ROLE.CUSTOMER,
+        });
+        const user = await repo.CreateNewUser(newUser)
+        return { id: user._id };
+    } catch (error) {
+        logger.error("Error while saving users without account: ", error);
+        throw error;
+    }
+}
+
+module.exports = { GetUsersInfo, GetUserInfo, updateFCM, GetUserInfoByPhoneNumber, SaveUsersWithoutAccount };

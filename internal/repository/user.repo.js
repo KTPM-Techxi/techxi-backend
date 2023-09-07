@@ -2,7 +2,7 @@ const credentialdm = require("../models/auth/user_credential.dm");
 const userdm = require("../models/user/user.dm");
 const driverdm = require("../models/user/driver/driver.dm");
 const customerdm = require("../models/user/customer/customer.dm");
-const logger = require("../../common/logutil").GetLogger("USER_REPO");
+const logger = require("../../common/logutil").GetLogger("user.repo.js");
 async function FindUserCredential(userId) {
     try {
         logger.info("FindUserCredential: ", userId);
