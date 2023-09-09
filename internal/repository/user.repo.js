@@ -169,7 +169,6 @@ module.exports = {
     FindUserByEmail,
     FindUserById,
     FindCustomerBankingByUserId,
-    FindDriverBankingByUserId,
     FindUserByPhone,
     CreateNewUser,
     CreateNewUserCredential,

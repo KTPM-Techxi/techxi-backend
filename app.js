@@ -12,7 +12,7 @@ const mongoose = require("mongoose");
 const swaggerJsdoc = require("swagger-jsdoc"),
     swaggerUi = require("swagger-ui-express");
 const plugins = require("./plugins/map");
-const {seedMockDriverLocations} = require("./mock/driver.mock");
+const { seedMockDriverLocations } = require("./mock/driver.mock");
 var app = express();
 const session = require("express-session");
 app.use(cors());

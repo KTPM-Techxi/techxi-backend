@@ -37,7 +37,7 @@ async function CreateBooking(req) {
     try {
         const booking = await bookingdm.Booking.create(req);
         if (!booking) {
-            logger.error("Error while to create bookings, err=", error);
+            logger.error("Error create bookings failed");
             throw new Error("Error creating bookings failed");
         }
         logger.info(JSON.stringify(booking, 0, 2));

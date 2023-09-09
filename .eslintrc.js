@@ -2,7 +2,8 @@ module.exports = {
     env: {
         browser: true,
         commonjs: true,
-        es2021: true
+        es2021: true,
+        node: true,
     },
     extends: "eslint:recommended",
     overrides: [
@@ -20,10 +21,11 @@ module.exports = {
         ecmaVersion: "latest"
     },
     rules: {
-        "linebreak-style": ["error", "windows"],
+        "linebreak-style": ["error", "unix"],
         quotes: ["error", "double"],
         semi: ["error", "always"],
         "no-empty": ["off", { allowEmptyCatch: true }],
-        "no-unused-vars": "off"
-    }
+        "no-unused-vars": "off",
+        "no-useless-catch": "off", // Ignore the "no-useless-catch" rule
+    },
 };

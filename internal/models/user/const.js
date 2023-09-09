@@ -6,7 +6,7 @@ const USER_TYPES = Object.freeze({
 
 const ALREADY_ACCOUNT = Object.freeze({
     YES: 1,
-    NO: 0,
+    NO: 0
 });
 
-module.exports = { USER_TYPES,ALREADY_ACCOUNT };
+module.exports = { USER_TYPES, ALREADY_ACCOUNT };

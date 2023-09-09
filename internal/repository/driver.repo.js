@@ -10,9 +10,9 @@ async function GetDriverWithVerhicleById(id) {
         return {
             info: info,
             vehicle: {
-                vehicle_number,
-                vehicle_name,
-                vehicle_type
+                vehicleNumber: vehicle.vehicle_number,
+                vehicleName: vehicle.vehicle_name,
+                vehicleType: vehicle.vehicle_type,
             }
         };
     } catch (error) {
@@ -31,7 +31,7 @@ async function FindNearestDriversFromLocation(latitude, longitude, vehicleType, 
                 }
             },
             vehicle_type: vehicleType,
-            active: 1,
+            active: 1
         };
         logger.info("query " + util.LogObject(query));
         const driver = await driverdm.DriverLocations.find(query).limit(1).exec();
@@ -55,7 +55,7 @@ async function FindDriverVehiclesById(userId) {
 async function FindDriverBankingById(userId) {
     try {
         const driverBanking = await driverdm.DriverBanking.findOne({ user_id: userId });
-        return driverBanking         
+        return driverBanking;
     } catch (error) {
         logger.error(error);
         throw error;

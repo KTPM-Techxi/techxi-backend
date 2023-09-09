@@ -52,9 +52,9 @@ const CreateBooking = async (req, res) => {
             return;
         }
         const driver = await driverService.GetNearestDriversFromLocation(bookingReq.pickupLocation, bookingReq.vehicleType, appConst.MAX_DISTANCE);
-        let {customer, isFound} = await userService.GetUserInfoByPhoneNumber(bookingReq.customerPhoneNumber);
+        let { customer, isFound } = await userService.GetUserInfoByPhoneNumber(bookingReq.customerPhoneNumber);
         if (!isFound) {
-            customer = await userService.SaveUsersWithoutAccount(bookingReq.customerName, bookingReq.customerPhoneNumber)
+            customer = await userService.SaveUsersWithoutAccount(bookingReq.customerName, bookingReq.customerPhoneNumber);
         }
         const bookingReqDto = dto.BookingReqDto(bookingReq, agentId, driver.userId, customer.id);
 
@@ -100,12 +100,12 @@ const FindDriver = async (req, res) => {
         const latitude = req.query.latitude;
         const vehicleType = req.query.vehicle_type;
         if (!longitude || !latitude) {
-            logger.error(`location not specified ${longitude} and ${latitude}`)
+            logger.error(`location not specified ${longitude} and ${latitude}`);
             httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, "location not specified");
             return;
         }
         const driver = await driverService.GetNearestDriversFromLocation(longitude, latitude, vehicleType, appConst.MAX_DISTANCE);
-        httputil.WriteJsonResponse(res, {driver_id: driver.userId});
+        httputil.WriteJsonResponse(res, { driver_id: driver.userId });
     } catch (error) {
         logger.error(error);
         httputil.WriteJsonResponseWithCode(res, error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR, -1, error.message);

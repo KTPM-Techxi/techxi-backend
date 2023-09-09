@@ -32,7 +32,7 @@ const LogObject = (obj, indent = "") => {
             if (valueType === "object") {
                 result += LogObject(value, indent + "  ");
             }
-        }   
+        }
     }
     return result;
 };

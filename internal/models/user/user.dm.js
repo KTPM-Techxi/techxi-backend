@@ -9,7 +9,7 @@ const UserSchema = new Schema({
     dob: Date,
     avatar_url: String,
     role: { type: String, enum: Object.values(constant.USER_TYPES) },
-    already_account: { type: Number, enum: Object.values(constant.ALREADY_ACCOUNT)},
+    already_account: { type: Number, enum: Object.values(constant.ALREADY_ACCOUNT) },
     fcmToken: String
 });
 

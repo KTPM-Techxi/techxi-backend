@@ -68,7 +68,7 @@ async function GetUserInfo(id, role) {
             }
             return {
                 userInfoDto: userInfoDto,
-                banking: customerBanking.bank_number,
+                banking: customerBanking.bank_number
             };
         }
 
@@ -80,7 +80,7 @@ async function GetUserInfo(id, role) {
                 error.statusCode = StatusCodes.NOT_FOUND_ERROR;
                 throw error;
             }
-             const driverVehicles = await driverRepo.FindDriverVehiclesById(id);
+            const driverVehicles = await driverRepo.FindDriverVehiclesById(id);
             if (!driverVehicles) {
                 const error = new Error("Not Found User");
                 logger.error(error);
@@ -127,10 +127,10 @@ async function GetUserInfoByPhoneNumber(phoneNumber) {
     try {
         const { user, isFound } = await repo.FindUserByPhone(phoneNumber);
         if (!isFound) {
-            return { user, isFound } ;
+            return { user, isFound };
         }
         const userInfoDto = dto.UserInfoDto(user);
-        return { user: userInfoDto, isFound } ;
+        return { user: userInfoDto, isFound };
     } catch (error) {
         logger.error("Error while to get customers by phone: ", error);
         throw error;
@@ -142,9 +142,9 @@ async function SaveUsersWithoutAccount(customerName, customerPhoneNumber) {
         const newUser = new userdm.User({
             name: customerName,
             phoneNumber: customerPhoneNumber,
-            role: userdm.ROLE.CUSTOMER,
+            role: userdm.ROLE.CUSTOMER
         });
-        const user = await repo.CreateNewUser(newUser)
+        const user = await repo.CreateNewUser(newUser);
         return { id: user._id };
     } catch (error) {
         logger.error("Error while saving users without account: ", error);
