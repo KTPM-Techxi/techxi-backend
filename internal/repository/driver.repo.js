@@ -42,7 +42,28 @@ async function FindNearestDriversFromLocation(latitude, longitude, vehicleType, 
         throw error;
     }
 }
+
+async function FindDriverVehiclesById(userId) {
+    try {
+        const vehicle = await driverdm.DriverLocations.findOne({ user_id: userId });
+        return vehicle;
+    } catch (error) {
+        logger.error(error);
+        throw error;
+    }
+}
+async function FindDriverBankingById(userId) {
+    try {
+        const driverBanking = await driverdm.DriverBanking.findOne({ user_id: userId });
+        return driverBanking         
+    } catch (error) {
+        logger.error(error);
+        throw error;
+    }
+}
 module.exports = {
     GetDriverWithVerhicleById,
+    FindDriverVehiclesById,
+    FindDriverBankingById,
     FindNearestDriversFromLocation
 };

@@ -137,30 +137,7 @@ async function FindCustomerBankingByUserId(userId) {
         throw error;
     }
 }
-async function FindDriverVehiclesByUserId(userId) {
-    try {
-        const driver = await driverdm.DriverVehicles.findOne({ user_id: userId });
-        if (!driver) {
-            return { driver: null, isFound: false };
-        }
-        return { driver: driver, isFound: true };
-    } catch (error) {
-        logger.error(error);
-        throw error;
-    }
-}
-async function FindDriverBankingByUserId(userId) {
-    try {
-        const driver = await driverdm.DriverBanking.findOne({ user_id: userId });
-        if (!driver) {
-            return { driver: null, isFound: false };
-        }
-        return { driver: driver, isFound: true };
-    } catch (error) {
-        logger.error(error);
-        throw error;
-    }
-}
+
 async function updateFCMbyId(userId, token) {
     try {
         const user = await userdm.User.findByIdAndUpdate(userId, { fcmToken: token });
@@ -192,7 +169,6 @@ module.exports = {
     FindUserByEmail,
     FindUserById,
     FindCustomerBankingByUserId,
-    FindDriverVehiclesByUserId,
     FindDriverBankingByUserId,
     FindUserByPhone,
     CreateNewUser,

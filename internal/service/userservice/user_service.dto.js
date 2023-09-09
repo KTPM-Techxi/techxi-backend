@@ -16,6 +16,4 @@ const UserInfoDto = (req) => ({
     fcmToken: req.fcmToken ? req.fcmToken : null
 });
 
-const CustomerBakingDto = (req) => {};
-
 module.exports = { UserInfoDto, FilterReqDto };

@@ -41,10 +41,9 @@ const GetUserDetails = async (req, res) => {
     try {
         const { userId, role } = req.body;
         const resp = await service.GetUserInfo(userId, role);
-        const userInfoResp = type.UserInfoResponse(resp.userInfoDto);
         if (role === ROLE.DRIVER) {
             httputil.WriteJsonResponse(res, {
-                userInfo: userInfoResp,
+                userInfo: resp.userInfo,
                 banking: resp.banking,
                 vehicles: resp.vehicles
             });
@@ -52,12 +51,12 @@ const GetUserDetails = async (req, res) => {
         }
         if (role === ROLE.CUSTOMER) {
             httputil.WriteJsonResponse(res, {
-                userInfo: userInfoResp,
+                userInfo: resp.userInfo,
                 banking: resp.banking
             });
             return;
         }
-        httputil.WriteJsonResponse(res, { userInfo: userInfoResp });
+        httputil.WriteJsonResponse(res, { userInfo: resp.userInfo });
         return;
     } catch (error) {
         logger.error(error);

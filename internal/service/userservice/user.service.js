@@ -1,5 +1,6 @@
 const dto = require("./user_service.dto");
 const repo = require("../../repository/user.repo");
+const driverRepo = require("../../repository/driver.repo");
 const logger = require("../../../common/logutil").GetLogger("user.service.js");
 const userdm = require("../../models/user/user.dm");
 const { StatusCodes } = require("http-status-codes");
@@ -67,27 +68,33 @@ async function GetUserInfo(id, role) {
             }
             return {
                 userInfoDto: userInfoDto,
-                banking: customerBanking
+                banking: customerBanking.bank_number,
             };
         }
 
         if (role === userdm.ROLE.DRIVER) {
-            const driverBanking = { driverBanking: undefined, isFound: undefined };
-            driverBanking = await repo.FindDriverBankingByUserId(id);
-            // TODO: Convert DTO
-            const driverVehicles = { driverBanking: undefined, isFound: undefined };
-            driverBanking = await repo.FindDriverVehiclesByUserId(id);
-            // TODO: Convert DTO and remove comments if have data
-            // if (!isFound) {
-            //     const error = new Error("Not Found User");
-            //     logger.error(error);
-            //     error.statusCode = StatusCodes.NOT_FOUND_ERROR;
-            //     throw error;
-            // }
+            const driverBanking = await driverRepo.FindDriverBankingById(id);
+            if (!driverBanking) {
+                const error = new Error("Not Found User");
+                logger.error(error);
+                error.statusCode = StatusCodes.NOT_FOUND_ERROR;
+                throw error;
+            }
+             const driverVehicles = await driverRepo.FindDriverVehiclesById(id);
+            if (!driverVehicles) {
+                const error = new Error("Not Found User");
+                logger.error(error);
+                error.statusCode = StatusCodes.NOT_FOUND_ERROR;
+                throw error;
+            }
             return {
-                userInfoDto: userInfoDto,
-                banking: driverBanking,
-                vehicles: driverVehicles
+                userInfo: userInfoDto,
+                banking: driverBanking.bank_number,
+                vehicles: {
+                    verhicleNumber: driverVehicles.vehicle_number,
+                    verhicleName: driverVehicles.vehicle_name,
+                    vehicleType: driverVehicles.vehicle_type
+                }
             };
         }
 
