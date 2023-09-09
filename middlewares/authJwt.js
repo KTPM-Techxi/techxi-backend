@@ -6,7 +6,7 @@ const logger = require("../common/logutil").GetLogger("authJwt.js");
 const cookie = require("cookie");
 const session = require("express-session");
 //TODO: Check ROLE
-isAuthenticated = async (req, res, next) => {
+const isAuthenticated = async (req, res, next) => {
     if (config.authJwt === 0) {
         next();
         return;
@@ -25,15 +25,15 @@ isAuthenticated = async (req, res, next) => {
                 logger.error("Error verifying token: " + err);
                 throw err;
             }
-            req.session.userId = decoded.id;
-            req.session.role = await userdm.User.findById(req.session.userId);
-            if (!req.session.role) {
+            req.headers.cookie.user_id = decoded.id;
+            const {role} = await userdm.User.findById(decoded.id);
+            if (!role) {
                 logger.error("User not found");
                 return res.status(StatusCodes.UNAUTHORIZED).send({
                     message: "Unauthorized!"
                 });
             }
-            logger.info("User authenticated", req.userId, req.session.role);
+            res.cookie("user", { user_id: decoded.id, role: role}, { maxAge: 900000, httpOnly: true });
             next();
         });
     } catch (err) {

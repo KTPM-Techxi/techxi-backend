@@ -7,7 +7,6 @@ async function GetNearestDriversFromLocation(location, vehicleType, distance) {
         const driver = await repo.FindNearestDriversFromLocation(location.latitude, location.longitude, vehicleType, distance);
         if (!driver) {
             const error = new Error("Driver not found");
-            logger.error(error);
             error.statusCode = StatusCodes.NOT_FOUND;
             throw error;
         }

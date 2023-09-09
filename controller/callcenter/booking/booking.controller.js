@@ -42,9 +42,11 @@ const ListBookings = async (req, res) => {
 const CreateBooking = async (req, res) => {
     try {
         const bookingReq = type.BookingReq(req.body);
-        const agentId = req.session.userId;
-        if (!agentId || req.session.role !== USER_TYPES.CALL_CENTER_AGENT) {
+        const agentId = req.cookies.user.user_id;
+        logger.info(req.session);
+        if (!agentId || req.cookies.user.role !== USER_TYPES.CALL_CENTER_AGENT) {
             httputil.WriteJsonResponseWithCode(res, StatusCodes.UNAUTHORIZED, -1, "must be authorized");
+            return;
         }
         //TODO: handle loction
         if (!bookingReq.pickupLocation || !bookingReq.destination) {
@@ -61,7 +63,7 @@ const CreateBooking = async (req, res) => {
         // TODO: Send notification to driver
         const bookingResp = await service.CreateNewBooking(bookingReqDto);
 
-        httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, { bookingId: bookingResp.bookingId });
+        httputil.WriteJsonResponse(res, { bookingId: bookingResp.bookingId });
 
         //find user
         // const driver = FindDriver()
