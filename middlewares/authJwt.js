@@ -11,7 +11,7 @@ const isAuthenticated = async (req, res, next) => {
         next();
         return;
     }
-    let cookieParser = cookie.parse(req.headers.cookie);
+    let cookieParser = cookie.parse(req?.headers?.cookie);
     logger.info("req.headers.cookie: " + req.headers.cookie);
     let token = cookieParser.token;
     if (!token) {

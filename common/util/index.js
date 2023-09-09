@@ -1,6 +1,7 @@
-const logger = require("../logutil").GetLogger("CONVERT_VARIABLE");
+const logger = require("../logutil").GetLogger("common/util/index.js");
 
 function ConvertToType(value, targetType) {
+    const dateValue = new Date(value);
     switch (targetType) {
         case "string":
             return String(value);
@@ -9,7 +10,6 @@ function ConvertToType(value, targetType) {
         case "boolean":
             return /^(true|false)$/i.test(value) ? value.toLowerCase() === "true" : value;
         case "date":
-            const dateValue = new Date(value);
             return isNaN(dateValue.getTime()) ? logger.error("Error while parse date") : dateValue;
         case "object":
             try {
@@ -17,6 +17,7 @@ function ConvertToType(value, targetType) {
             } catch (error) {
                 logger.error("Error while parse object ", error);
             }
+            break;
         default:
             throw new Error(`Unsupported targetType: ${targetType}`);
     }

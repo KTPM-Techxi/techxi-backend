@@ -52,7 +52,7 @@ const middleware = require("../../middlewares");
  *                    type: integer
  *                    description: Total number of pages.
  */
-router.get("/filter", middleware.isAuthenticated, controller.ListBookings);
+router.get("/filter", controller.ListBookings);
 
 /**
  * @swagger

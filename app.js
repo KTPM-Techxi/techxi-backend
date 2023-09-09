@@ -15,7 +15,12 @@ const plugins = require("./plugins/map");
 const { seedMockDriverLocations } = require("./mock/driver.mock");
 var app = express();
 const session = require("express-session");
-app.use(cors());
+app.use(
+    cors({
+        origin: "http://localhost:5173",
+        credentials: true
+    })
+);
 initializeDB()
     .then(() => {
         logutil.info("DB initialized");
