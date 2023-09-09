@@ -104,7 +104,7 @@ const FindDriver = async (req, res) => {
             httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, "location not specified");
             return;
         }
-        const driver = await driverService.GetNearestDriversFromLocation(longitude, latitude, vehicleType, appConst.MAX_DISTANCE);
+        const driver = await driverService.GetNearestDriversFromLocation({longitude, latitude}, vehicleType, appConst.MAX_DISTANCE);
         httputil.WriteJsonResponse(res, { driver_id: driver.userId });
     } catch (error) {
         logger.error(error);

@@ -38,7 +38,6 @@ async function FindNearestDriversFromLocation(latitude, longitude, vehicleType, 
         logger.info("driver " + driver);
         return driver[0];
     } catch (error) {
-        logger.error(error);
         throw error;
     }
 }

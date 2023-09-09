@@ -15,7 +15,6 @@ async function GetNearestDriversFromLocation(location, vehicleType, distance) {
         logger.info(JSON.stringify(driverDto, 0, 2));
         return driverDto;
     } catch (error) {
-        logger.error(error);
         throw error;
     }
 }
