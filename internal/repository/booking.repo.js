@@ -48,7 +48,4 @@ async function CreateBooking(req) {
     }
 }
 
-function createBookingsChangeStream() {
-    return bookingdm.Booking.watch();
-}
-module.exports = { FindBookingsWithFilter, CreateBooking, FindBookingById, createBookingsChangeStream };
+module.exports = { FindBookingsWithFilter, CreateBooking, FindBookingById };

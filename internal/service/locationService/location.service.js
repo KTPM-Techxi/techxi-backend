@@ -23,7 +23,7 @@ async function CreateLocation(locationReq) {
 
         let id = savedLocation._id.toString();
 
-        return locationData; // Return the created location
+        return id; // Return the created location
     } catch (error) {
         // await repo.DeleteUserByEmail(userRegisterDto.email);
         throw error; // Rethrow the error for the calling code to handle

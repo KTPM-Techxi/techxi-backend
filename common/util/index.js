@@ -23,19 +23,4 @@ function ConvertToType(value, targetType) {
     }
 }
 
-const LogObject = (obj, indent = "") => {
-    let result = "";
-    for (const key in obj) {
-        if (obj.hasOwnProperty(key)) {
-            const value = obj[key];
-            const valueType = typeof value;
-            result += `${indent}${key}: ${value} (${valueType})\n`;
-            if (valueType === "object") {
-                result += LogObject(value, indent + "  ");
-            }
-        }
-    }
-    return result;
-};
-
-module.exports = { ConvertToType, LogObject };
+module.exports = { ConvertToType };
