@@ -140,5 +140,5 @@ router.get("/find_drivers", middleware.isAuthenticated, controller.FindDriver);
 router.post("/accept", controller.acceptBooking);
 router.post("/decline", controller.declineBooking);
 router.post("/complete", controller.completeBooking);
-
+router.post("/driver_response", controller.DriverResponse);
 module.exports = router;

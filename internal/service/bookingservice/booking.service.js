@@ -6,7 +6,7 @@ const userRepo = require("../../repository/user.repo");
 const logger = require("../../../common/logutil").GetLogger("booking.service.js");
 const { StatusCodes } = require("http-status-codes");
 const appConst = require("../../../common/constants");
-
+const messager = require("../../../internal/service/fcm.service");
 async function GetListBookings(filter) {
     try {
         const { bookings, _, total } = await repo.FindBookingsWithFilter(filter);
@@ -102,4 +102,41 @@ async function CreateNewBooking(bookingReq) {
     }
 }
 
-module.exports = { GetListBookings, CreateNewBooking, GetBookingDetails };
+async function UpdateStatusBooking(driverBookingResp) {
+    const ACCEPT = "ACCEPT";
+    const DELINCE = "DELINCE";
+    let bookingStatus = "";
+    if (driverBookingResp.message === ACCEPT) {
+        bookingStatus = bookingdm.BOOKING_STATUS.RECEIVED;
+    }
+    if (driverBookingResp.message === DELINCE) {
+        bookingStatus = bookingdm.BOOKING_STATUS.REJECTED;
+    }
+    try {
+        const driver = await userRepo.FindUserById(driverBookingResp.driverId);
+        if (!driver.isFound) {
+            const error = new Error("Driver not found: " + driverBookingResp.driverId);
+            logger.error(error);
+            error.statusCode = StatusCodes.NOT_FOUND;
+            throw error;
+        }
+        const updated = await repo.UpdateBooking(driverBookingResp, bookingStatus);
+        if (!updated) {
+            return {
+                isUpdate: false,
+                bookingId: driverBookingResp.bookingId,
+                driver: driver,
+                bookingStatus: bookingStatus
+            };
+        }
+        return {
+            isUpdate: true,
+            bookingId: driverBookingResp.bookingId,
+            driver: driver,
+            bookingStatus: bookingStatus
+        };
+    } catch (error) {
+        throw error;
+    }
+}
+module.exports = { GetListBookings, CreateNewBooking, GetBookingDetails, UpdateStatusBooking };

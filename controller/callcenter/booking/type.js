@@ -117,8 +117,20 @@ const BookingResponse = (dto) => ({
     created_at: dto.createdAt,
     updated_at: dto.updatedAt
 });
+
+const DriverBookingResp = (req) => ({
+    message: req.message,
+    bookingId: req.booking_id,
+    driverId: req.driver_id
+});
+
+const ToCustomerBookingResp = (req) => ({
+    message: req.message
+});
 module.exports = {
     filterReq,
     BookingReq,
-    BookingResponse
+    BookingResponse,
+    DriverBookingResp,
+    ToCustomerBookingResp
 };

@@ -48,4 +48,19 @@ async function CreateBooking(req) {
     }
 }
 
-module.exports = { FindBookingsWithFilter, CreateBooking, FindBookingById };
+async function UpdateBooking(booking) {
+    try {
+        const updatedDoc = await bookingdm.Booking.findByIdAndUpdate(booking.bookingId, {
+            status: booking.status
+        });
+        if (updatedDoc) {
+            return true;
+        } else {
+            return false;
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports = { FindBookingsWithFilter, CreateBooking, FindBookingById, UpdateBooking };
