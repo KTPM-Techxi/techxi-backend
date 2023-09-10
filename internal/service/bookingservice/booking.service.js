@@ -61,13 +61,13 @@ async function CreateNewBooking(bookingReq) {
                 throw error;
             }
         }
-        const driver = await userRepo.FindUserById(bookingReq.driverId);
-        if (!driver.isFound) {
-            const error = new Error("Driver not found: " + bookingReq.driverId);
-            logger.error(error);
-            error.statusCode = StatusCodes.NOT_FOUND;
-            throw error;
-        }
+        // const driver = await userRepo.FindUserById(bookingReq.driverId);
+        // if (!driver.isFound) {
+        //     const error = new Error("Driver not found: " + bookingReq.driverId);
+        //     logger.error(error);
+        //     error.statusCode = StatusCodes.NOT_FOUND;
+        //     throw error;
+        // }
         if (bookingReq.customerId) {
             const customer = await userRepo.FindUserById(bookingReq.customerId);
             if (!customer.isFound) {
@@ -107,4 +107,13 @@ async function CreateNewBooking(bookingReq) {
         throw error;
     }
 }
+
+const StartBookingChangeStream = (callback) => {
+    const changeStream = repo.createBookingsChangeStream();
+  
+    // Lắng nghe sự kiện từ change stream và gọi callback khi có sự thay đổi
+    changeStream.on("change", (change) => {
+      callback(change);
+    });
+  };
 module.exports = { GetListBookings, CreateNewBooking, GetBookingDetails };

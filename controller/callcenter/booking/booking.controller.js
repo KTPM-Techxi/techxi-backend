@@ -53,12 +53,12 @@ const CreateBooking = async (req, res) => {
             httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, 1, { status: "rejected" });
             return;
         }
-        const driver = await driverService.GetNearestDriversFromLocation(bookingReq.pickupLocation, bookingReq.vehicleType, appConst.MAX_DISTANCE);
+        //const driver = await driverService.GetNearestDriversFromLocation(bookingReq.pickupLocation, bookingReq.vehicleType, appConst.MAX_DISTANCE);
         let { customer, isFound } = await userService.GetUserInfoByPhoneNumber(bookingReq.customerPhoneNumber);
         if (!isFound) {
             customer = await userService.SaveUsersWithoutAccount(bookingReq.customerName, bookingReq.customerPhoneNumber);
         }
-        const bookingReqDto = dto.BookingReqDto(bookingReq, agentId, driver.userId, customer.id);
+        const bookingReqDto = dto.BookingReqDto(bookingReq, agentId, undefined, customer.id);
 
         // TODO: Send notification to driver
         const bookingResp = await service.CreateNewBooking(bookingReqDto);
