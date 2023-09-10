@@ -61,5 +61,42 @@ const middleware = require("../../middlewares");
  *                    description: Total number of pages.
  */
 router.get("/filter", middleware.isAuthenticated, controller.ListUsersWithFilter);
+
+/**
+ * @swagger
+ * /api/v1/callcenter/users/details:
+ *   post:
+ *     summary: Get user details.
+ *     tags: [CallCenter/Users]
+ *     requestBody:
+ *       description: User details request data.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               userId:
+ *                 type: string
+ *               role:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: User details retrieved successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 userInfo:
+ *                   type: object
+ *                   description: User information.
+ *                 banking:
+ *                   type: object
+ *                   description: Banking information (if applicable).
+ *                 vehicles:
+ *                   type: array
+ *                   description: List of vehicles (for drivers).
+ */
 router.get("/details", controller.GetUserDetails);
 module.exports = router;
