@@ -105,7 +105,7 @@ router.post("/register", [body("name", "phoneNumber", "address", "dob", "confirm
 /**
  * @swagger
  * /users/logout:
- *   get:
+ *   post:
  *     summary: Logout user
  *     tags: [Authentication]
  *     responses:

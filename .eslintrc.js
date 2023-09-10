@@ -3,7 +3,7 @@ module.exports = {
         browser: true,
         commonjs: true,
         es2021: true,
-        node: true,
+        node: true
     },
     extends: "eslint:recommended",
     overrides: [
@@ -26,6 +26,6 @@ module.exports = {
         semi: ["error", "always"],
         "no-empty": ["off", { allowEmptyCatch: true }],
         "no-unused-vars": "off",
-        "no-useless-catch": "off", // Ignore the "no-useless-catch" rule
-    },
+        "no-useless-catch": "off" // Ignore the "no-useless-catch" rule
+    }
 };

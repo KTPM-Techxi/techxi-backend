@@ -42,8 +42,8 @@ const ListBookings = async (req, res) => {
 const CreateBooking = async (req, res) => {
     try {
         const bookingReq = type.BookingReq(req.body);
+        logger.info(req.cookies.user);
         const agentId = req.cookies.user.user_id;
-        logger.info(req.session);
         if (!agentId || req.cookies.user.role !== USER_TYPES.CALL_CENTER_AGENT) {
             httputil.WriteJsonResponseWithCode(res, StatusCodes.UNAUTHORIZED, -1, "must be authorized");
             return;
@@ -106,7 +106,7 @@ const FindDriver = async (req, res) => {
             httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, "location not specified");
             return;
         }
-        const driver = await driverService.GetNearestDriversFromLocation({longitude, latitude}, vehicleType, appConst.MAX_DISTANCE);
+        const driver = await driverService.GetNearestDriversFromLocation({ longitude, latitude }, vehicleType, appConst.MAX_DISTANCE);
         httputil.WriteJsonResponse(res, { driver_id: driver.userId });
     } catch (error) {
         logger.error(error);

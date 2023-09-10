@@ -26,14 +26,14 @@ const isAuthenticated = async (req, res, next) => {
                 throw err;
             }
             req.headers.cookie.user_id = decoded.id;
-            const {role} = await userdm.User.findById(decoded.id);
+            const { role } = await userdm.User.findById(decoded.id);
             if (!role) {
                 logger.error("User not found");
                 return res.status(StatusCodes.UNAUTHORIZED).send({
                     message: "Unauthorized!"
                 });
             }
-            res.cookie("user", { user_id: decoded.id, role: role}, { maxAge: 900000, httpOnly: true });
+            res.cookie("user", { user_id: decoded.id, role: role }, { maxAge: 900000, httpOnly: true });
             next();
         });
     } catch (err) {

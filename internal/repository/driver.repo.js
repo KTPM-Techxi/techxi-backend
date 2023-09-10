@@ -12,7 +12,7 @@ async function GetDriverWithVerhicleById(id) {
             vehicle: {
                 vehicleNumber: vehicle.vehicle_number,
                 vehicleName: vehicle.vehicle_name,
-                vehicleType: vehicle.vehicle_type,
+                vehicleType: vehicle.vehicle_type
             }
         };
     } catch (error) {

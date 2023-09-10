@@ -48,6 +48,7 @@ const loginController = async (req, res) => {
 const logOutController = async (req, res) => {
     res.cookie("token", "", { httpOnly: true });
     res.cookie("authenticated", 0, { httpOnly: true });
+    res.cookie("user", "", { httpOnly: true });
     WriteJsonResponseWithCode(res, StatusCodes.OK, 0, "logout ok");
 };
 
