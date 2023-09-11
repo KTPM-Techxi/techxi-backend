@@ -21,7 +21,7 @@ const bookingSchema = new moongoose.Schema({
     scheduled_time: { type: Date },
     total_price: { type: String },
     total_distance: { type: String },
-    status: { type: String, enum: Object.values(constants.BOOKING_STATUS), default: "PENDING" },
+    status: { type: String, enum: Object.values(BOOKING_STATUS), default: "PENDING" },
     created_at: { type: String },
     updated_at: { type: String }
 });
