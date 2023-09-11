@@ -42,7 +42,7 @@ const ListBookings = async (req, res) => {
 const CreateBooking = async (req, res) => {
     try {
         const bookingReq = type.BookingReq(req.body);
-        logger.info(req.cookies.user);
+        logger.info("cookie user: " + req.cookies.user);
         const agentId = req.cookies.user.user_id;
         if (!agentId || req.cookies.user.role !== USER_TYPES.CALL_CENTER_AGENT) {
             httputil.WriteJsonResponseWithCode(res, StatusCodes.UNAUTHORIZED, -1, "must be authorized");
@@ -50,7 +50,7 @@ const CreateBooking = async (req, res) => {
         }
         //TODO: handle loction
         if (!bookingReq.pickupLocation || !bookingReq.destination) {
-            httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, 1, { status: "rejected" });
+            httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, 1, { status: "invalid location" });
             return;
         }
         let { customer, isFound } = await userService.GetUserInfoByPhoneNumber(bookingReq.customerPhoneNumber);
