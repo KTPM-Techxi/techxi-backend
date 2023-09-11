@@ -140,5 +140,40 @@ router.get("/find_drivers", middleware.isAuthenticated, controller.FindDriver);
 router.post("/accept", controller.acceptBooking);
 router.post("/decline", controller.declineBooking);
 router.post("/complete", controller.completeBooking);
-
+/**
+ * @swagger
+ * /api/v1/callcenter/bookings/driver_response:
+ *   post:
+ *     summary: Handle driver response to a booking request.
+ *     tags: [CallCenter/Booking]
+ *     requestBody:
+ *       description: Driver response data.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/DriverBookingResp'
+ *     responses:
+ *       200:
+ *         description: Driver response processed successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 driver:
+ *                   type: object
+ *                   description: Driver information.
+ *                 booking_id:
+ *                   type: string
+ *                   description: ID of the booking.
+ *                 booking_status:
+ *                   type: string
+ *                   description: Updated booking status.
+ *               example:
+ *                 driver: { name: "John Doe", vehicle: "Toyota Camry" }
+ *                 booking_id: "123456"
+ *                 booking_status: "accepted"
+ */
+router.post("/driver_response", controller.DriverResponse);
 module.exports = router;

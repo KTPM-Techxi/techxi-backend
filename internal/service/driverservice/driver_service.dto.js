@@ -1,6 +1,6 @@
-const DriverDto = (driver) => ({
+const DriverVehicleDto = (driver) => ({
     driverLocationId: driver._id,
-    userId: driver.user_id,
+    driverId: driver.user_id,
     location: driver.location,
     vehicleNumber: driver.vehicle_number,
     vehicleName: driver.vehicle_name,
@@ -8,4 +8,4 @@ const DriverDto = (driver) => ({
     active: driver.active
 });
 
-module.exports = { DriverDto };
+module.exports = { DriverVehicleDto };

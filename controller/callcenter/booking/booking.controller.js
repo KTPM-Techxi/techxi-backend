@@ -97,15 +97,8 @@ const GetBookingDetails = async (req, res) => {
 };
 const FindDriver = async (req, res) => {
     try {
-        const longitude = req.query.longitude;
-        const latitude = req.query.latitude;
-        const vehicleType = req.query.vehicle_type;
-        if (!longitude || !latitude) {
-            logger.error(`location not specified ${longitude} and ${latitude}`);
-            httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, "location not specified");
-            return;
-        }
-        const driver = await driverService.GetNearestDriversFromLocation({ longitude, latitude }, vehicleType, appConst.MAX_DISTANCE);
+        const bookingId = req.query.booking_id;
+        const driver = await driverService.GetNearestDriversFromLocation(bookingId, appConst.MAX_DISTANCE);
         httputil.WriteJsonResponse(res, { driver_id: driver.userId });
     } catch (error) {
         logger.error(error);
@@ -153,4 +146,33 @@ const completeBooking = (req, res) => {
     } catch (error) {}
 };
 
-module.exports = { ListBookings, CreateBooking, GetBookingDetails, acceptBooking, declineBooking, completeBooking, FindDriver };
+const DriverResponse = async (req, res) => {
+    try {
+        const driverBookingResp = type.DriverBookingResp(req.body);
+        // TODO: handle service
+        const updated = await service.UpdateStatusBooking(driverBookingResp);
+        if (!updated.isUpdate) {
+            logger.error("Couldn't update");
+            httputil.WriteJsonResponseWithCode(res, StatusCodes.NOT_FOUND, -1, "Couldn't update");
+        }
+        httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, {
+            driver: updated.driver,
+            booking_id: updated.bookingId,
+            booking_status: updated.bookingStatus
+        });
+    } catch (error) {
+        logger.error(error);
+        httputil.WriteJsonResponseWithCode(res, error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR, -1, error.message);
+        return;
+    }
+};
+module.exports = {
+    ListBookings,
+    CreateBooking,
+    GetBookingDetails,
+    acceptBooking,
+    declineBooking,
+    completeBooking,
+    FindDriver,
+    DriverResponse
+};

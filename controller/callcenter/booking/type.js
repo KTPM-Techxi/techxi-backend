@@ -117,8 +117,40 @@ const BookingResponse = (dto) => ({
     created_at: dto.createdAt,
     updated_at: dto.updatedAt
 });
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     DriverBookingResp:
+ *       type: object
+ *       properties:
+ *         message:
+ *           type: string
+ *           description: A message or response from the driver.
+ *         booking_id:
+ *           type: string
+ *           description: The ID of the associated booking.
+ *         driver_id:
+ *           type: string
+ *           description: The ID of the driver.
+ *       example:
+ *         message: "Driver accepted the booking."
+ *         booking_id: "123456"
+ *         driver_id: "7890"
+ */
+const DriverBookingResp = (req) => ({
+    message: req.message,
+    bookingId: req.booking_id,
+    driverId: req.driver_id
+});
+
+const ToCustomerBookingResp = (req) => ({
+    message: req.message
+});
 module.exports = {
     filterReq,
     BookingReq,
-    BookingResponse
+    BookingResponse,
+    DriverBookingResp,
+    ToCustomerBookingResp
 };
