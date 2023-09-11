@@ -48,10 +48,10 @@ async function CreateBooking(req) {
     }
 }
 
-async function UpdateBooking(booking) {
+async function UpdateBooking(booking, status) {
     try {
         const updatedDoc = await bookingdm.Booking.findByIdAndUpdate(booking.bookingId, {
-            status: booking.status
+            status: status
         });
         if (updatedDoc) {
             return true;

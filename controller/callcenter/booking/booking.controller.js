@@ -152,6 +152,7 @@ const DriverResponse = async (req, res) => {
         // TODO: handle service
         const updated = await service.UpdateStatusBooking(driverBookingResp);
         if (!updated.isUpdate) {
+            logger.error("Couldn't update");
             httputil.WriteJsonResponseWithCode(res, StatusCodes.NOT_FOUND, -1, "Couldn't update");
         }
         httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, {
