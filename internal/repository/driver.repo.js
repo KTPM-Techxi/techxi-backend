@@ -33,7 +33,7 @@ async function FindNearestDriversFromLocation(latitude, longitude, vehicleType, 
             vehicle_type: vehicleType,
             active: 1
         };
-        logger.info("query " + util.LogObject(query));
+        // logger.info("query " + util.LogObject(query));
         const driver = await driverdm.DriverLocations.find(query).limit(1).exec();
         logger.info("driver " + driver);
         return driver[0];

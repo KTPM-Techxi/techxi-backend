@@ -27,7 +27,7 @@ const ListBookings = async (req, res) => {
         if (filterReqDto.pageSize === undefined) {
             filterReqDto.pageSize = 1000;
         }
-        logger.info("Filter convert Dto:\n", util.LogObject(filterReqDto));
+        // logger.info("Filter convert Dto:\n", util.LogObject(filterReqDto));
 
         const bookings = await service.GetListBookings(filterReqDto);
         httputil.WriteJsonResponse(res, bookings);
