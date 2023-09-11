@@ -33,7 +33,7 @@ const isAuthenticated = async (req, res, next) => {
                     message: "Unauthorized!"
                 });
             }
-            res.cookie("user", { user_id: decoded.id, role: role }, { maxAge: 900000, httpOnly: true });
+            res.cookie("user", { user_id: decoded.id, role: role }, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true });
             next();
         });
     } catch (err) {
