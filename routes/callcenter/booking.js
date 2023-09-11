@@ -142,7 +142,7 @@ router.post("/decline", controller.declineBooking);
 router.post("/complete", controller.completeBooking);
 /**
  * @swagger
- * /driverResponse:
+ * /api/v1/callcenter/bookings/driver_response:
  *   post:
  *     summary: Handle driver response to a booking request.
  *     tags: [CallCenter/Booking]
