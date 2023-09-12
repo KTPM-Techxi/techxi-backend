@@ -48,43 +48,46 @@ async function CreateBooking(req) {
     }
 }
 
-async function UpdateBooking(bookingId, updateFields) {
+async function UpdateBooking(updateBooking, updateFields) {
     let updateFieldsRepo = {};
     if (updateFields.agentId) {
-        updateFieldsRepo.call_center_agents_id = updateFields.agentId;
+        updateBooking.call_center_agents_id = updateFields.agentId;
     }
     if (updateFields.customerId) {
-        updateFieldsRepo.customer_id = updateFields.customerId;
+        updateBooking.customer_id = updateFields.customerId;
     }
     if (updateFields.agentId) {
-        updateFieldsRepo.driver_id = updateFields.driverId;
+        updateBooking.driver_id = updateFields.driverId;
     }
     if (updateFields.customerId) {
-        updateFieldsRepo.vehicle_type = updateFields.vehicleType;
+        updateBooking.vehicle_type = updateFields.vehicleType;
     }
     if (updateFields.scheduledTime) {
-        updateFieldsRepo.scheduled_time = updateFields.scheduledTime;
+        updateBooking.scheduled_time = updateFields.scheduledTime;
     }
     if (updateFields.status) {
-        updateFieldsRepo.status = updateFields.status;
+        updateBooking.status = updateFields.status;
     }
     if (updateFields.totalPrice) {
-        updateFieldsRepo.total_price = updateFields.totalPrice;
+        updateBooking.total_price = updateFields.totalPrice;
     }
     if (updateFields.totalDistance) {
-        updateFieldsRepo.total_distance = updateFields.totalDistance;
+        updateBooking.total_distance = updateFields.totalDistance;
     }
 
-    logger.info(bookingId);
+    //logger.info(bookingId);
     logger.info(JSON.stringify(updateFieldsRepo, 0, 2));
+    //const bookingUpdate = new bookingdm.Booking(updateFieldsRepo);
     try {
-        const updatedDoc = await bookingdm.Booking.findByIdAndUpdate(
-            {
-                _id: bookingId
-            },
-            updateFields
-        );
-        logger.info(updatedDoc);
+        // const updatedDoc = await bookingdm.Booking.findByIdAndUpdate(
+        //     {
+        //         _id: bookingId
+        //     },
+        //     { $set: updateFields },
+        //     { upsert: true, useFindAndModify: false }
+        // );
+        // logger.info(updatedDoc);
+        const updatedDoc = await updateBooking.save();
         if (updatedDoc) {
             return true;
         } else {

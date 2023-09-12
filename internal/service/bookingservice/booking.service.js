@@ -121,7 +121,14 @@ async function UpdateStatusBooking(driverBookingResp) {
             error.statusCode = StatusCodes.NOT_FOUND;
             throw error;
         }
-        const updated = await repo.UpdateBooking(driverBookingResp.bookingId, { driverId: driverBookingResp.driverId, status: bookingStatus });
+        const booking = await repo.FindBookingById(driverBookingResp.bookingId);
+        if (!booking) {
+            const error = new Error("Booking not found: " + driverBookingResp.bookingId);
+            logger.error(error);
+            error.statusCode = StatusCodes.NOT_FOUND;
+            throw error;
+        }
+        const updated = await repo.UpdateBooking(booking, { driverId: driverBookingResp.driverId, status: bookingStatus });
         if (!updated) {
             return {
                 isUpdate: false,
@@ -148,7 +155,7 @@ async function UpdateBooking(bookingId, updateFields) {
             throw { statusCode: StatusCodes.NOT_FOUND, message: "Booking not found" };
         }
 
-        const updatedBooking = await repo.UpdateBooking(bookingId, updateFields);
+        const updatedBooking = await repo.UpdateBooking(existingBooking, updateFields);
         if (!updatedBooking) {
             return {
                 isUpdate: false,
