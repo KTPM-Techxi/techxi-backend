@@ -121,7 +121,7 @@ async function UpdateStatusBooking(driverBookingResp) {
             throw error;
         }
         const driverVehicle = await driverRepo.FindDriverVehiclesById(driverBookingResp.driverId);
-        const updated = await repo.UpdateBooking(driverBookingResp.bookingId, { driver_id: driverBookingResp.driverId, status: bookingStatus, vehicle_type: driverVehicle.vehicle_type || "CAR" });
+        const updated = await repo.UpdateBooking(driverBookingResp.bookingId, { driverId: driverBookingResp.driverId, status: bookingStatus, vehicleType: driverVehicle.vehicle_type || "CAR" });
         if (!updated) {
             return {
                 isUpdate: false,
