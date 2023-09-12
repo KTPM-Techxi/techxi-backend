@@ -90,7 +90,8 @@ async function CreateNewBooking(bookingReq) {
                 },
                 time_completion: bookingReq.timeCompletion,
                 total_price: bookingReq.totalPrice,
-                total_distance: bookingReq.totalDistance
+                total_distance: bookingReq.totalDistance,
+                vehicle_type: bookingReq.vehicleType
             })
         );
         logger.info(JSON.stringify(booking, 0, 2));
@@ -120,8 +121,7 @@ async function UpdateStatusBooking(driverBookingResp) {
             error.statusCode = StatusCodes.NOT_FOUND;
             throw error;
         }
-        const driverVehicle = await driverRepo.FindDriverVehiclesById(driverBookingResp.driverId);
-        const updated = await repo.UpdateBooking(driverBookingResp.bookingId, { driverId: driverBookingResp.driverId, status: bookingStatus, vehicleType: driverVehicle.vehicle_type || "CAR" });
+        const updated = await repo.UpdateBooking(driverBookingResp.bookingId, { driverId: driverBookingResp.driverId, status: bookingStatus });
         if (!updated) {
             return {
                 isUpdate: false,

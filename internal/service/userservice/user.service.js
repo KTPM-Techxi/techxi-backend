@@ -142,7 +142,8 @@ async function SaveUsersWithoutAccount(customerName, customerPhoneNumber) {
         const newUser = new userdm.User({
             name: customerName,
             phoneNumber: customerPhoneNumber,
-            role: userdm.ROLE.CUSTOMER
+            role: userdm.ROLE.CUSTOMER,
+            already_accounted: false
         });
         const user = await repo.CreateNewUser(newUser);
         return { id: user._id };
