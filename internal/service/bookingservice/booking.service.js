@@ -120,7 +120,8 @@ async function UpdateStatusBooking(driverBookingResp) {
             error.statusCode = StatusCodes.NOT_FOUND;
             throw error;
         }
-        const updated = await repo.UpdateBooking(driverBookingResp.bookingId, { status: bookingStatus });
+        const driverVehicle = await driverRepo.FindDriverVehiclesById(driverBookingResp.driverId);
+        const updated = await repo.UpdateBooking(driverBookingResp.bookingId, { driver_id: driverBookingResp.driverId, status: bookingStatus, vehicle_type: driverVehicle.vehicle_type || "CAR" });
         if (!updated) {
             return {
                 isUpdate: false,

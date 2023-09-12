@@ -65,16 +65,18 @@ async function UpdateBooking(bookingId, updateFields) {
     if (updateFields.scheduledTime) {
         updateFieldsRepo.scheduled_time = updateFields.scheduledTime;
     }
+    if (updateFields.status) {
+        updateFieldsRepo.status = updateFields.status;
+    }
     if (updateFields.totalPrice) {
         updateFieldsRepo.total_price = updateFields.totalPrice;
     }
     if (updateFields.totalDistance) {
         updateFieldsRepo.total_distance = updateFields.totalDistance;
     }
-    if (updateFields.status) {
-        updateFieldsRepo.status = updateFields.status;
-    }
-    logger.info(JSON.stringify(updateFields, 0, 2));
+
+    logger.info(bookingId);
+    logger.info(JSON.stringify(updateFieldsRepo, 0, 2));
     try {
         const updatedDoc = await bookingdm.Booking.findByIdAndUpdate(bookingId, {
             $set: updateFields
