@@ -172,6 +172,7 @@ const UpdateBooking = async (req, res) => {
     try {
         const bookingId = req.query.booking_id;
         const updateBookingReq = type.UpdateBookingReq(req.body);
+        logger.info(JSON.stringify(req.body, 0, 2));
         const updated = await service.UpdateBooking(bookingId, updateBookingReq);
         if (!updated.isUpdate) {
             logger.error("Couldn't update");

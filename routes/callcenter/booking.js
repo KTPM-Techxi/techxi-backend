@@ -181,62 +181,33 @@ router.post("/driver_response", controller.DriverResponse);
  * @swagger
  * /api/v1/callcenter/bookings/update:
  *   post:
- *     summary: Cập nhật thông tin đặt chỗ
+ *     summary: Update a booking's details.
  *     tags: [CallCenter/Booking]
- *     description: API này được sử dụng để cập nhật thông tin đặt chỗ.
+ *     description: Update the details of a booking identified by its ID.
  *     parameters:
  *       - in: query
  *         name: booking_id
  *         required: true
+ *         description: The ID of the booking to update.
  *         schema:
  *           type: string
- *         description: ID của đặt chỗ cần cập nhật.
- *       - in: body
- *         name: body
- *         required: true
- *         schema:
- *           type: object
- *           properties:
- *             agent_id:
- *               type: string
- *               description: ID của đại lý.
- *             customer_id:
- *               type: string
- *               description: ID của khách hàng.
- *             driver_id:
- *               type: string
- *               description: ID của tài xế.
- *             driver_vehicle_type:
- *               type: string
- *               description: Loại phương tiện của tài xế.
- *             time_completion:
- *               type: string
- *               description: Thời gian hoàn thành đơn vị phút
- *             scheduled_time:
- *               type: string
- *               format: date-time
- *               description: Thời gian đặt lịch.
- *             total_distance:
- *               type: string
- *               description: Tổng quãng đường đơn vị km
- *             total_price:
- *               type: string
- *               description: Tổng giá đơn vị đồng
- *             status:
- *               type: string
- *               description: Trạng thái
- *         description: Thông tin cập nhật đặt chỗ.
+ *     requestBody:
+ *       description: Updated booking details.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdateBookingReq'
  *     responses:
- *       '200':
- *         description: Thành công. Trả về ID của đặt chỗ đã cập nhật.
+ *       200:
+ *         description: Booking updated successfully.
  *         content:
  *           application/json:
  *             schema:
- *               type: object
- *               properties:
- *                 booking_id:
- *                   type: string
- *                   description: ID của đặt chỗ đã cập nhật.
+ *               type: string
+ *               description: A success message.
+ *             example:
+ *               message: "Update ok"
  */
 router.post("/update", controller.UpdateBooking);
 module.exports = router;

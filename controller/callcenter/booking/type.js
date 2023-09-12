@@ -147,7 +147,51 @@ const DriverBookingResp = (req) => ({
 const ToCustomerBookingResp = (req) => ({
     message: req.message
 });
-
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     UpdateBookingReq:
+ *       type: object
+ *       properties:
+ *         agent_id:
+ *           type: string
+ *           description: The ID of the agent updating the booking.
+ *         customer_id:
+ *           type: string
+ *           description: The ID of the customer associated with the booking.
+ *         driver_id:
+ *           type: string
+ *           description: The ID of the driver assigned to the booking.
+ *         driver_vehicle_type:
+ *           type: string
+ *           description: The type of vehicle assigned to the driver.
+ *         time_completion:
+ *           type: string
+ *           description: The time when the booking was completed.
+ *         scheduled_time:
+ *           type: string
+ *           description: The scheduled time for the booking.
+ *         total_distance:
+ *           type: number
+ *           description: The total distance of the booking.
+ *         total_price:
+ *           type: number
+ *           description: The total price of the booking.
+ *         status:
+ *           type: string
+ *           description: The status of the booking (e.g., "completed," "canceled").
+ *       example:
+ *         agent_id: "12345"
+ *         customer_id: "67890"
+ *         driver_id: "ABCDE"
+ *         driver_vehicle_type: "CAR"
+ *         time_completion: "2023-09-08T14:30:00Z"
+ *         scheduled_time: "2023-09-08T15:00:00Z"
+ *         total_distance: 12.5
+ *         total_price: 50.0
+ *         status: "completed"
+ */
 const UpdateBookingReq = (req) => ({
     agentId: req.agent_id,
     customerId: req.customer_id,
