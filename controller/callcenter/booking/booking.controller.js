@@ -176,8 +176,9 @@ const UpdateBooking = async (req, res) => {
         if (!updated.isUpdate) {
             logger.error("Couldn't update");
             httputil.WriteJsonResponseWithCode(res, StatusCodes.NOT_FOUND, -1, "Couldn't update");
+            return;
         }
-        httputil.WriteJsonResponse(res, { booking_id: updated.bookingId });
+        httputil.WriteJsonResponseWithCode(res, StatusCodes.NOT_FOUND, 0, "Update ok");
     } catch (error) {
         logger.error(error);
         httputil.WriteJsonResponseWithCode(res, error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR, -1, error.message);

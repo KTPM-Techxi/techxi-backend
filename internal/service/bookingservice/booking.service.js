@@ -148,8 +148,16 @@ async function UpdateBooking(bookingId, updateFields) {
         }
 
         const updatedBooking = await repo.UpdateBooking(bookingId, updateFields);
-
-        return updatedBooking;
+        if (!updatedBooking) {
+            return {
+                isUpdate: false,
+                bookingId: bookingId
+            };
+        }
+        return {
+            isUpdate: true,
+            bookingId: bookingId
+        };
     } catch (error) {
         throw error;
     }

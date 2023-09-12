@@ -74,6 +74,7 @@ async function UpdateBooking(bookingId, updateFields) {
     if (updateFields.status) {
         updateFieldsRepo.status = updateFields.status;
     }
+    logger.info(JSON.stringify(updateFields, 0, 2));
     try {
         const updatedDoc = await bookingdm.Booking.findByIdAndUpdate(bookingId, {
             $set: updateFields

@@ -222,6 +222,9 @@ router.post("/driver_response", controller.DriverResponse);
  *             total_price:
  *               type: number
  *               description: Tổng giá đơn vị đồng
+ *             status:
+ *               type: string
+ *               description: Trạng thái
  *         description: Thông tin cập nhật đặt chỗ.
  *     responses:
  *       '200':

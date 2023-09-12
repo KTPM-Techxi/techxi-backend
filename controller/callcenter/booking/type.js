@@ -156,7 +156,8 @@ const UpdateBookingReq = (req) => ({
     timeCompletion: req.time_completion,
     scheduledTime: req.scheduled_time,
     totalDistance: req.total_distance,
-    totalPrice: req.total_price
+    totalPrice: req.total_price,
+    status: req.status
 });
 module.exports = {
     filterReq,
