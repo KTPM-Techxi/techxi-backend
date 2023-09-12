@@ -74,24 +74,24 @@ async function CreateNewBooking(bookingReq) {
 
         const booking = await repo.CreateBooking(
             new bookingdm.Booking({
-                call_center_agents_id: bookingReq.callCenterAgentsId,
-                driver_id: bookingReq.driverId,
-                customer_id: bookingReq.customerId,
+                call_center_agents_id: bookingReq.callCenterAgentsId || "",
+                driver_id: bookingReq.driverId || "",
+                customer_id: bookingReq.customerId || "",
                 pickup_address: bookingReq.pickupAddress,
                 pickup_location: {
-                    latitude: bookingReq.pickupLocation.latitude,
-                    longitude: bookingReq.pickupLocation.longitude
+                    latitude: bookingReq.pickupLocation.latitude || 0,
+                    longitude: bookingReq.pickupLocation.longitude || 0
                 },
                 pickup_time: bookingReq.pickupTime,
-                destination_address: bookingReq.destinationAddress,
+                destination_address: bookingReq.destinationAddress || "",
                 destination: {
-                    latitude: bookingReq.destination.latitude,
-                    longitude: bookingReq.destination.longitude
+                    latitude: bookingReq.destination.latitude || 0,
+                    longitude: bookingReq.destination.longitude || 0
                 },
                 time_completion: bookingReq.timeCompletion,
-                total_price: bookingReq.totalPrice,
-                total_distance: bookingReq.totalDistance,
-                vehicle_type: bookingReq.vehicleType
+                total_price: Number(bookingReq.totalPrice) || 0,
+                total_distance: bookingReq.totalDistance || "",
+                vehicle_type: bookingReq.vehicleType || "CAR"
             })
         );
         logger.info(JSON.stringify(booking, 0, 2));

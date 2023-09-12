@@ -78,9 +78,13 @@ async function UpdateBooking(bookingId, updateFields) {
     logger.info(bookingId);
     logger.info(JSON.stringify(updateFieldsRepo, 0, 2));
     try {
-        const updatedDoc = await bookingdm.Booking.findByIdAndUpdate(bookingId, {
-            $set: updateFields
-        });
+        const updatedDoc = await bookingdm.Booking.findByIdAndUpdate(
+            {
+                _id: bookingId
+            },
+            updateFields
+        );
+        logger.info(updatedDoc);
         if (updatedDoc) {
             return true;
         } else {
