@@ -178,7 +178,7 @@ const UpdateBooking = async (req, res) => {
             httputil.WriteJsonResponseWithCode(res, StatusCodes.NOT_FOUND, -1, "Couldn't update");
             return;
         }
-        httputil.WriteJsonResponseWithCode(res, StatusCodes.NOT_FOUND, 0, "Update ok");
+        httputil.WriteJsonResponseWithCode(res, StatusCodes.OK, 0, "Update ok");
     } catch (error) {
         logger.error(error);
         httputil.WriteJsonResponseWithCode(res, error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR, -1, error.message);

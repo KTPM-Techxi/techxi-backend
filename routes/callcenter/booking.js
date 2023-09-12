@@ -210,17 +210,17 @@ router.post("/driver_response", controller.DriverResponse);
  *               type: string
  *               description: Loại phương tiện của tài xế.
  *             time_completion:
- *               type: integer
+ *               type: string
  *               description: Thời gian hoàn thành đơn vị phút
  *             scheduled_time:
  *               type: string
  *               format: date-time
  *               description: Thời gian đặt lịch.
  *             total_distance:
- *               type: number
+ *               type: string
  *               description: Tổng quãng đường đơn vị km
  *             total_price:
- *               type: number
+ *               type: string
  *               description: Tổng giá đơn vị đồng
  *             status:
  *               type: string
