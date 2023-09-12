@@ -176,4 +176,64 @@ router.post("/complete", controller.completeBooking);
  *                 booking_status: "accepted"
  */
 router.post("/driver_response", controller.DriverResponse);
+
+/**
+ * @swagger
+ * /api/v1/callcenter/bookings/update:
+ *   post:
+ *     summary: Cập nhật thông tin đặt chỗ
+ *     tags: [CallCenter/Booking]
+ *     description: API này được sử dụng để cập nhật thông tin đặt chỗ.
+ *     parameters:
+ *       - in: query
+ *         name: booking_id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: ID của đặt chỗ cần cập nhật.
+ *       - in: body
+ *         name: body
+ *         required: true
+ *         schema:
+ *           type: object
+ *           properties:
+ *             agent_id:
+ *               type: string
+ *               description: ID của đại lý.
+ *             customer_id:
+ *               type: string
+ *               description: ID của khách hàng.
+ *             driver_id:
+ *               type: string
+ *               description: ID của tài xế.
+ *             driver_vehicle_type:
+ *               type: string
+ *               description: Loại phương tiện của tài xế.
+ *             time_completion:
+ *               type: integer
+ *               description: Thời gian hoàn thành (đơn vị: phút).
+ *             scheduled_time:
+ *               type: string
+ *               format: date-time
+ *               description: Thời gian đặt lịch.
+ *             total_distance:
+ *               type: number
+ *               description: Tổng quãng đường (đơn vị: km).
+ *             total_price:
+ *               type: number
+ *               description: Tổng giá (đơn vị: đồng).
+ *         description: Thông tin cập nhật đặt chỗ.
+ *     responses:
+ *       '200':
+ *         description: Thành công. Trả về ID của đặt chỗ đã cập nhật.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 booking_id:
+ *                   type: string
+ *                   description: ID của đặt chỗ đã cập nhật.
+ */
+router.post("/update", controller.UpdateBooking);
 module.exports = router;
