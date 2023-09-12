@@ -49,7 +49,7 @@ async function CreateBooking(req) {
 }
 
 async function UpdateBooking(bookingId, updateFields) {
-    const updateFieldsRepo = new bookingdm.Booking();
+    let updateFieldsRepo = {};
     if (updateFields.agentId) {
         updateFieldsRepo.call_center_agents_id = updateFields.agentId;
     }

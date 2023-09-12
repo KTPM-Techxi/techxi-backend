@@ -211,17 +211,17 @@ router.post("/driver_response", controller.DriverResponse);
  *               description: Loại phương tiện của tài xế.
  *             time_completion:
  *               type: integer
- *               description: Thời gian hoàn thành (đơn vị: phút).
+ *               description: Thời gian hoàn thành đơn vị phút
  *             scheduled_time:
  *               type: string
  *               format: date-time
  *               description: Thời gian đặt lịch.
  *             total_distance:
  *               type: number
- *               description: Tổng quãng đường (đơn vị: km).
+ *               description: Tổng quãng đường đơn vị km
  *             total_price:
  *               type: number
- *               description: Tổng giá (đơn vị: đồng).
+ *               description: Tổng giá đơn vị đồng
  *         description: Thông tin cập nhật đặt chỗ.
  *     responses:
  *       '200':
