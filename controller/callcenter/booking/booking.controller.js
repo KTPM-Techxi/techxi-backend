@@ -95,6 +95,7 @@ const GetBookingDetails = async (req, res) => {
         return;
     }
 };
+
 const FindDriver = async (req, res) => {
     try {
         const bookingId = req.query.booking_id;
@@ -166,6 +167,24 @@ const DriverResponse = async (req, res) => {
         return;
     }
 };
+
+const UpdateBooking = async (req, res) => {
+    try {
+        const bookingId = req.query.booking_id;
+        const updateBookingReq = type.UpdateBookingReq(req.body);
+        const updated = await service.UpdateBooking(bookingId, updateBookingReq);
+        if (!updated.isUpdate) {
+            logger.error("Couldn't update");
+            httputil.WriteJsonResponseWithCode(res, StatusCodes.NOT_FOUND, -1, "Couldn't update");
+        }
+        httputil.WriteJsonResponse(res, { booking_id: updated.bookingId });
+    } catch (error) {
+        logger.error(error);
+        httputil.WriteJsonResponseWithCode(res, error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR, -1, error.message);
+        return;
+    }
+};
+
 module.exports = {
     ListBookings,
     CreateBooking,
@@ -174,5 +193,6 @@ module.exports = {
     declineBooking,
     completeBooking,
     FindDriver,
-    DriverResponse
+    DriverResponse,
+    UpdateBooking
 };

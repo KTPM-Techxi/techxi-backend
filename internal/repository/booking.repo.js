@@ -48,10 +48,35 @@ async function CreateBooking(req) {
     }
 }
 
-async function UpdateBooking(booking, status) {
+async function UpdateBooking(bookingId, updateFields) {
+    const updateFieldsRepo = new bookingdm.Booking();
+    if (updateFields.agentId) {
+        updateFieldsRepo.call_center_agents_id = updateFields.agentId;
+    }
+    if (updateFields.customerId) {
+        updateFieldsRepo.customer_id = updateFields.customerId;
+    }
+    if (updateFields.agentId) {
+        updateFieldsRepo.driver_id = updateFields.driverId;
+    }
+    if (updateFields.customerId) {
+        updateFieldsRepo.vehicle_type = updateFields.vehicleType;
+    }
+    if (updateFields.scheduledTime) {
+        updateFieldsRepo.scheduled_time = updateFields.scheduledTime;
+    }
+    if (updateFields.totalPrice) {
+        updateFieldsRepo.total_price = updateFields.totalPrice;
+    }
+    if (updateFields.totalDistance) {
+        updateFieldsRepo.total_distance = updateFields.totalDistance;
+    }
+    if (updateFields.status) {
+        updateFieldsRepo.status = updateFields.status;
+    }
     try {
-        const updatedDoc = await bookingdm.Booking.findByIdAndUpdate(booking.bookingId, {
-            status: status
+        const updatedDoc = await bookingdm.Booking.findByIdAndUpdate(bookingId, {
+            $set: updateFields
         });
         if (updatedDoc) {
             return true;
