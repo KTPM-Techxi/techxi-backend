@@ -1,5 +1,5 @@
 const bookingService = require("../../internal/service/bookingservice/booking.service");
-const driverService = require("../../../internal/service/driverservice/driver.service");
+const driverService = require("../../internal/service/driverservice/driver.service");
 const httputil = require("../../common/httputil");
 const { StatusCodes } = require("http-status-codes");
 const logger = require("../../common/logutil").GetLogger("booking.controller.js");
@@ -8,8 +8,8 @@ const treeify = require("treeify");
 const dto = require("../../internal/service/bookingservice/booking_service.dto");
 const type = require("./type");
 const { USER_TYPES } = require("../../internal/models/user/const");
-const messager = require("../../../internal/service/fcm.service");
-const appConst = require("../../../common/constants");
+const messager = require("../../internal/service/fcm.service");
+const appConst = require("../../common/constants");
 
 const CreateBookingRequest = async (req, res) => {
     try {
