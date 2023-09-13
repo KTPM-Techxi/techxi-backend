@@ -52,19 +52,19 @@ async function GetUserInfo(id, role) {
         if (!isFound) {
             const error = new Error("Not Found User");
             logger.error(error);
-            error.statusCode = StatusCodes.NOT_FOUND_ERROR;
+            error.statusCode = StatusCodes.NOT_FOUND;
             throw error;
         }
         const userInfoDto = dto.UserInfoDto(user);
 
         if (role === userdm.ROLE.CUSTOMER) {
             const { customerBanking, isFound } = await repo.FindCustomerBankingByUserId(id);
-            // TODO: Convert DTO
+            //TODO: Convert DTO
             if (!isFound) {
-                const error = new Error("Not Found User");
-                logger.error(error);
-                error.statusCode = StatusCodes.NOT_FOUND_ERROR;
-                throw error;
+                return {
+                    userInfoDto: userInfoDto,
+                    banking: "customerBanking.bank_number"
+                };
             }
             return {
                 userInfoDto: userInfoDto,
@@ -75,17 +75,28 @@ async function GetUserInfo(id, role) {
         if (role === userdm.ROLE.DRIVER) {
             const driverBanking = await driverRepo.FindDriverBankingById(id);
             if (!driverBanking) {
-                const error = new Error("Not Found User");
-                logger.error(error);
-                error.statusCode = StatusCodes.NOT_FOUND_ERROR;
-                throw error;
+                return {
+                    userInfo: userInfoDto,
+                    banking: "",
+                    vehicles: {
+                        verhicleNumber: "",
+                        verhicleName: "",
+                        vehicleType: ""
+                    }
+                };
             }
             const driverVehicles = await driverRepo.FindDriverVehiclesById(id);
+
             if (!driverVehicles) {
-                const error = new Error("Not Found User");
-                logger.error(error);
-                error.statusCode = StatusCodes.NOT_FOUND_ERROR;
-                throw error;
+                return {
+                    userInfo: userInfoDto,
+                    banking: driverBanking.bank_number,
+                    vehicles: {
+                        verhicleNumber: "",
+                        verhicleName: "",
+                        vehicleType: ""
+                    }
+                };
             }
             return {
                 userInfo: userInfoDto,
@@ -142,7 +153,8 @@ async function SaveUsersWithoutAccount(customerName, customerPhoneNumber) {
         const newUser = new userdm.User({
             name: customerName,
             phoneNumber: customerPhoneNumber,
-            role: userdm.ROLE.CUSTOMER
+            role: userdm.ROLE.CUSTOMER,
+            already_accounted: false
         });
         const user = await repo.CreateNewUser(newUser);
         return { id: user._id };

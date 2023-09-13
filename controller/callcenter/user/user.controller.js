@@ -44,15 +44,15 @@ const GetUserDetails = async (req, res) => {
         if (role === ROLE.DRIVER) {
             httputil.WriteJsonResponse(res, {
                 userInfo: resp.userInfo,
-                banking: resp.banking,
-                vehicles: resp.vehicles
+                banking: resp.banking || "",
+                vehicles: resp.vehicles || {}
             });
             return;
         }
         if (role === ROLE.CUSTOMER) {
             httputil.WriteJsonResponse(res, {
                 userInfo: resp.userInfo,
-                banking: resp.banking
+                banking: resp.banking || ""
             });
             return;
         }

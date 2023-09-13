@@ -176,4 +176,38 @@ router.post("/complete", controller.completeBooking);
  *                 booking_status: "accepted"
  */
 router.post("/driver_response", controller.DriverResponse);
+
+/**
+ * @swagger
+ * /api/v1/callcenter/bookings/update:
+ *   post:
+ *     summary: Update a booking's details.
+ *     tags: [CallCenter/Booking]
+ *     description: Update the details of a booking identified by its ID.
+ *     parameters:
+ *       - in: query
+ *         name: booking_id
+ *         required: true
+ *         description: The ID of the booking to update.
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       description: Updated booking details.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/UpdateBookingReq'
+ *     responses:
+ *       200:
+ *         description: Booking updated successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: string
+ *               description: A success message.
+ *             example:
+ *               message: "Update ok"
+ */
+router.post("/update", controller.UpdateBooking);
 module.exports = router;

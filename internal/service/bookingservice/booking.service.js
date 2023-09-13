@@ -74,23 +74,24 @@ async function CreateNewBooking(bookingReq) {
 
         const booking = await repo.CreateBooking(
             new bookingdm.Booking({
-                call_center_agents_id: bookingReq.callCenterAgentsId,
-                driver_id: bookingReq.driverId,
-                customer_id: bookingReq.customerId,
+                call_center_agents_id: bookingReq.callCenterAgentsId || "",
+                driver_id: bookingReq.driverId || "",
+                customer_id: bookingReq.customerId || "",
                 pickup_address: bookingReq.pickupAddress,
                 pickup_location: {
-                    latitude: bookingReq.pickupLocation.latitude,
-                    longitude: bookingReq.pickupLocation.longitude
+                    latitude: bookingReq.pickupLocation.latitude || 0,
+                    longitude: bookingReq.pickupLocation.longitude || 0
                 },
                 pickup_time: bookingReq.pickupTime,
-                destination_address: bookingReq.destinationAddress,
+                destination_address: bookingReq.destinationAddress || "",
                 destination: {
-                    latitude: bookingReq.destination.latitude,
-                    longitude: bookingReq.destination.longitude
+                    latitude: bookingReq.destination.latitude || 0,
+                    longitude: bookingReq.destination.longitude || 0
                 },
                 time_completion: bookingReq.timeCompletion,
-                total_price: bookingReq.totalPrice,
-                total_distance: bookingReq.totalDistance
+                total_price: Number(bookingReq.totalPrice) || 0,
+                total_distance: bookingReq.totalDistance || "",
+                vehicle_type: bookingReq.vehicleType || "CAR"
             })
         );
         logger.info(JSON.stringify(booking, 0, 2));
@@ -120,7 +121,14 @@ async function UpdateStatusBooking(driverBookingResp) {
             error.statusCode = StatusCodes.NOT_FOUND;
             throw error;
         }
-        const updated = await repo.UpdateBooking(driverBookingResp, bookingStatus);
+        const booking = await repo.FindBookingById(driverBookingResp.bookingId);
+        if (!booking) {
+            const error = new Error("Booking not found: " + driverBookingResp.bookingId);
+            logger.error(error);
+            error.statusCode = StatusCodes.NOT_FOUND;
+            throw error;
+        }
+        const updated = await repo.UpdateBooking(booking, { driverId: driverBookingResp.driverId, status: bookingStatus });
         if (!updated) {
             return {
                 isUpdate: false,
@@ -139,4 +147,27 @@ async function UpdateStatusBooking(driverBookingResp) {
         throw error;
     }
 }
-module.exports = { GetListBookings, CreateNewBooking, GetBookingDetails, UpdateStatusBooking };
+
+async function UpdateBooking(bookingId, updateFields) {
+    try {
+        const existingBooking = await repo.FindBookingById(bookingId);
+        if (!existingBooking) {
+            throw { statusCode: StatusCodes.NOT_FOUND, message: "Booking not found" };
+        }
+
+        const updatedBooking = await repo.UpdateBooking(existingBooking, updateFields);
+        if (!updatedBooking) {
+            return {
+                isUpdate: false,
+                bookingId: bookingId
+            };
+        }
+        return {
+            isUpdate: true,
+            bookingId: bookingId
+        };
+    } catch (error) {
+        throw error;
+    }
+}
+module.exports = { GetListBookings, CreateNewBooking, GetBookingDetails, UpdateStatusBooking, UpdateBooking };

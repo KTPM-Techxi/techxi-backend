@@ -21,7 +21,8 @@ const BookingReqDto = (req, agentId, driverId, customerId) => ({
     timeCompletion: req.timeCompletion,
     scheduledTime: req.scheduledTime,
     totalPrice: req.totalPrice,
-    totalDistance: req.totalDistance
+    totalDistance: req.totalDistance,
+    vehicleType: req.vehicleType
 });
 
 const BookingDto = (req) => ({
