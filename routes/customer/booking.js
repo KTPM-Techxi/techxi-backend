@@ -44,7 +44,7 @@ router.post("/request", middlewares.isAuthenticated, controller.CreateBookingReq
  * /api/v1/customer/bookings/rating:
  *   post:
  *     summary: Rate a driver for a completed booking.
- *     tags:[Customer/Booking]
+ *     tags: [Customer/Booking]
  *     description: Rate a driver and provide feedback for a completed booking.
  *     requestBody:
  *       description: Rating and feedback data.
