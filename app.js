@@ -119,6 +119,7 @@ async function switchPlugin(pluginName) {
 app.use("/", indexRouter);
 app.use("/users", authRouter);
 app.use("/api/v1/callcenter/bookings", callcenter.bookingRouter);
+app.use("/api/v1/callcenter/rating", callcenter.ratingRouter);
 app.use("/api/v1/callcenter/users", callcenter.userRouter);
 app.use("/api/v1/callcenter/location", callcenter.locationRouter);
 app.use("/api/v1/customer/bookings", customer.bookingRouter);
