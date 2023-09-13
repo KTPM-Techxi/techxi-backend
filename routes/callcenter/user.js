@@ -2,7 +2,6 @@ var express = require("express");
 const { body } = require("express-validator");
 const controller = require("../../controller/callcenter/user/user.controller");
 var router = express.Router();
-const middleware = require("../../middlewares");
 /**
  * @swagger
  * tags:
@@ -60,7 +59,7 @@ const middleware = require("../../middlewares");
  *                    type: integer
  *                    description: Total number of pages.
  */
-router.get("/filter", middleware.isAuthenticated, controller.ListUsersWithFilter);
+router.get("/filter", controller.ListUsersWithFilter);
 
 /**
  * @swagger
