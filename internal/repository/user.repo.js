@@ -116,7 +116,7 @@ async function FindUserById(id) {
     try {
         const user = await userdm.User.findById(id);
         if (!user) {
-            return { user: null, isFound: false };
+            return { user: {}, isFound: false };
         }
         return { user: user, isFound: true };
     } catch (error) {
@@ -129,7 +129,7 @@ async function FindCustomerBankingByUserId(userId) {
     try {
         const customer = await customerdm.CustomerBanking.findOne({ user_id: userId });
         if (!customer) {
-            return { customer: null, isFound: false };
+            return { customer: {}, isFound: false };
         }
         return { customer: customer, isFound: true };
     } catch (error) {
@@ -142,7 +142,7 @@ async function updateFCMbyId(userId, token) {
     try {
         const user = await userdm.User.findByIdAndUpdate(userId, { fcmToken: token });
         if (!user) {
-            return { user: null, isFound: false };
+            return { user: {}, isFound: false };
         }
         return { user: user, isFound: true };
     } catch (error) {
@@ -155,7 +155,7 @@ async function FindUserByPhone(phoneNumber) {
     try {
         const user = await userdm.User.findOne({ phone_number: phoneNumber });
         if (!user) {
-            return { user: null, isFound: false };
+            return { user: {}, isFound: false };
         }
         return { user: user, isFound: true };
     } catch (error) {
