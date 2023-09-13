@@ -59,7 +59,10 @@ async function UpdateBooking(updateBooking, updateFields) {
     if (updateFields.agentId) {
         updateBooking.driver_id = updateFields.driverId;
     }
-    if (updateFields.customerId) {
+    if (updateFields.driverId) {
+        updateBooking.driver_id = updateFields.driverId;
+    }
+    if (updateFields.vehicleType) {
         updateBooking.vehicle_type = updateFields.vehicleType;
     }
     if (updateFields.scheduledTime) {
