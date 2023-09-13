@@ -7,6 +7,7 @@ const cfg = require("./common/config").loadConfig();
 const indexRouter = require("./routes/index");
 const authRouter = require("./routes/auth");
 const callcenter = require("./routes/callcenter");
+const customer = require("./routes/customer");
 const logutil = require("./common/logutil").GetLogger("app.js");
 const mongoose = require("mongoose");
 const swaggerJsdoc = require("swagger-jsdoc"),
@@ -120,7 +121,7 @@ app.use("/users", authRouter);
 app.use("/api/v1/callcenter/bookings", callcenter.bookingRouter);
 app.use("/api/v1/callcenter/users", callcenter.userRouter);
 app.use("/api/v1/callcenter/location", callcenter.locationRouter);
-
+app.use("/api/v1/customer/bookings", customer.bookingRouter);
 async function initializeDB() {
     await mongoose
         .connect(cfg.dbConnectString, {

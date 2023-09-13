@@ -75,18 +75,8 @@ async function UpdateBooking(updateBooking, updateFields) {
         updateBooking.total_distance = updateFields.totalDistance;
     }
 
-    //logger.info(bookingId);
     logger.info(JSON.stringify(updateFieldsRepo, 0, 2));
-    //const bookingUpdate = new bookingdm.Booking(updateFieldsRepo);
     try {
-        // const updatedDoc = await bookingdm.Booking.findByIdAndUpdate(
-        //     {
-        //         _id: bookingId
-        //     },
-        //     { $set: updateFields },
-        //     { upsert: true, useFindAndModify: false }
-        // );
-        // logger.info(updatedDoc);
         const updatedDoc = await updateBooking.save();
         if (updatedDoc) {
             return true;
