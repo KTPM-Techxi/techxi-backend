@@ -64,7 +64,7 @@ const options = {
             }
         ]
     },
-    apis: ["./routes/*.js", "./routes/callcenter/*.js", "./routes/driver/*.js", "./routes/customer/*.js", "./controller/callcenter/user/type.js", "./controller/callcenter/booking/type.js"]
+    apis: ["./routes/*.js", "./routes/callcenter/*.js", "./routes/driver/*.js", "./routes/customer/*.js", "./controller/callcenter/user/type.js", "./controller/callcenter/booking/type.js", "./controller/customer/type.js"]
 };
 const specs = swaggerJsdoc(options);
 app.use(
