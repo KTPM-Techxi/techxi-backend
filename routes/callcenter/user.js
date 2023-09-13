@@ -97,5 +97,5 @@ router.get("/filter", controller.ListUsersWithFilter);
  *                   type: array
  *                   description: List of vehicles (for drivers).
  */
-router.post("/detail", controller.GetUserDetails);
+router.post("/details", controller.GetUserDetails);
 module.exports = router;
