@@ -10,7 +10,7 @@ const type = require("./type");
 const { USER_TYPES } = require("../../internal/models/user/const");
 const messager = require("../../internal/service/fcm.service");
 const appConst = require("../../common/constants");
-
+const ratingdm = require("../../internal/models/rating.dm");
 const CreateBookingRequest = async (req, res) => {
     try {
         const bookingReq = type.BookingReq(req.body);
@@ -39,4 +39,29 @@ const CreateBookingRequest = async (req, res) => {
     }
 };
 
-module.exports = { CreateBookingRequest };
+const RatingBooking = async (req, res) => {
+    const customerId = req.cookies.user.user_id;
+    if (!customerId || req.cookies.user.role !== USER_TYPES.CUSTOMER) {
+        httputil.WriteJsonResponseWithCode(res, StatusCodes.UNAUTHORIZED, -1, "User must be authorized");
+        return;
+    }
+    const { driver_id, message, rating } = req.body;
+    try {
+        const ratingBooking = await ratingdm.Rating.create({
+            customer_id: customerId,
+            driver_id: driver_id,
+            message: message,
+            rate: Number(rating)
+        });
+        if (!ratingBooking) {
+            httputil.WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, 1, { status: "create failed" });
+            return;
+        }
+        httputil.WriteJsonResponse(res, { ragting: ratingBooking });
+    } catch (error) {
+        logger.error(error);
+        httputil.WriteJsonResponseWithCode(res, error.statusCode || StatusCodes.INTERNAL_SERVER_ERROR, -1, error.message);
+        return;
+    }
+};
+module.exports = { CreateBookingRequest, RatingBooking };

@@ -40,4 +40,5 @@ var router = express.Router();
  */
 router.post("/request", middlewares.isAuthenticated, controller.CreateBookingRequest);
 
+router.post("/rating", middlewares.isAuthenticated, controller.RatingBooking);
 module.exports = router;
