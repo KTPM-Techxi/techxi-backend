@@ -39,6 +39,47 @@ var router = express.Router();
  *                 bookingId: "123456"
  */
 router.post("/request", middlewares.isAuthenticated, controller.CreateBookingRequest);
-
+/**
+ * @swagger
+ * /api/v1/customer/bookings/rating:
+ *   post:
+ *     summary: Rate a driver for a completed booking.
+ *     tags:[Customer/Booking]
+ *     description: Rate a driver and provide feedback for a completed booking.
+ *     requestBody:
+ *       description: Rating and feedback data.
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               driver_id:
+ *                 type: string
+ *                 description: The ID of the driver being rated.
+ *               message:
+ *                 type: string
+ *                 description: Feedback message for the driver.
+ *               rating:
+ *                 type: number
+ *                 description: The rating value given to the driver (e.g., 1 to 5).
+ *             example:
+ *               driver_id: "123456"
+ *               message: "Great service!"
+ *               rating: 5
+ *     responses:
+ *       200:
+ *         description: Driver rated successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 rating:
+ *                   type: object
+ *                   description: The rating object created.
+ *             example:
+ *               rating: { id: 1, customer_id: "67890", driver_id: "123456", message: "Great service!", rate: 5 }
+ */
 router.post("/rating", middlewares.isAuthenticated, controller.RatingBooking);
 module.exports = router;
