@@ -10,7 +10,12 @@ const UserRegisterDto = (req) => ({
     password: req.password,
     address: req.address,
     dob: req.dob,
-    role: req.role
+    role: req.role,
+    vehicle: {
+        vehicleNumber: req.vehicle.vehicle_number,
+        vehicleName: req.vehicle.vehicle_name,
+        vehicleType: req.vehicle.vehicle_type
+    }
 });
 
 const UserInfoDto = (req) => ({

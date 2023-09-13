@@ -12,11 +12,12 @@ const registerController = async (req, res) => {
         WriteJsonResponseWithCode(res, StatusCodes.BAD_REQUEST, -1, errors.array());
         return;
     }
-    const { name, phoneNumber, email, address, dob, password, role } = req.body;
+    logger.info(req.body);
+    const { name, phoneNumber, email, address, dob, password, role, vehicle } = req.body;
 
     const dobDate = moment(dob).toDate();
 
-    const newUserRequest = dto.UserRegisterDto({ email, phoneNumber, name, address, dobDate, password, dob, role });
+    const newUserRequest = dto.UserRegisterDto({ email, phoneNumber, name, address, dobDate, password, dob, role, vehicle });
     try {
         const id = await service.UserRegister(newUserRequest);
         WriteJsonResponse(res, { user_id: id });

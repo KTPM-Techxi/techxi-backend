@@ -2,12 +2,13 @@ const bcryptUtil = require("../../../common/util/bcrypt.util");
 const jwt = require("jsonwebtoken");
 const cfg = require("../../../common/config").loadConfig();
 const repo = require("../../repository/user.repo");
+const driverRepo = require("../../repository/driver.repo");
 const logger = require("../../../common/logutil").GetLogger("auth.service.js");
 const { StatusCodes } = require("http-status-codes");
 const { STATUS } = require("../../../common/constants");
 const userdm = require("../../models/user/user.dm");
 const userCredentialdm = require("../../models/auth/user_credential.dm");
-
+const driverdm = require("../../models/user/driver/driver.dm");
 async function UserLogin(userLoginDto) {
     logger.info("userLoginDto: ", userLoginDto);
     const user = await repo.FindUserByEmail(userLoginDto.email);
@@ -95,6 +96,36 @@ async function UserRegister(userRegisterDto) {
             error.statusCode = StatusCodes.INTERNAL_SERVER_ERROR;
             throw error;
         }
+        if (newUser.role === userdm.ROLE.DRIVER) {
+            if (!userRegisterDto.vehicle) {
+                const error = new Error("Invalid vehicle registration");
+                error.statusCode = StatusCodes.BAD_REQUEST;
+                throw error;
+            }
+            if (!Object.values(driverdm.VEHICLE_TYPE).includes(userRegisterDto.vehicle.vehicleType)) {
+                const error = new Error("Invalid vehicle type");
+                error.statusCode = StatusCodes.BAD_REQUEST;
+                throw error;
+            }
+            logger.info(JSON.stringify(userRegisterDto.vehicle, 0, 2));
+            const driverVehicle = new driverdm.DriverLocations({
+                user_id: id,
+                location: {
+                    coordinates: [0, 0]
+                },
+                vehicle_number: userRegisterDto.vehicle.vehicleNumber,
+                vehicle_name: userRegisterDto.vehicle.vehicleName,
+                vehicle_type: userRegisterDto.vehicle.vehicleType,
+                active: 1
+            });
+            const insertDriverVehicle = await driverdm.DriverLocations.create(driverVehicle);
+            if (!insertDriverVehicle) {
+                const error = new Error("Invalid vehicle registration");
+                error.statusCode = StatusCodes.BAD_REQUEST;
+                throw error;
+            }
+        }
+
         return id; // Return the created user
     } catch (error) {
         await repo.DeleteUserByEmail(userRegisterDto.email);

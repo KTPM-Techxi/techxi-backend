@@ -74,6 +74,11 @@ router.post("/login", [body("email").isEmail().withMessage("Email not valid"), b
  *                 type: string
  *               role:
  *                 type: string
+ *               vehicle:
+ *                 type: object
+ *                 vehicle_name: string
+ *                 vehicle_type: string
+ *                 vehicle_number: string
  *               required:
  *               - name
  *               - phoneNumber
@@ -82,6 +87,7 @@ router.post("/login", [body("email").isEmail().withMessage("Email not valid"), b
  *               - dob
  *               - password
  *               - role
+ *               - vehicle
  *             example:
  *               name: John Doe
  *               phoneNumber: 1234567890
@@ -91,6 +97,11 @@ router.post("/login", [body("email").isEmail().withMessage("Email not valid"), b
  *               password: password123
  *               confirmPassword: password123
  *               role: customer
+ *               vehicle: {
+ *                  vehicle_name: 'Vehicle',
+ *                  vehicle_number: '123GV123',
+ *                  vehicle_type: 'CAR'
+ *               }
  *     responses:
  *       200:
  *         description: User registered successfully
